@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Gastos">
+<title>Gastos Mayo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: #f5f0e8; font-family: 'Courier New', monospace; padding-bottom: 40px; min-height: 100vh; }
+  .header { background: #111; color: #f5f0e8; padding: 52px 20px 0; }
+  .label { font-size: 11px; letter-spacing: 0.15em; color: #888; margin-bottom: 4px; }
+  .big { font-size: 26px; font-weight: bold; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .big span { font-size: 13px; color: #666; font-weight: normal; margin-left: 6px; }
+  .track { background: #e0dbd0; height: 5px; border-radius: 3px; overflow: hidden; margin: 6px 0; }
+  .track.dark { background: #333; }
+  .fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+  .small { font-size: 10px; color: #555; margin-bottom: 16px; }
+  .tabs { display: flex; border-top: 1px solid #222; }
+  .tab { background: none; border: none; font-family: inherit; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 18px; color: #999; cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab.on { color: #f5f0e8; border-bottom: 2px solid #f5f0e8; }
+  .content { padding: 20px; }
+  .card { background: #fff; padding: 16px; margin-bottom: 16px; }
+  .card.green-border { border-left: 3px solid #2a9d3f; }
+  .card.black-border { border-left: 3px solid #111; }
+  .card-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .card-label { font-size: 11px; color: #999; }
+  .spent { font-size: 28px; font-weight: bold; }
+  .status { font-size: 13px; color: #666; margin-top: 2px; }
+  .status.red { color: #cc3333; }
+  .status.green { color: #2a9d3f; }
+  .section-title { font-size: 10px; color: #999; letter-spacing: 0.1em; margin: 10px 0 4px; padding-top: 10px; border-top: 1px solid #eee; }
+  .note { font-size: 12px; margin: 3px 0; }
+  .note.orange { color: #cc6600; }
+  .note.green { color: #2a9d3f; }
+  .inp { background: #fff; border: 1.5px solid #ccc; font-family: inherit; font-size: 15px; padding: 11px 14px; width: 100%; outline: none; display: block; margin-bottom: 8px; }
+  .inp:focus { border-color: #111; }
+  select { background: #fff; border: 1.5px solid #ccc; font-family: inherit; font-size: 15px; padding: 11px 14px; width: 100%; outline: none; display: block; margin-bottom: 8px; }
+  .btn { background: #111; color: #f5f0e8; border: none; font-family: inherit; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px; width: 100%; cursor: pointer; margin-bottom: 8px; }
+  .btn.green { background: #2a9d3f; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e0dbd0; }
+  .row:last-child { border-bottom: none; }
+  .del { background: none; border: none; color: #bbb; font-size: 16px; cursor: pointer; padding: 4px 10px; }
+  .surplus-box { background: #f0faf2; padding: 16px; border-left: 3px solid #2a9d3f; margin-top: 20px; }
+  .surplus-amt { font-size: 22px; font-weight: bold; color: #2a9d3f; }
+  .surplus-sub { font-size: 12px; color: #666; margin: 4px 0 12px; }
+  .hint { font-size: 12px; color: #888; line-height: 1.6; margin-bottom: 16px; }
+  .loan-card { background: #fff; padding: 14px; margin-bottom: 10px; }
+  .loan-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .loan-title { font-size: 13px; }
+  .loan-amt { font-size: 20px; font-weight: bold; }
+  .loan-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .preview { font-size: 12px; color: #666; padding: 10px; background: #f8f5ee; margin-bottom: 8px; }
+  .tag { display: inline-block; font-size: 9px; padding: 2px 6px; border: 1px solid #ccc; margin-right: 4px; margin-top: 4px; }
+  .day-row { padding: 12px; margin-bottom: 4px; border-left: 3px solid transparent; }
+  .day-row.today { background: #fff; border-left-color: #111; }
+  .day-row.past { opacity: 0.55; }
+  .day-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .day-name { font-size: 12px; color: #888; }
+  .day-name.today { color: #111; }
+  .day-rem { font-size: 13px; }
+  .day-rem.red { color: #cc3333; }
+  .badge { font-size: 9px; padding: 1px 5px; margin-left: 4px; }
+  .day-limit { font-size: 10px; color: #aaa; margin-top: 3px; }
+  .empty { text-align: center; color: #bbb; font-size: 13px; padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">MAYO 2026</div>
+  <div class="big" id="totalRestantes">$550.000 <span>restantes</span></div>
+  <div class="track dark"><div class="fill" id="totalBar" style="width:0%;background:#b8f060"></div></div>
+  <div class="small" id="totalSub">$0 de $550.000</div>
+  <div class="tabs">
+    <button class="tab on" onclick="setTab('hoy')">Hoy</button>
+    <button class="tab" onclick="setTab('prestamo')">Préstamo</button>
+    <button class="tab" onclick="setTab('semana')">Semana</button>
+  </div>
+</div>
+
+<div class="content">
+  <!-- HOY -->
+  <div id="tab-hoy">
+    <div class="card black-border" id="dayCard">
+      <div class="card-header">
+        <span class="card-label" id="dayLabel">HOY</span>
+        <span class="card-label" id="dayLimit">límite $37.000</span>
+      </div>
+      <div class="track"><div class="fill" id="dayBar" style="width:0%;background:#111"></div></div>
+      <div class="spent" id="daySpent">$0</div>
+      <div class="status" id="dayStatus">te quedan $37.000</div>
+      <div id="dayExtras"></div>
+    </div>
+
+    <input class="inp" type="number" id="expInput" placeholder="¿Cuánto gastaste? $" onkeydown="if(event.key==='Enter')addExpense()">
+    <button class="btn" onclick="addExpense()">+ Registrar gasto</button>
+
+    <div id="expenseList"></div>
+    <div id="surplusBox"></div>
+  </div>
+
+  <!-- PRÉSTAMO -->
+  <div id="tab-prestamo" style="display:none">
+    <div class="hint">Si necesitás gastar más de $37.000 hoy, tomá un préstamo y lo devolvés en los próximos días.</div>
+    <div class="card">
+      <div class="label" style="margin-bottom:12px">NUEVO PRÉSTAMO</div>
+      <input class="inp" type="number" id="loanInput" placeholder="¿Cuánto necesitás? $" oninput="updateLoanPreview()">
+      <select id="loanDays" onchange="updateLoanPreview()">
+        <option value="2">Devolver en 2 días</option>
+        <option value="3" selected>Devolver en 3 días</option>
+        <option value="4">Devolver en 4 días</option>
+        <option value="5">Devolver en 5 días</option>
+      </select>
+      <div class="preview" id="loanPreview" style="display:none"></div>
+      <button class="btn" onclick="addLoan()">Tomar préstamo</button>
+    </div>
+    <div id="loanList"></div>
+  </div>
+
+  <!-- SEMANA -->
+  <div id="tab-semana" style="display:none">
+    <div class="label" style="margin-bottom:12px">LOS 15 DÍAS</div>
+    <div id="semanaList"></div>
+  </div>
+</div>
+
+<script>
+const DAILY = 37000;
+const TOTAL = 550000;
+const START = "2026-05-14";
+const DAYS = 15;
+
+const fmt = n => new Intl.NumberFormat("es-AR", {maximumFractionDigits:0}).format(Math.abs(n));
+
+const allDays = Array.from({length:DAYS}, (_,i) => {
+  const d = new Date(START+"T12:00:00");
+  d.setDate(d.getDate()+i);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+});
+
+const dayLabel = s => {
+  const [y,m,d] = s.split("-").map(Number);
+  return new Date(y,m-1,d).toLocaleDateString("es-AR",{weekday:"short",day:"numeric",month:"short"});
+};
+
+const getDayIndex = s => {
+  const start = new Date(START+"T12:00:00");
+  const d = new Date(s+"T12:00:00");
+  return Math.round((d-start)/86400000);
+};
+
+const todayStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+
+const today = todayStr();
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem("gastos_v3")||"{}"); } catch { return {}; }
+}
+function saveData(d) { localStorage.setItem("gastos_v3", JSON.stringify(d)); }
+
+function calcBalance(dateStr, data) {
+  const idx = getDayIndex(dateStr);
+  if (idx < 0 || idx >= DAYS) return null;
+  let available = DAILY;
+  (data.loans||[]).forEach(l => {
+    if (l.repayDays?.includes(dateStr)) available -= l.amountPerDay;
+    if (l.fromDay === dateStr) available += l.total;
+  });
+  (data.surpluses||[]).forEach(s => {
+    if (s.days?.includes(dateStr)) available += s.perDay;
+  });
+  const spent = (data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
+  return { available, spent, remaining: available - spent };
+}
+
+function render() {
+  const data = loadData();
+  const bal = calcBalance(today, data);
+  const todaySpent = bal?.spent||0;
+  const todayAvail = bal?.available||DAILY;
+  const todayRem = bal?.remaining??DAILY;
+  const isDayClosed = (data.closedDays||[]).includes(today);
+
+  // Header
+  const totalSpent = Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
+  const totalRem = TOTAL - totalSpent;
+  const totalPct = Math.min((totalSpent/TOTAL)*100,100);
+  document.getElementById("totalRestantes").innerHTML = `$${fmt(totalRem)} <span>restantes</span>`;
+  const tb = document.getElementById("totalBar");
+  tb.style.width = totalPct+"%";
+  tb.style.background = totalPct>85?"#ff5555":totalPct>60?"#ffcc44":"#b8f060";
+  document.getElementById("totalSub").textContent = `$${fmt(totalSpent)} de $${fmt(TOTAL)}`;
+
+  // Day card
+  const pct = Math.min((todaySpent/Math.max(todayAvail,1))*100,100);
+  const db = document.getElementById("dayBar");
+  db.style.width = pct+"%";
+  db.style.background = pct>90?"#ff5555":pct>70?"#ffcc44":"#111";
+  document.getElementById("dayLabel").textContent = dayLabel(today).toUpperCase();
+  document.getElementById("dayLimit").textContent = `límite $${fmt(todayAvail)}`;
+  document.getElementById("daySpent").textContent = `$${fmt(todaySpent)}`;
+  const statusEl = document.getElementById("dayStatus");
+  const cardEl = document.getElementById("dayCard");
+  if (isDayClosed) {
+    statusEl.textContent = "✓ día cerrado · sobrante distribuido";
+    statusEl.className = "status green";
+    cardEl.className = "card green-border";
+  } else if (todayRem < 0) {
+    statusEl.textContent = `▲ te pasaste $${fmt(todayRem)}`;
+    statusEl.className = "status red";
+    cardEl.className = "card black-border";
+  } else {
+    statusEl.textContent = `te quedan $${fmt(todayRem)}`;
+    statusEl.className = "status";
+    cardEl.className = "card black-border";
+  }
+
+  // Extras en day card
+  let extrasHtml = "";
+  const repays = (data.loans||[]).filter(l=>l.repayDays?.includes(today));
+  const surpReceived = (data.surpluses||[]).filter(s=>s.days?.includes(today));
+  if (repays.length) {
+    extrasHtml += `<div class="section-title">DESCUENTOS HOY</div>`;
+    repays.forEach(l => extrasHtml += `<div class="note orange">− $${fmt(l.amountPerDay)} cuota préstamo (${dayLabel(l.fromDay)})</div>`);
+  }
+  if (surpReceived.length) {
+    extrasHtml += `<div class="section-title">EXTRAS RECIBIDOS</div>`;
+    surpReceived.forEach(s => extrasHtml += `<div class="note green">+ $${fmt(s.perDay)} sobrante del ${dayLabel(s.fromDay)}</div>`);
+  }
+  document.getElementById("dayExtras").innerHTML = extrasHtml;
+
+  // Expense list
+  const expenses = data.days?.[today]?.expenses||[];
+  let expHtml = "";
+  if (expenses.length) {
+    expHtml = `<div style="margin-top:20px"><div class="label" style="margin-bottom:8px">GASTOS DE HOY</div>`;
+    expenses.forEach(e => {
+      expHtml += `<div class="row"><span style="font-size:15px">$${fmt(e.amount)}</span><button class="del" onclick="removeExpense(${e.id})">✕</button></div>`;
+    });
+    expHtml += `</div>`;
+  }
+  document.getElementById("expenseList").innerHTML = expHtml;
+
+  // Surplus box
+  let surpHtml = "";
+  if (!isDayClosed && todayRem > 0) {
+    const fut = allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
+    const pp = fut.length > 0 ? Math.floor(todayRem/fut.length) : 0;
+    surpHtml = `<div class="surplus-box">
+      <div class="label" style="color:#2a9d3f;margin-bottom:4px">SOBRANTE HOY</div>
+      <div class="surplus-amt">$${fmt(todayRem)}</div>
+      ${pp>0?`<div class="surplus-sub">+$${fmt(pp)}/día en los ${fut.length} días restantes</div>`:""}
+      <button class="btn green" onclick="closeDay()">Cerrar día y distribuir sobrante</button>
+    </div>`;
+  }
+  document.getElementById("surplusBox").innerHTML = surpHtml;
+
+  // Loan list
+  const loans = data.loans||[];
+  let loanHtml = "";
+  if (loans.length) {
+    loanHtml = `<div class="label" style="margin-bottom:10px">PRÉSTAMOS ACTIVOS</div>`;
+    loans.forEach(l => {
+      const paid = l.repayDays.filter(d=>getDayIndex(d)<getDayIndex(today)).length;
+      const pctL = (paid/l.repayDays.length)*100;
+      let tagsHtml = l.repayDays.map(d => {
+        const past = getDayIndex(d)<getDayIndex(today);
+        return `<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}/5</span>`;
+      }).join("");
+      loanHtml += `<div class="loan-card">
+        <div class="loan-top"><span class="loan-title">Del ${dayLabel(l.fromDay)}</span><button class="del" onclick="removeLoan(${l.id})">✕</button></div>
+        <div class="loan-amt">$${fmt(l.total)}</div>
+        <div class="loan-sub">$${fmt(l.amountPerDay)}/día · ${paid}/${l.repayDays.length} cuotas</div>
+        <div class="track" style="margin-top:8px"><div class="fill" style="width:${pctL}%;background:#111"></div></div>
+        <div style="margin-top:4px">${tagsHtml}</div>
+      </div>`;
+    });
+  }
+  document.getElementById("loanList").innerHTML = loanHtml;
+
+  // Semana
+  let semHtml = "";
+  allDays.forEach(d => {
+    const bal2 = calcBalance(d, data);
+    const isPast = d < today;
+    const isToday = d === today;
+    const spent2 = bal2?.spent||0;
+    const avail2 = bal2?.available||DAILY;
+    const rem2 = bal2?.remaining??DAILY;
+    const p2 = Math.min((spent2/Math.max(avail2,1))*100,100);
+    const hasLoan = (data.loans||[]).some(l=>l.fromDay===d);
+    const hasRepay = (data.loans||[]).some(l=>l.repayDays?.includes(d));
+    const hasSurp = (data.surpluses||[]).some(s=>s.fromDay===d);
+    const recSurp = (data.surpluses||[]).some(s=>s.days?.includes(d));
+    const remText = isPast&&spent2===0?"—":rem2<0?`−$${fmt(rem2)}`:`$${fmt(rem2)}`;
+    const remColor = rem2<0?"red":"";
+    let badges = "";
+    if (isToday) badges += `<span class="badge" style="background:#111;color:#f5f0e8">HOY</span>`;
+    if (hasLoan) badges += `<span class="badge" style="color:#cc6600">↑prestó</span>`;
+    if (hasRepay) badges += `<span class="badge" style="color:#0066cc">↓cuota</span>`;
+    if (hasSurp) badges += `<span class="badge" style="color:#2a9d3f">★sobrante</span>`;
+    if (recSurp) badges += `<span class="badge" style="color:#2a9d3f">+extra</span>`;
+    let barHtml = (isToday||isPast)&&spent2>0
+      ? `<div class="track"><div class="fill" style="width:${p2}%;background:${p2>90?"#ff5555":p2>70?"#ffcc44":"#111"}"></div></div>` : "";
+    let limitHtml = avail2!==DAILY ? `<div class="day-limit">límite: $${fmt(avail2)}</div>` : "";
+    semHtml += `<div class="day-row ${isToday?"today":""} ${isPast&&!isToday?"past":""}">
+      <div class="day-top">
+        <div><span class="day-name ${isToday?"today":""}">${dayLabel(d)}</span>${badges}</div>
+        <span class="day-rem ${remColor}">${remText}</span>
+      </div>
+      ${barHtml}${limitHtml}
+    </div>`;
+  });
+  document.getElementById("semanaList").innerHTML = semHtml;
+}
+
+function setTab(t) {
+  ["hoy","prestamo","semana"].forEach(id => {
+    document.getElementById("tab-"+id).style.display = id===t?"block":"none";
+  });
+  document.querySelectorAll(".tab").forEach((el,i) => {
+    el.className = "tab" + (["hoy","prestamo","semana"][i]===t?" on":"");
+  });
+}
+
+function addExpense() {
+  const val = parseFloat(document.getElementById("expInput").value);
+  if (!val||val<=0) return;
+  const data = loadData();
+  if (!data.days) data.days = {};
+  if (!data.days[today]) data.days[today] = {expenses:[]};
+  data.days[today].expenses.push({amount:val, id:Date.now()});
+  saveData(data);
+  document.getElementById("expInput").value = "";
+  render();
+}
+
+function removeExpense(id) {
+  const data = loadData();
+  if (data.days?.[today]) {
+    data.days[today].expenses = data.days[today].expenses.filter(e=>e.id!==id);
+  }
+  saveData(data);
+  render();
+}
+
+function updateLoanPreview() {
+  const val = parseFloat(document.getElementById("loanInput").value);
+  const days = parseInt(document.getElementById("loanDays").value);
+  const el = document.getElementById("loanPreview");
+  if (val>0) {
+    el.style.display = "block";
+    el.innerHTML = `Cuota: <strong>$${fmt(Math.ceil(val/days))}</strong>/día × ${days} días`;
+  } else {
+    el.style.display = "none";
+  }
+}
+
+function addLoan() {
+  const total = parseFloat(document.getElementById("loanInput").value);
+  const loanDays = parseInt(document.getElementById("loanDays").value);
+  if (!total||total<=0) return;
+  const todayIdx = getDayIndex(today);
+  const repayDays = [];
+  for (let i=1;i<=loanDays;i++) {
+    const d = new Date(START+"T12:00:00");
+    d.setDate(d.getDate()+todayIdx+i);
+    const s = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    if (getDayIndex(s)<DAYS) repayDays.push(s);
+  }
+  if (!repayDays.length) return;
+  const amountPerDay = Math.ceil(total/repayDays.length);
+  const data = loadData();
+  if (!data.loans) data.loans = [];
+  data.loans.push({id:Date.now(), fromDay:today, total, amountPerDay, repayDays});
+  saveData(data);
+  document.getElementById("loanInput").value = "";
+  document.getElementById("loanPreview").style.display = "none";
+  render();
+}
+
+function removeLoan(id) {
+  const data = loadData();
+  data.loans = (data.loans||[]).filter(l=>l.id!==id);
+  saveData(data);
+  render();
+}
+
+function closeDay() {
+  const data = loadData();
+  if ((data.closedDays||[]).includes(today)) return;
+  const bal = calcBalance(today, data);
+  const rem = bal?.remaining??0;
+  if (rem<=0) return;
+  const fut = allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
+  if (!fut.length) return;
+  const perDay = Math.floor(rem/fut.length);
+  if (perDay<=0) return;
+  if (!data.surpluses) data.surpluses = [];
+  data.surpluses.push({id:Date.now(), fromDay:today, total:rem, perDay, days:fut});
+  if (!data.closedDays) data.closedDays = [];
+  data.closedDays.push(today);
+  saveData(data);
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
