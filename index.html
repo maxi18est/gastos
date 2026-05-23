@@ -6,107 +6,212 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Gastos">
-<title>Gastos Mayo</title>
+<title>Gastos</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { background: #f5f0e8; font-family: 'Courier New', monospace; padding-bottom: 40px; min-height: 100vh; }
-  .header { background: #111; color: #f5f0e8; padding: 52px 20px 0; }
-  .label { font-size: 11px; letter-spacing: 0.15em; color: #888; margin-bottom: 4px; }
-  .big { font-size: 26px; font-weight: bold; letter-spacing: -0.02em; margin-bottom: 4px; }
-  .big span { font-size: 13px; color: #666; font-weight: normal; margin-left: 6px; }
-  .track { background: #e0dbd0; height: 5px; border-radius: 3px; overflow: hidden; margin: 6px 0; }
-  .track.dark { background: #333; }
-  .fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
-  .small { font-size: 10px; color: #555; margin-bottom: 16px; }
-  .tabs { display: flex; border-top: 1px solid #222; }
-  .tab { background: none; border: none; font-family: inherit; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 12px 18px; color: #999; cursor: pointer; border-bottom: 2px solid transparent; }
-  .tab.on { color: #f5f0e8; border-bottom: 2px solid #f5f0e8; }
-  .content { padding: 20px; }
-  .card { background: #fff; padding: 16px; margin-bottom: 16px; }
-  .card.green-border { border-left: 3px solid #2a9d3f; }
-  .card.black-border { border-left: 3px solid #111; }
-  .card-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
-  .card-label { font-size: 11px; color: #999; }
-  .spent { font-size: 28px; font-weight: bold; }
-  .status { font-size: 13px; color: #666; margin-top: 2px; }
-  .status.red { color: #cc3333; }
-  .status.green { color: #2a9d3f; }
-  .section-title { font-size: 10px; color: #999; letter-spacing: 0.1em; margin: 10px 0 4px; padding-top: 10px; border-top: 1px solid #eee; }
-  .note { font-size: 12px; margin: 3px 0; }
-  .note.orange { color: #cc6600; }
-  .note.green { color: #2a9d3f; }
-  .inp { background: #fff; border: 1.5px solid #ccc; font-family: inherit; font-size: 15px; padding: 11px 14px; width: 100%; outline: none; display: block; margin-bottom: 8px; }
-  .inp:focus { border-color: #111; }
-  select { background: #fff; border: 1.5px solid #ccc; font-family: inherit; font-size: 15px; padding: 11px 14px; width: 100%; outline: none; display: block; margin-bottom: 8px; }
-  .btn { background: #111; color: #f5f0e8; border: none; font-family: inherit; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px; width: 100%; cursor: pointer; margin-bottom: 8px; }
-  .btn.green { background: #2a9d3f; }
-  .row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e0dbd0; }
-  .row:last-child { border-bottom: none; }
-  .del { background: none; border: none; color: #bbb; font-size: 16px; cursor: pointer; padding: 4px 10px; }
-  .surplus-box { background: #f0faf2; padding: 16px; border-left: 3px solid #2a9d3f; margin-top: 20px; }
-  .surplus-amt { font-size: 22px; font-weight: bold; color: #2a9d3f; }
-  .surplus-sub { font-size: 12px; color: #666; margin: 4px 0 12px; }
-  .hint { font-size: 12px; color: #888; line-height: 1.6; margin-bottom: 16px; }
-  .loan-card { background: #fff; padding: 14px; margin-bottom: 10px; }
-  .loan-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
-  .loan-title { font-size: 13px; }
-  .loan-amt { font-size: 20px; font-weight: bold; }
-  .loan-sub { font-size: 11px; color: #888; margin-top: 2px; }
-  .preview { font-size: 12px; color: #666; padding: 10px; background: #f8f5ee; margin-bottom: 8px; }
-  .tag { display: inline-block; font-size: 9px; padding: 2px 6px; border: 1px solid #ccc; margin-right: 4px; margin-top: 4px; }
-  .day-row { padding: 12px; margin-bottom: 4px; border-left: 3px solid transparent; }
-  .day-row.today { background: #fff; border-left-color: #111; }
-  .day-row.past { opacity: 0.55; }
-  .day-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-  .day-name { font-size: 12px; color: #888; }
-  .day-name.today { color: #111; }
-  .day-rem { font-size: 13px; }
-  .day-rem.red { color: #cc3333; }
-  .badge { font-size: 9px; padding: 1px 5px; margin-left: 4px; }
-  .day-limit { font-size: 10px; color: #aaa; margin-top: 3px; }
-  .empty { text-align: center; color: #bbb; font-size: 13px; padding: 32px 0; }
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:60px; min-height:100vh; }
+
+/* HEADER */
+.header { background:#111; color:#f5f0e8; padding:52px 20px 0; }
+.header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
+.lbl { font-size:11px; letter-spacing:0.15em; color:#888; text-transform:uppercase; }
+.big { font-size:28px; font-weight:bold; letter-spacing:-0.02em; }
+.big span { font-size:13px; color:#666; font-weight:normal; margin-left:6px; }
+.insight { font-size:12px; margin:6px 0 4px; min-height:18px; }
+.insight.ok { color:#b8f060; }
+.insight.warn { color:#ffcc44; }
+.insight.bad { color:#ff6b6b; }
+.track { background:#e0dbd0; height:4px; border-radius:2px; overflow:hidden; margin:4px 0; }
+.track.dark { background:#2a2a2a; }
+.fill { height:100%; border-radius:2px; transition:width 0.5s; }
+.small { font-size:10px; color:#555; margin-bottom:12px; }
+.rebalance-btn { background:none; border:1px solid #444; color:#aaa; font-family:inherit; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:5px 10px; cursor:pointer; margin-bottom:12px; }
+.rebalance-btn:active { background:#333; }
+.tabs { display:flex; border-top:1px solid #222; }
+.tab { background:none; border:none; font-family:inherit; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; padding:12px 16px; color:#666; cursor:pointer; border-bottom:2px solid transparent; flex:1; }
+.tab.on { color:#f5f0e8; border-bottom:2px solid #f5f0e8; }
+
+/* CONTENT */
+.content { padding:16px; }
+
+/* DAY CARD */
+.day-card { background:#fff; padding:16px; margin-bottom:16px; border-left:3px solid #111; }
+.day-card.over { border-left-color:#ff6b6b; }
+.day-card.closed { border-left-color:#2a9d3f; }
+.dc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.dc-label { font-size:11px; color:#999; text-transform:uppercase; letter-spacing:0.08em; }
+.dc-limit { font-size:11px; color:#bbb; }
+.dc-amount { font-size:32px; font-weight:bold; letter-spacing:-0.02em; line-height:1; }
+.dc-status { font-size:13px; color:#888; margin-top:3px; }
+.dc-status.red { color:#ff6b6b; }
+.dc-status.green { color:#2a9d3f; }
+.dc-extras { margin-top:8px; padding-top:8px; border-top:1px solid #f0ede6; }
+.dc-extra { font-size:11px; margin:2px 0; }
+.dc-extra.minus { color:#cc6600; }
+.dc-extra.plus { color:#2a9d3f; }
+
+/* QUICK ADD */
+.quick-add { background:#fff; padding:14px; margin-bottom:16px; }
+.qa-amount-row { display:flex; gap:8px; margin-bottom:10px; }
+.qa-inp { background:#f5f0e8; border:none; font-family:inherit; font-size:18px; padding:10px 12px; flex:1; outline:none; -webkit-appearance:none; }
+.qa-inp:focus { background:#ede8df; }
+.qa-desc { background:#f5f0e8; border:none; font-family:inherit; font-size:14px; padding:10px 12px; width:100%; outline:none; margin-bottom:10px; -webkit-appearance:none; }
+.qa-desc:focus { background:#ede8df; }
+.cat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:10px; }
+.cat-btn { background:#f5f0e8; border:none; font-size:18px; padding:10px 0; cursor:pointer; border-radius:4px; position:relative; }
+.cat-btn.sel { background:#111; }
+.qa-submit { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:13px; width:100%; cursor:pointer; }
+.qa-submit:active { background:#333; }
+
+/* EXPENSE LIST */
+.exp-list-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; margin-top:4px; }
+.exp-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #ede8df; }
+.exp-row:last-child { border-bottom:none; }
+.exp-left { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
+.exp-icon { font-size:18px; line-height:1; }
+.exp-info { min-width:0; }
+.exp-desc { font-size:13px; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.exp-cat { font-size:10px; color:#aaa; margin-top:1px; }
+.exp-right { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.exp-amt { font-size:14px; font-weight:bold; }
+.del { background:none; border:none; color:#ccc; font-size:15px; cursor:pointer; padding:3px 6px; }
+
+/* SURPLUS BOX */
+.surplus-box { background:#f0faf2; padding:14px; border-left:3px solid #2a9d3f; margin-top:16px; }
+.surplus-amt { font-size:22px; font-weight:bold; color:#2a9d3f; }
+.surplus-sub { font-size:12px; color:#666; margin:3px 0 10px; }
+.btn-green { background:#2a9d3f; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; }
+
+/* MOVER PLATA */
+.mover-card { background:#fff; padding:14px; margin-bottom:12px; }
+.mover-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
+.inp { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
+.inp:focus { background:#ede8df; }
+select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
+.btn-dark { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-top:4px; }
+.preview { font-size:12px; color:#666; padding:10px; background:#f8f5ee; margin-bottom:8px; }
+.active-moves { margin-top:16px; }
+.move-item { background:#fff; padding:12px; margin-bottom:8px; }
+.move-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
+.move-info { font-size:12px; color:#888; }
+.move-amt { font-size:18px; font-weight:bold; }
+.tag { display:inline-block; font-size:9px; padding:2px 5px; border:1px solid #ccc; margin:3px 3px 0 0; }
+
+/* HISTORIAL */
+
+/* CHART */
+.chart-wrap { padding: 16px 0 8px; }
+.chart-title { font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px; }
+.chart-bars { display:flex; align-items:flex-end; gap:3px; height:80px; }
+.chart-col { display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; }
+.chart-bar-wrap { display:flex; flex-direction:column; justify-content:flex-end; width:100%; height:70px; position:relative; }
+.chart-bar-stack { width:100%; border-radius:2px 2px 0 0; overflow:hidden; display:flex; flex-direction:column-reverse; }
+.chart-seg { width:100%; transition:height 0.4s; }
+.chart-day-lbl { font-size:8px; color:#aaa; text-align:center; margin-top:2px; white-space:nowrap; }
+.chart-over { position:absolute; top:-8px; left:50%; transform:translateX(-50%); font-size:8px; color:#ff6b6b; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:10px; }
+.chart-leg-item { display:flex; align-items:center; gap:4px; font-size:10px; color:#888; }
+.chart-leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.chart-summary { background:#fff; padding:14px; margin-bottom:16px; }
+.chart-summary-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #f0ede6; }
+.chart-summary-row:last-child { border-bottom:none; }
+.chart-summary-left { display:flex; align-items:center; gap:8px; }
+.chart-summary-pct { font-size:11px; color:#aaa; }
+
+.hist-day { padding:12px; margin-bottom:4px; border-left:3px solid transparent; cursor:pointer; }
+.hist-day.today { background:#fff; border-left-color:#111; }
+.hist-day.past { opacity:0.7; }
+.hist-top { display:flex; justify-content:space-between; align-items:center; }
+.hist-name { font-size:12px; color:#888; }
+.hist-name.today { color:#111; font-weight:bold; }
+.hist-rem { font-size:13px; }
+.hist-rem.red { color:#ff6b6b; }
+.hist-rem.green { color:#2a9d3f; }
+.hist-detail { display:none; padding-top:10px; border-top:1px solid #ede8df; margin-top:8px; }
+.hist-detail.open { display:block; }
+.hist-exp { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f0e8; font-size:12px; }
+.hist-exp:last-child { border-bottom:none; }
+.hist-exp-left { display:flex; align-items:center; gap:6px; }
+.hist-summary { font-size:10px; color:#aaa; margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; }
+.badge { font-size:9px; padding:1px 5px; margin-left:4px; }
+
+/* IA */
+.ia-card { background:#fff; padding:16px; margin-bottom:12px; }
+.ia-title { font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px; }
+.ia-textarea { background:#f5f0e8; border:none; font-family:'Courier New',monospace; font-size:13px; padding:12px; width:100%; outline:none; min-height:120px; resize:none; display:block; margin-bottom:8px; }
+.ia-textarea:focus { background:#ede8df; }
+.ia-key-row { display:flex; gap:8px; margin-bottom:8px; }
+.ia-key-inp { background:#f5f0e8; border:none; font-family:'Courier New',monospace; font-size:11px; padding:10px 12px; flex:1; outline:none; min-width:0; }
+.ia-result { margin-top:12px; }
+.ia-exp-item { display:flex; justify-content:space-between; align-items:center; padding:10px; background:#f8f5ee; margin-bottom:6px; border-left:3px solid #111; }
+.ia-exp-left { flex:1; }
+.ia-exp-desc { font-size:13px; }
+.ia-exp-meta { font-size:11px; color:#aaa; margin-top:2px; }
+.ia-exp-amt { font-size:15px; font-weight:bold; margin-left:8px; }
+.ia-status { font-size:12px; color:#888; padding:10px 0; text-align:center; }
+.ia-status.loading { color:#54a0ff; }
+.ia-status.error { color:#ff6b6b; }
+.btn-blue { background:#54a0ff; color:#fff; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-bottom:8px; }
+.btn-outline { background:transparent; color:#111; border:1.5px solid #111; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:11px; width:100%; cursor:pointer; }
+
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="label">MAYO 2026</div>
-  <div class="big" id="totalRestantes">$550.000 <span>restantes</span></div>
-  <div class="track dark"><div class="fill" id="totalBar" style="width:0%;background:#b8f060"></div></div>
-  <div class="small" id="totalSub">$0 de $550.000</div>
+  <div class="header-top">
+    <div>
+      <div class="lbl">Mayo 2026</div>
+      <div class="big" id="totalRestantes">$550.000 <span>restantes</span></div>
+    </div>
+    <button class="rebalance-btn" onclick="rebalance()">⇄ Reequilibrar</button>
+  </div>
+  <div class="insight" id="insight"></div>
+  <div class="track dark"><div class="fill" id="totalBar" style="width:0%"></div></div>
+  <div class="small" id="totalSub"></div>
   <div class="tabs">
     <button class="tab on" onclick="setTab('hoy')">Hoy</button>
-    <button class="tab" onclick="setTab('prestamo')">Préstamo</button>
-    <button class="tab" onclick="setTab('semana')">Semana</button>
+    <button class="tab" onclick="setTab('mover')">Mover</button>
+    <button class="tab" onclick="setTab('historial')">Historial</button>
+    <button class="tab" onclick="setTab('ia')">IA</button>
   </div>
 </div>
 
 <div class="content">
+
   <!-- HOY -->
   <div id="tab-hoy">
-    <div class="card black-border" id="dayCard">
-      <div class="card-header">
-        <span class="card-label" id="dayLabel">HOY</span>
-        <span class="card-label" id="dayLimit">límite $37.000</span>
+    <div class="day-card" id="dayCard">
+      <div class="dc-top">
+        <span class="dc-label" id="dcLabel">Hoy</span>
+        <span class="dc-limit" id="dcLimit">límite $37.000</span>
       </div>
       <div class="track"><div class="fill" id="dayBar" style="width:0%;background:#111"></div></div>
-      <div class="spent" id="daySpent">$0</div>
-      <div class="status" id="dayStatus">te quedan $37.000</div>
-      <div id="dayExtras"></div>
+      <div class="dc-amount" id="dcAmount">$0</div>
+      <div class="dc-status" id="dcStatus">te quedan $37.000</div>
+      <div id="dcExtras"></div>
     </div>
 
-    <input class="inp" type="number" id="expInput" placeholder="¿Cuánto gastaste? $" onkeydown="if(event.key==='Enter')addExpense()">
-    <button class="btn" onclick="addExpense()">+ Registrar gasto</button>
+    <div class="quick-add">
+      <div class="qa-amount-row">
+        <input class="qa-inp" type="number" id="expAmount" placeholder="$0" onkeydown="if(event.key==='Enter')document.getElementById('expDesc').focus()">
+      </div>
+      <input class="qa-desc" type="text" id="expDesc" placeholder="¿En qué? (opcional)" onkeydown="if(event.key==='Enter')addExpense()">
+      <div class="cat-row" id="catRow"></div>
+      <button class="qa-submit" onclick="addExpense()">+ Registrar</button>
+    </div>
 
     <div id="expenseList"></div>
     <div id="surplusBox"></div>
   </div>
 
-  <!-- PRÉSTAMO -->
-  <div id="tab-prestamo" style="display:none">
-    <div class="hint">Si necesitás gastar más de $37.000 hoy, tomá un préstamo y lo devolvés en los próximos días.</div>
-    <div class="card">
-      <div class="label" style="margin-bottom:12px">NUEVO PRÉSTAMO</div>
+  <!-- MOVER PLATA -->
+  <div id="tab-mover" style="display:none">
+    <div class="mover-card">
+      <div class="mover-title">Mover plata entre días</div>
+      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">
+        Si hoy te quedaste corto, tomá prestado de los próximos días. Si sobraste, ya se distribuyó automáticamente.
+      </div>
       <input class="inp" type="number" id="loanInput" placeholder="¿Cuánto necesitás? $" oninput="updateLoanPreview()">
       <select id="loanDays" onchange="updateLoanPreview()">
         <option value="2">Devolver en 2 días</option>
@@ -115,16 +220,58 @@
         <option value="5">Devolver en 5 días</option>
       </select>
       <div class="preview" id="loanPreview" style="display:none"></div>
-      <button class="btn" onclick="addLoan()">Tomar préstamo</button>
+      <button class="btn-dark" onclick="addLoan()">Tomar préstamo</button>
     </div>
     <div id="loanList"></div>
   </div>
 
-  <!-- SEMANA -->
-  <div id="tab-semana" style="display:none">
-    <div class="label" style="margin-bottom:12px">LOS 15 DÍAS</div>
-    <div id="semanaList"></div>
+  <!-- HISTORIAL -->
+  <div id="tab-historial" style="display:none">
+    <div style="font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px">Los 15 días</div>
+    <div id="historialList"></div>
   </div>
+
+
+  <!-- IA -->
+  <div id="tab-ia" style="display:none">
+
+    <!-- API Key config -->
+    <div class="ia-card" id="iaKeyCard">
+      <div class="ia-title">API Key</div>
+      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:10px">
+        Se guarda en el dispositivo, no la vas a tener que volver a ingresar.
+      </div>
+      <div class="ia-key-row">
+        <input class="ia-key-inp" type="password" id="iaKey" placeholder="sk-ant-..." autocomplete="off">
+        <button class="btn-dark" style="width:auto;padding:10px 14px;margin:0" onclick="saveKey()">Guardar</button>
+      </div>
+      <div class="ia-status" id="iaKeyStatus" style="display:none"></div>
+    </div>
+
+    <!-- Foto ticket -->
+    <div class="ia-card">
+      <div class="ia-title">Foto de ticket</div>
+      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">
+        Sacá una foto al ticket o elegí una imagen de la galería y Claude va a leer los datos automáticamente.
+      </div>
+      <input type="file" id="ticketFile" accept="image/*" capture="environment" style="display:none" onchange="handleTicketPhoto(event)">
+      <button class="btn-blue" onclick="document.getElementById('ticketFile').click()">📷 Sacar foto / elegir imagen</button>
+      <div id="ticketPreview" style="margin-top:10px;display:none">
+        <img id="ticketImg" style="width:100%;max-height:200px;object-fit:contain;background:#f0ede6;display:block">
+      </div>
+      <div class="ia-status" id="iaStatus" style="display:none"></div>
+      <div class="ia-result" id="iaResult"></div>
+    </div>
+
+    <!-- Texto manual -->
+    <div class="ia-card">
+      <div class="ia-title">O pegá texto</div>
+      <textarea class="ia-textarea" id="iaText" placeholder="Pegá acá movimientos bancarios o cualquier lista de gastos..."></textarea>
+      <button class="btn-blue" onclick="processWithAIText()">✦ Analizar texto</button>
+    </div>
+
+  </div>
+
 </div>
 
 <script>
@@ -133,24 +280,31 @@ const TOTAL = 550000;
 const START = "2026-05-14";
 const DAYS = 15;
 
-const fmt = n => new Intl.NumberFormat("es-AR", {maximumFractionDigits:0}).format(Math.abs(n));
+const CATS = [
+  {id:"comida", icon:"🍔", label:"Comida", color:"#ff9f43"},
+  {id:"transporte", icon:"🚌", label:"Transporte", color:"#54a0ff"},
+  {id:"super", icon:"🛒", label:"Super", color:"#5f27cd"},
+  {id:"salud", icon:"💊", label:"Salud", color:"#ff6b6b"},
+  {id:"ocio", icon:"🎮", label:"Ocio", color:"#1dd1a1"},
+  {id:"ropa", icon:"👕", label:"Ropa", color:"#feca57"},
+  {id:"servicios", icon:"💡", label:"Servicios", color:"#48dbfb"},
+  {id:"otro", icon:"📦", label:"Otro", color:"#c8d6e5"},
+];
 
-const allDays = Array.from({length:DAYS}, (_,i) => {
+const fmt = n => new Intl.NumberFormat("es-AR",{maximumFractionDigits:0}).format(Math.abs(n));
+
+const allDays = Array.from({length:DAYS},(_,i)=>{
   const d = new Date(START+"T12:00:00");
   d.setDate(d.getDate()+i);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 });
 
-const dayLabel = s => {
+const dayLbl = s => {
   const [y,m,d] = s.split("-").map(Number);
   return new Date(y,m-1,d).toLocaleDateString("es-AR",{weekday:"short",day:"numeric",month:"short"});
 };
 
-const getDayIndex = s => {
-  const start = new Date(START+"T12:00:00");
-  const d = new Date(s+"T12:00:00");
-  return Math.round((d-start)/86400000);
-};
+const getDayIndex = s => Math.round((new Date(s+"T12:00:00")-new Date(START+"T12:00:00"))/86400000);
 
 const todayStr = () => {
   const d = new Date();
@@ -158,259 +312,615 @@ const todayStr = () => {
 };
 
 const today = todayStr();
+let selCat = "otro";
+let openHistDay = null;
 
-function loadData() {
-  try { return JSON.parse(localStorage.getItem("gastos_v3")||"{}"); } catch { return {}; }
-}
-function saveData(d) { localStorage.setItem("gastos_v3", JSON.stringify(d)); }
+function load(){ try{return JSON.parse(localStorage.getItem("gastos_v5")||"{}");}catch{return{};} }
+function save(d){ localStorage.setItem("gastos_v5",JSON.stringify(d)); }
+function getCat(id){ return CATS.find(c=>c.id===id)||CATS[7]; }
 
-function calcBalance(dateStr, data) {
+function calcBalance(dateStr, data){
   const idx = getDayIndex(dateStr);
-  if (idx < 0 || idx >= DAYS) return null;
+  if(idx<0||idx>=DAYS) return null;
   let available = DAILY;
-  (data.loans||[]).forEach(l => {
-    if (l.repayDays?.includes(dateStr)) available -= l.amountPerDay;
-    if (l.fromDay === dateStr) available += l.total;
+  // rebalance override
+  if(data.rebalance && getDayIndex(dateStr)>=data.rebalance.fromIdx){
+    available = data.rebalance.perDay;
+  }
+  (data.loans||[]).forEach(l=>{
+    if(l.repayDays?.includes(dateStr)) available -= l.amountPerDay;
+    if(l.fromDay===dateStr) available += l.total;
   });
-  (data.surpluses||[]).forEach(s => {
-    if (s.days?.includes(dateStr)) available += s.perDay;
+  (data.surpluses||[]).forEach(s=>{
+    if(s.days?.includes(dateStr)) available += s.perDay;
   });
   const spent = (data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
-  return { available, spent, remaining: available - spent };
+  return {available, spent, remaining: available-spent};
 }
 
-function render() {
-  const data = loadData();
+// Reequilibrar: distribuir el total restante entre los días que faltan
+function rebalance(){
+  const data = load();
+  const todayIdx = getDayIndex(today);
+  const futureDays = allDays.filter(d=>getDayIndex(d)>=todayIdx);
+  if(!futureDays.length) return;
+
+  // total ya gastado en días anteriores
+  const pastSpent = allDays
+    .filter(d=>getDayIndex(d)<todayIdx)
+    .reduce((s,d)=>(data.days?.[d]?.expenses||[]).reduce((ss,e)=>ss+e.amount,s),0);
+
+  const remaining = TOTAL - pastSpent;
+  const perDay = Math.floor(remaining / futureDays.length);
+
+  // limpiar préstamos y sobrantes previos y setear nuevo base diario
+  data.rebalance = { fromIdx: todayIdx, perDay, setAt: today };
+  data.loans = [];
+  data.surpluses = [];
+  data.closedDays = [];
+  save(data);
+  render();
+  // feedback visual
+  const btn = document.querySelector('.rebalance-btn');
+  btn.textContent = `✓ $${fmt(perDay)}/día`;
+  setTimeout(()=>btn.textContent="⇄ Reequilibrar", 3000);
+}
+
+// Cierre automático del día anterior si hay sobrante
+function autoClosePastDays(data){
+  const todayIdx = getDayIndex(today);
+  let changed = false;
+  allDays.forEach(d=>{
+    const idx = getDayIndex(d);
+    if(idx >= todayIdx) return;
+    if((data.closedDays||[]).includes(d)) return;
+    const bal = calcBalance(d, data);
+    if(!bal || bal.remaining <= 0) return;
+    const fut = allDays.filter(f=>getDayIndex(f)>idx);
+    if(!fut.length) return;
+    const perDay = Math.floor(bal.remaining/fut.length);
+    if(perDay<=0) return;
+    if(!data.surpluses) data.surpluses=[];
+    data.surpluses.push({id:Date.now()+idx, fromDay:d, total:bal.remaining, perDay, days:fut});
+    if(!data.closedDays) data.closedDays=[];
+    data.closedDays.push(d);
+    changed = true;
+  });
+  if(changed) save(data);
+  return data;
+}
+
+// Build cat buttons
+function buildCatRow(){
+  const row = document.getElementById("catRow");
+  row.innerHTML = CATS.map(c=>
+    `<button class="cat-btn ${selCat===c.id?"sel":""}" onclick="selectCat('${c.id}')" title="${c.label}">${c.icon}</button>`
+  ).join("");
+}
+
+function selectCat(id){
+  selCat = id;
+  buildCatRow();
+}
+
+function addExpense(){
+  const val = parseFloat(document.getElementById("expAmount").value);
+  if(!val||val<=0) return;
+  const desc = document.getElementById("expDesc").value.trim()||getCat(selCat).label;
+  const data = load();
+  if(!data.days) data.days={};
+  if(!data.days[today]) data.days[today]={expenses:[]};
+  data.days[today].expenses.push({amount:val, desc, cat:selCat, id:Date.now()});
+  save(data);
+  document.getElementById("expAmount").value="";
+  document.getElementById("expDesc").value="";
+  render();
+}
+
+function removeExpense(id){
+  const data = load();
+  if(data.days?.[today]){
+    data.days[today].expenses = data.days[today].expenses.filter(e=>e.id!==id);
+  }
+  save(data);
+  render();
+}
+
+function updateLoanPreview(){
+  const val = parseFloat(document.getElementById("loanInput").value);
+  const days = parseInt(document.getElementById("loanDays").value);
+  const el = document.getElementById("loanPreview");
+  if(val>0){
+    el.style.display="block";
+    el.innerHTML=`Cuota: <strong>$${fmt(Math.ceil(val/days))}</strong>/día × ${days} días`;
+  } else el.style.display="none";
+}
+
+function addLoan(){
+  const total = parseFloat(document.getElementById("loanInput").value);
+  const loanDays = parseInt(document.getElementById("loanDays").value);
+  if(!total||total<=0) return;
+  const todayIdx = getDayIndex(today);
+  const repayDays=[];
+  for(let i=1;i<=loanDays;i++){
+    const d = new Date(START+"T12:00:00");
+    d.setDate(d.getDate()+todayIdx+i);
+    const s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    if(getDayIndex(s)<DAYS) repayDays.push(s);
+  }
+  if(!repayDays.length) return;
+  const amountPerDay = Math.ceil(total/repayDays.length);
+  const data = load();
+  if(!data.loans) data.loans=[];
+  data.loans.push({id:Date.now(), fromDay:today, total, amountPerDay, repayDays});
+  save(data);
+  document.getElementById("loanInput").value="";
+  document.getElementById("loanPreview").style.display="none";
+  render();
+}
+
+function removeLoan(id){
+  const data = load();
+  data.loans=(data.loans||[]).filter(l=>l.id!==id);
+  save(data);
+  render();
+}
+
+function closeDay(){
+  const data = load();
+  if((data.closedDays||[]).includes(today)) return;
+  const bal = calcBalance(today, data);
+  const rem = bal?.remaining??0;
+  if(rem<=0) return;
+  const fut = allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
+  if(!fut.length) return;
+  const perDay = Math.floor(rem/fut.length);
+  if(perDay<=0) return;
+  if(!data.surpluses) data.surpluses=[];
+  data.surpluses.push({id:Date.now(), fromDay:today, total:rem, perDay, days:fut});
+  if(!data.closedDays) data.closedDays=[];
+  data.closedDays.push(today);
+  save(data);
+  render();
+}
+
+function toggleHistDay(d){
+  openHistDay = openHistDay===d ? null : d;
+  renderHistorial();
+}
+
+function render(){
+  let data = load();
+  data = autoClosePastDays(data);
+
   const bal = calcBalance(today, data);
   const todaySpent = bal?.spent||0;
   const todayAvail = bal?.available||DAILY;
   const todayRem = bal?.remaining??DAILY;
   const isDayClosed = (data.closedDays||[]).includes(today);
 
-  // Header
   const totalSpent = Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
-  const totalRem = TOTAL - totalSpent;
+  const totalRem = TOTAL-totalSpent;
   const totalPct = Math.min((totalSpent/TOTAL)*100,100);
-  document.getElementById("totalRestantes").innerHTML = `$${fmt(totalRem)} <span>restantes</span>`;
-  const tb = document.getElementById("totalBar");
-  tb.style.width = totalPct+"%";
-  tb.style.background = totalPct>85?"#ff5555":totalPct>60?"#ffcc44":"#b8f060";
-  document.getElementById("totalSub").textContent = `$${fmt(totalSpent)} de $${fmt(TOTAL)}`;
+
+  // Header
+  document.getElementById("totalRestantes").innerHTML=`$${fmt(totalRem)} <span>restantes</span>`;
+  const tb=document.getElementById("totalBar");
+  tb.style.width=totalPct+"%";
+  tb.style.background=totalPct>85?"#ff6b6b":totalPct>60?"#ffcc44":"#b8f060";
+  document.getElementById("totalSub").textContent=`$${fmt(totalSpent)} de $${fmt(TOTAL)}`;
+
+  // Insight
+  const insightEl = document.getElementById("insight");
+  const todayIdx = getDayIndex(today);
+  const daysLeft = DAYS - todayIdx;
+  const projectedDaily = daysLeft>0 ? Math.floor(totalRem/daysLeft) : 0;
+  if(todayRem<0){
+    insightEl.textContent=`Hoy te pasaste $${fmt(todayRem)} · usá Reequilibrar`;
+    insightEl.className="insight bad";
+  } else if(projectedDaily > DAILY){
+    insightEl.textContent=`Vas bien · podés gastar $${fmt(projectedDaily)}/día`;
+    insightEl.className="insight ok";
+  } else if(projectedDaily < DAILY*0.8){
+    insightEl.textContent=`Cuidado · te quedan $${fmt(projectedDaily)}/día promedio`;
+    insightEl.className="insight warn";
+  } else {
+    insightEl.textContent=`$${fmt(projectedDaily)}/día promedio restante`;
+    insightEl.className="insight ok";
+  }
 
   // Day card
-  const pct = Math.min((todaySpent/Math.max(todayAvail,1))*100,100);
-  const db = document.getElementById("dayBar");
-  db.style.width = pct+"%";
-  db.style.background = pct>90?"#ff5555":pct>70?"#ffcc44":"#111";
-  document.getElementById("dayLabel").textContent = dayLabel(today).toUpperCase();
-  document.getElementById("dayLimit").textContent = `límite $${fmt(todayAvail)}`;
-  document.getElementById("daySpent").textContent = `$${fmt(todaySpent)}`;
-  const statusEl = document.getElementById("dayStatus");
-  const cardEl = document.getElementById("dayCard");
-  if (isDayClosed) {
-    statusEl.textContent = "✓ día cerrado · sobrante distribuido";
-    statusEl.className = "status green";
-    cardEl.className = "card green-border";
-  } else if (todayRem < 0) {
-    statusEl.textContent = `▲ te pasaste $${fmt(todayRem)}`;
-    statusEl.className = "status red";
-    cardEl.className = "card black-border";
+  const pct=Math.min((todaySpent/Math.max(todayAvail,1))*100,100);
+  const db=document.getElementById("dayBar");
+  db.style.width=pct+"%";
+  db.style.background=pct>90?"#ff6b6b":pct>70?"#ffcc44":"#111";
+  document.getElementById("dcLabel").textContent=dayLbl(today).toUpperCase();
+  document.getElementById("dcLimit").textContent=`límite $${fmt(todayAvail)}`;
+  document.getElementById("dcAmount").textContent=`$${fmt(todaySpent)}`;
+  const statusEl=document.getElementById("dcStatus");
+  const cardEl=document.getElementById("dayCard");
+  if(isDayClosed){
+    statusEl.textContent="✓ día cerrado";statusEl.className="dc-status green";cardEl.className="day-card closed";
+  } else if(todayRem<0){
+    statusEl.textContent=`▲ te pasaste $${fmt(todayRem)}`;statusEl.className="dc-status red";cardEl.className="day-card over";
   } else {
-    statusEl.textContent = `te quedan $${fmt(todayRem)}`;
-    statusEl.className = "status";
-    cardEl.className = "card black-border";
+    statusEl.textContent=`te quedan $${fmt(todayRem)}`;statusEl.className="dc-status";cardEl.className="day-card";
   }
 
-  // Extras en day card
-  let extrasHtml = "";
-  const repays = (data.loans||[]).filter(l=>l.repayDays?.includes(today));
-  const surpReceived = (data.surpluses||[]).filter(s=>s.days?.includes(today));
-  if (repays.length) {
-    extrasHtml += `<div class="section-title">DESCUENTOS HOY</div>`;
-    repays.forEach(l => extrasHtml += `<div class="note orange">− $${fmt(l.amountPerDay)} cuota préstamo (${dayLabel(l.fromDay)})</div>`);
-  }
-  if (surpReceived.length) {
-    extrasHtml += `<div class="section-title">EXTRAS RECIBIDOS</div>`;
-    surpReceived.forEach(s => extrasHtml += `<div class="note green">+ $${fmt(s.perDay)} sobrante del ${dayLabel(s.fromDay)}</div>`);
-  }
-  document.getElementById("dayExtras").innerHTML = extrasHtml;
+  let extHtml="";
+  (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{
+    extHtml+=`<div class="dc-extra minus">− $${fmt(l.amountPerDay)} cuota préstamo</div>`;
+  });
+  (data.surpluses||[]).filter(s=>s.days?.includes(today)).forEach(s=>{
+    extHtml+=`<div class="dc-extra plus">+ $${fmt(s.perDay)} sobrante del ${dayLbl(s.fromDay)}</div>`;
+  });
+  document.getElementById("dcExtras").innerHTML = extHtml ? `<div class="dc-extras">${extHtml}</div>` : "";
 
   // Expense list
   const expenses = data.days?.[today]?.expenses||[];
-  let expHtml = "";
-  if (expenses.length) {
-    expHtml = `<div style="margin-top:20px"><div class="label" style="margin-bottom:8px">GASTOS DE HOY</div>`;
-    expenses.forEach(e => {
-      expHtml += `<div class="row"><span style="font-size:15px">$${fmt(e.amount)}</span><button class="del" onclick="removeExpense(${e.id})">✕</button></div>`;
-    });
-    expHtml += `</div>`;
-  }
-  document.getElementById("expenseList").innerHTML = expHtml;
-
-  // Surplus box
-  let surpHtml = "";
-  if (!isDayClosed && todayRem > 0) {
-    const fut = allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
-    const pp = fut.length > 0 ? Math.floor(todayRem/fut.length) : 0;
-    surpHtml = `<div class="surplus-box">
-      <div class="label" style="color:#2a9d3f;margin-bottom:4px">SOBRANTE HOY</div>
-      <div class="surplus-amt">$${fmt(todayRem)}</div>
-      ${pp>0?`<div class="surplus-sub">+$${fmt(pp)}/día en los ${fut.length} días restantes</div>`:""}
-      <button class="btn green" onclick="closeDay()">Cerrar día y distribuir sobrante</button>
-    </div>`;
-  }
-  document.getElementById("surplusBox").innerHTML = surpHtml;
-
-  // Loan list
-  const loans = data.loans||[];
-  let loanHtml = "";
-  if (loans.length) {
-    loanHtml = `<div class="label" style="margin-bottom:10px">PRÉSTAMOS ACTIVOS</div>`;
-    loans.forEach(l => {
-      const paid = l.repayDays.filter(d=>getDayIndex(d)<getDayIndex(today)).length;
-      const pctL = (paid/l.repayDays.length)*100;
-      let tagsHtml = l.repayDays.map(d => {
-        const past = getDayIndex(d)<getDayIndex(today);
-        return `<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}/5</span>`;
-      }).join("");
-      loanHtml += `<div class="loan-card">
-        <div class="loan-top"><span class="loan-title">Del ${dayLabel(l.fromDay)}</span><button class="del" onclick="removeLoan(${l.id})">✕</button></div>
-        <div class="loan-amt">$${fmt(l.total)}</div>
-        <div class="loan-sub">$${fmt(l.amountPerDay)}/día · ${paid}/${l.repayDays.length} cuotas</div>
-        <div class="track" style="margin-top:8px"><div class="fill" style="width:${pctL}%;background:#111"></div></div>
-        <div style="margin-top:4px">${tagsHtml}</div>
+  let expHtml="";
+  if(expenses.length){
+    expHtml=`<div class="exp-list-title">Gastos de hoy</div>`;
+    [...expenses].reverse().forEach(e=>{
+      const cat=getCat(e.cat);
+      expHtml+=`<div class="exp-row">
+        <div class="exp-left">
+          <span class="exp-icon">${cat.icon}</span>
+          <div class="exp-info">
+            <div class="exp-desc">${e.desc}</div>
+            <div class="exp-cat">${cat.label}</div>
+          </div>
+        </div>
+        <div class="exp-right">
+          <span class="exp-amt">$${fmt(e.amount)}</span>
+          <button class="del" onclick="removeExpense(${e.id})">✕</button>
+        </div>
       </div>`;
     });
   }
-  document.getElementById("loanList").innerHTML = loanHtml;
+  document.getElementById("expenseList").innerHTML=expHtml;
 
-  // Semana
-  let semHtml = "";
-  allDays.forEach(d => {
-    const bal2 = calcBalance(d, data);
-    const isPast = d < today;
-    const isToday = d === today;
-    const spent2 = bal2?.spent||0;
-    const avail2 = bal2?.available||DAILY;
-    const rem2 = bal2?.remaining??DAILY;
-    const p2 = Math.min((spent2/Math.max(avail2,1))*100,100);
-    const hasLoan = (data.loans||[]).some(l=>l.fromDay===d);
-    const hasRepay = (data.loans||[]).some(l=>l.repayDays?.includes(d));
-    const hasSurp = (data.surpluses||[]).some(s=>s.fromDay===d);
-    const recSurp = (data.surpluses||[]).some(s=>s.days?.includes(d));
-    const remText = isPast&&spent2===0?"—":rem2<0?`−$${fmt(rem2)}`:`$${fmt(rem2)}`;
-    const remColor = rem2<0?"red":"";
-    let badges = "";
-    if (isToday) badges += `<span class="badge" style="background:#111;color:#f5f0e8">HOY</span>`;
-    if (hasLoan) badges += `<span class="badge" style="color:#cc6600">↑prestó</span>`;
-    if (hasRepay) badges += `<span class="badge" style="color:#0066cc">↓cuota</span>`;
-    if (hasSurp) badges += `<span class="badge" style="color:#2a9d3f">★sobrante</span>`;
-    if (recSurp) badges += `<span class="badge" style="color:#2a9d3f">+extra</span>`;
-    let barHtml = (isToday||isPast)&&spent2>0
-      ? `<div class="track"><div class="fill" style="width:${p2}%;background:${p2>90?"#ff5555":p2>70?"#ffcc44":"#111"}"></div></div>` : "";
-    let limitHtml = avail2!==DAILY ? `<div class="day-limit">límite: $${fmt(avail2)}</div>` : "";
-    semHtml += `<div class="day-row ${isToday?"today":""} ${isPast&&!isToday?"past":""}">
-      <div class="day-top">
-        <div><span class="day-name ${isToday?"today":""}">${dayLabel(d)}</span>${badges}</div>
-        <span class="day-rem ${remColor}">${remText}</span>
+  // Surplus box
+  let surpHtml="";
+  if(!isDayClosed && todayRem>0){
+    const fut=allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
+    const pp=fut.length>0?Math.floor(todayRem/fut.length):0;
+    surpHtml=`<div class="surplus-box">
+      <div class="lbl" style="color:#2a9d3f;margin-bottom:4px">Sobrante hoy</div>
+      <div class="surplus-amt">$${fmt(todayRem)}</div>
+      ${pp>0?`<div class="surplus-sub">+$${fmt(pp)}/día en los ${fut.length} días restantes</div>`:""}
+      <button class="btn-green" onclick="closeDay()">Cerrar día y distribuir</button>
+    </div>`;
+  }
+  document.getElementById("surplusBox").innerHTML=surpHtml;
+
+  // Loans
+  const loans=data.loans||[];
+  let loanHtml="";
+  if(loans.length){
+    loanHtml=`<div class="active-moves"><div style="font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">Préstamos activos</div>`;
+    loans.forEach(l=>{
+      const paid=l.repayDays.filter(d=>getDayIndex(d)<getDayIndex(today)).length;
+      const pctL=(paid/l.repayDays.length)*100;
+      const tags=l.repayDays.map(d=>{
+        const past=getDayIndex(d)<getDayIndex(today);
+        return `<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}/5</span>`;
+      }).join("");
+      loanHtml+=`<div class="move-item">
+        <div class="move-top"><span class="move-info">Del ${dayLbl(l.fromDay)}</span><button class="del" onclick="removeLoan(${l.id})">✕</button></div>
+        <div class="move-amt">$${fmt(l.total)}</div>
+        <div class="move-info">$${fmt(l.amountPerDay)}/día · ${paid}/${l.repayDays.length} cuotas</div>
+        <div class="track" style="margin-top:6px"><div class="fill" style="width:${pctL}%;background:#111"></div></div>
+        <div>${tags}</div>
+      </div>`;
+    });
+    loanHtml+=`</div>`;
+  }
+  document.getElementById("loanList").innerHTML=loanHtml;
+
+  renderHistorial();
+  buildCatRow();
+}
+
+function renderHistorial(){
+  const data = load();
+
+  // --- CHART ---
+  const maxSpent = Math.max(...allDays.map(d=>(data.days?.[d]?.expenses||[]).reduce((s,e)=>s+e.amount,0)), DAILY);
+  let chartHtml = `<div class="chart-wrap">
+    <div class="chart-title">Gastos por día</div>
+    <div class="chart-bars">`;
+
+  allDays.forEach(d=>{
+    const expenses = data.days?.[d]?.expenses||[];
+    const spent = expenses.reduce((s,e)=>s+e.amount,0);
+    const bal = calcBalance(d,data);
+    const avail = bal?.available||DAILY;
+    const isOver = spent > avail;
+    const isPast = d<=today;
+    const dNum = new Date(d+"T12:00:00").getDate();
+
+    // group by cat
+    const bycat={};
+    expenses.forEach(e=>{ bycat[e.cat]=(bycat[e.cat]||0)+e.amount; });
+
+    const barH = isPast && spent>0 ? Math.max((spent/maxSpent)*64, 4) : 0;
+    const limitH = Math.min((avail/maxSpent)*64, 64);
+
+    let segs="";
+    if(spent>0){
+      Object.entries(bycat).forEach(([catId,amt])=>{
+        const cat=getCat(catId);
+        const segH=(amt/spent)*barH;
+        segs+=`<div class="chart-seg" style="height:${segH}px;background:${cat.color};opacity:0.85"></div>`;
+      });
+    }
+
+    chartHtml+=`<div class="chart-col" onclick="toggleHistDay('${d}')">
+      <div class="chart-bar-wrap">
+        ${isOver?`<div class="chart-over">!</div>`:""}
+        <div style="position:absolute;bottom:0;left:0;right:0;height:${limitH}px;border-top:1.5px dashed ${d===today?"#111":"#ccc"};pointer-events:none"></div>
+        <div class="chart-bar-stack" style="height:${barH}px">${segs}</div>
       </div>
-      ${barHtml}${limitHtml}
+      <div class="chart-day-lbl" style="color:${d===today?"#111":"#aaa"};font-weight:${d===today?"bold":"normal"}">${dNum}</div>
     </div>`;
   });
-  document.getElementById("semanaList").innerHTML = semHtml;
-}
 
-function setTab(t) {
-  ["hoy","prestamo","semana"].forEach(id => {
-    document.getElementById("tab-"+id).style.display = id===t?"block":"none";
+  chartHtml+=`</div>`;
+
+  // legend
+  const usedCats = new Set();
+  allDays.forEach(d=>{ (data.days?.[d]?.expenses||[]).forEach(e=>usedCats.add(e.cat)); });
+  if(usedCats.size){
+    chartHtml+=`<div class="chart-legend">`;
+    usedCats.forEach(id=>{ const c=getCat(id); chartHtml+=`<div class="chart-leg-item"><div class="chart-leg-dot" style="background:${c.color}"></div>${c.label}</div>`; });
+    chartHtml+=`</div>`;
+  }
+  chartHtml+=`</div>`;
+
+  // --- CATEGORY SUMMARY ---
+  const totByCat={};
+  allDays.forEach(d=>{ (data.days?.[d]?.expenses||[]).forEach(e=>{ totByCat[e.cat]=(totByCat[e.cat]||0)+e.amount; }); });
+  const grandTotal = Object.values(totByCat).reduce((s,v)=>s+v,0);
+  let summaryHtml="";
+  if(grandTotal>0){
+    summaryHtml=`<div class="chart-summary">
+      <div class="chart-title" style="margin-bottom:10px">Por categoría</div>`;
+    Object.entries(totByCat).sort((a,b)=>b[1]-a[1]).forEach(([id,amt])=>{
+      const cat=getCat(id);
+      const pct=Math.round((amt/grandTotal)*100);
+      summaryHtml+=`<div class="chart-summary-row">
+        <div class="chart-summary-left">
+          <span>${cat.icon}</span>
+          <span style="font-size:13px">${cat.label}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="chart-summary-pct">${pct}%</span>
+          <span style="font-size:14px;font-weight:bold">$${fmt(amt)}</span>
+        </div>
+      </div>`;
+    });
+    summaryHtml+=`</div>`;
+  }
+
+  let html="";
+  allDays.forEach(d=>{
+    const bal=calcBalance(d,data);
+    const isPast=d<today;
+    const isToday=d===today;
+    const spent=bal?.spent||0;
+    const avail=bal?.available||DAILY;
+    const rem=bal?.remaining??DAILY;
+    const p=Math.min((spent/Math.max(avail,1))*100,100);
+    const expenses=data.days?.[d]?.expenses||[];
+    const isOpen=openHistDay===d;
+    const remText=isPast&&spent===0?"—":rem<0?`−$${fmt(rem)}`:`$${fmt(rem)}`;
+    const remClass=rem<0?"red":rem>DAILY*1.1?"green":"";
+    const arrow=expenses.length?(isOpen?"▲":"▼"):"";
+
+    // category summary
+    const catSummary={};
+    expenses.forEach(e=>{ catSummary[e.cat]=(catSummary[e.cat]||0)+e.amount; });
+    const catIcons=Object.entries(catSummary).map(([id])=>getCat(id).icon).join(" ");
+
+    let barHtml=(isToday||isPast)&&spent>0
+      ?`<div class="track" style="margin-top:6px"><div class="fill" style="width:${p}%;background:${p>90?"#ff6b6b":p>70?"#ffcc44":"#111"}"></div></div>`:"";
+    let limitHtml=avail!==DAILY?`<div style="font-size:10px;color:#aaa;margin-top:3px">límite: $${fmt(avail)}</div>`:"";
+
+    let detailHtml="";
+    if(expenses.length){
+      detailHtml=`<div class="hist-detail ${isOpen?"open":""}">`;
+      [...expenses].reverse().forEach(e=>{
+        const cat=getCat(e.cat);
+        detailHtml+=`<div class="hist-exp">
+          <div class="hist-exp-left"><span>${cat.icon}</span><span>${e.desc}</span></div>
+          <span style="font-weight:bold">$${fmt(e.amount)}</span>
+        </div>`;
+      });
+      detailHtml+=`<div style="font-size:11px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #f0ede6">
+        Total: <strong>$${fmt(spent)}</strong>
+      </div>`;
+      detailHtml+=`</div>`;
+    }
+
+    html+=`<div class="hist-day ${isToday?"today":""} ${isPast&&!isToday?"past":""}" onclick="toggleHistDay('${d}')">
+      <div class="hist-top">
+        <div>
+          <span class="hist-name ${isToday?"today":""}">${dayLbl(d)}</span>
+          ${isToday?`<span class="badge" style="background:#111;color:#f5f0e8">HOY</span>`:""}
+          ${expenses.length?`<span style="font-size:11px;color:#bbb;margin-left:6px">${catIcons} ${arrow}</span>`:""}
+        </div>
+        <span class="hist-rem ${remClass}">${remText}</span>
+      </div>
+      ${barHtml}${limitHtml}${detailHtml}
+    </div>`;
   });
-  document.querySelectorAll(".tab").forEach((el,i) => {
-    el.className = "tab" + (["hoy","prestamo","semana"][i]===t?" on":"");
+  document.getElementById("historialList").innerHTML = chartHtml + summaryHtml + html;
+}
+
+function setTab(t){
+  if(t==="ia") initIATab();
+  ["hoy","mover","historial","ia"].forEach(id=>{
+    document.getElementById("tab-"+id).style.display=id===t?"block":"none";
   });
-}
-
-function addExpense() {
-  const val = parseFloat(document.getElementById("expInput").value);
-  if (!val||val<=0) return;
-  const data = loadData();
-  if (!data.days) data.days = {};
-  if (!data.days[today]) data.days[today] = {expenses:[]};
-  data.days[today].expenses.push({amount:val, id:Date.now()});
-  saveData(data);
-  document.getElementById("expInput").value = "";
-  render();
-}
-
-function removeExpense(id) {
-  const data = loadData();
-  if (data.days?.[today]) {
-    data.days[today].expenses = data.days[today].expenses.filter(e=>e.id!==id);
-  }
-  saveData(data);
-  render();
-}
-
-function updateLoanPreview() {
-  const val = parseFloat(document.getElementById("loanInput").value);
-  const days = parseInt(document.getElementById("loanDays").value);
-  const el = document.getElementById("loanPreview");
-  if (val>0) {
-    el.style.display = "block";
-    el.innerHTML = `Cuota: <strong>$${fmt(Math.ceil(val/days))}</strong>/día × ${days} días`;
-  } else {
-    el.style.display = "none";
-  }
-}
-
-function addLoan() {
-  const total = parseFloat(document.getElementById("loanInput").value);
-  const loanDays = parseInt(document.getElementById("loanDays").value);
-  if (!total||total<=0) return;
-  const todayIdx = getDayIndex(today);
-  const repayDays = [];
-  for (let i=1;i<=loanDays;i++) {
-    const d = new Date(START+"T12:00:00");
-    d.setDate(d.getDate()+todayIdx+i);
-    const s = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-    if (getDayIndex(s)<DAYS) repayDays.push(s);
-  }
-  if (!repayDays.length) return;
-  const amountPerDay = Math.ceil(total/repayDays.length);
-  const data = loadData();
-  if (!data.loans) data.loans = [];
-  data.loans.push({id:Date.now(), fromDay:today, total, amountPerDay, repayDays});
-  saveData(data);
-  document.getElementById("loanInput").value = "";
-  document.getElementById("loanPreview").style.display = "none";
-  render();
-}
-
-function removeLoan(id) {
-  const data = loadData();
-  data.loans = (data.loans||[]).filter(l=>l.id!==id);
-  saveData(data);
-  render();
-}
-
-function closeDay() {
-  const data = loadData();
-  if ((data.closedDays||[]).includes(today)) return;
-  const bal = calcBalance(today, data);
-  const rem = bal?.remaining??0;
-  if (rem<=0) return;
-  const fut = allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
-  if (!fut.length) return;
-  const perDay = Math.floor(rem/fut.length);
-  if (perDay<=0) return;
-  if (!data.surpluses) data.surpluses = [];
-  data.surpluses.push({id:Date.now(), fromDay:today, total:rem, perDay, days:fut});
-  if (!data.closedDays) data.closedDays = [];
-  data.closedDays.push(today);
-  saveData(data);
-  render();
+  document.querySelectorAll(".tab").forEach((el,i)=>{
+    el.className="tab"+(["hoy","mover","historial","ia"][i]===t?" on":"");
+  });
 }
 
 render();
+
+// IA functions
+let iaExpenses = [];
+
+function getKey(){ return localStorage.getItem("gastos_apikey")||""; }
+
+function saveKey(){
+  const k = document.getElementById("iaKey").value.trim();
+  if(!k||!k.startsWith("sk-ant")){
+    const el=document.getElementById("iaKeyStatus");
+    el.style.display="block"; el.textContent="Key inválida"; el.className="ia-status error"; return;
+  }
+  localStorage.setItem("gastos_apikey", k);
+  const el=document.getElementById("iaKeyStatus");
+  el.style.display="block"; el.textContent="✓ Key guardada"; el.className="ia-status";
+  setTimeout(()=>el.style.display="none", 2000);
+}
+
+function initIATab(){
+  const k = getKey();
+  if(k){ 
+    document.getElementById("iaKey").value=k;
+    document.getElementById("iaKeyCard").style.borderLeft="3px solid #2a9d3f";
+  }
+}
+
+async function callClaude(messages){
+  const key = getKey();
+  if(!key){ showIAStatus("Guardá tu API key primero", "error"); return null; }
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-api-key": key,
+      "anthropic-version":"2023-06-01",
+      "anthropic-dangerous-direct-browser-access":"true"
+    },
+    body: JSON.stringify({ model:"claude-haiku-4-5-20251001", max_tokens:1024, messages })
+  });
+  if(!response.ok){ const e=await response.json(); throw new Error(e.error?.message||response.status); }
+  return await response.json();
+}
+
+const IA_PROMPT = `Analizá esta imagen/texto y extraé todos los gastos o compras. Para cada uno devolvé un JSON array con: amount (número en pesos, sin puntos ni comas), desc (nombre corto del producto o comercio), cat (una de: comida, transporte, super, salud, ocio, ropa, servicios, otro).
+Devolvé SOLO el JSON array, sin texto, sin markdown. Ejemplo:
+[{"amount":1500,"desc":"Milanesa","cat":"comida"},{"amount":350,"desc":"Colectivo","cat":"transporte"}]`;
+
+async function handleTicketPhoto(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  
+  // show preview
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    document.getElementById("ticketPreview").style.display="block";
+    document.getElementById("ticketImg").src = e.target.result;
+    
+    const base64 = e.target.result.split(",")[1];
+    const mediaType = file.type || "image/jpeg";
+    
+    showIAStatus("Leyendo ticket...", "loading");
+    document.getElementById("iaResult").innerHTML="";
+    iaExpenses=[];
+    
+    try {
+      const data = await callClaude([{
+        role:"user",
+        content:[
+          { type:"image", source:{ type:"base64", media_type:mediaType, data:base64 } },
+          { type:"text", text:IA_PROMPT }
+        ]
+      }]);
+      if(!data) return;
+      parseAndShowResults(data.content[0].text);
+    } catch(e){
+      showIAStatus(`Error: ${e.message}`, "error");
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function processWithAIText(){
+  const text = document.getElementById("iaText").value.trim();
+  if(!text){ showIAStatus("Pegá texto primero", "error"); return; }
+  showIAStatus("Analizando...", "loading");
+  document.getElementById("iaResult").innerHTML="";
+  iaExpenses=[];
+  try {
+    const data = await callClaude([{ role:"user", content: IA_PROMPT + "\n\n" + text }]);
+    if(!data) return;
+    parseAndShowResults(data.content[0].text);
+  } catch(e){
+    showIAStatus(`Error: ${e.message}`, "error");
+  }
+}
+
+function parseAndShowResults(raw){
+  let parsed;
+  try {
+    parsed = JSON.parse(raw.trim());
+  } catch {
+    const match = raw.match(/\[.*?\]/s);
+    if(match) parsed = JSON.parse(match[0]);
+    else { showIAStatus("No se pudieron leer los datos", "error"); return; }
+  }
+  iaExpenses = parsed;
+  showIAStatus("", "");
+  renderIAResult(parsed);
+}
+
+function showIAStatus(msg, type){
+  const el = document.getElementById("iaStatus");
+  if(!msg){ el.style.display="none"; return; }
+  el.style.display="block"; el.textContent=msg; el.className="ia-status "+type;
+}
+
+function renderIAResult(expenses){
+  if(!expenses.length){ showIAStatus("No se encontraron gastos", "error"); return; }
+  let html=`<div style="font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">${expenses.length} gastos detectados</div>`;
+  expenses.forEach(e=>{
+    const cat=getCat(e.cat||"otro");
+    html+=`<div class="ia-exp-item">
+      <div class="ia-exp-left">
+        <div class="ia-exp-desc">${cat.icon} ${e.desc}</div>
+        <div class="ia-exp-meta">${cat.label}</div>
+      </div>
+      <span class="ia-exp-amt">$${fmt(e.amount)}</span>
+    </div>`;
+  });
+  html+=`<button class="btn-dark" style="margin-top:8px" onclick="importIAExpenses()">↓ Importar al día de hoy</button>`;
+  document.getElementById("iaResult").innerHTML=html;
+}
+
+function importIAExpenses(){
+  if(!iaExpenses.length) return;
+  const count = iaExpenses.length;
+  const data = load();
+  if(!data.days) data.days={};
+  if(!data.days[today]) data.days[today]={expenses:[]};
+  iaExpenses.forEach(e=>{
+    data.days[today].expenses.push({ amount:e.amount, desc:e.desc, cat:e.cat||"otro", id:Date.now()+Math.random() });
+  });
+  save(data);
+  document.getElementById("iaText").value="";
+  document.getElementById("iaResult").innerHTML="";
+  document.getElementById("ticketPreview").style.display="none";
+  iaExpenses=[];
+  showIAStatus("", "");
+  setTab("hoy");
+  render();
+}
+
 </script>
 </body>
 </html>
