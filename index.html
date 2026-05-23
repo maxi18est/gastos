@@ -254,7 +254,7 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
       <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">
         Sacá una foto al ticket o elegí una imagen de la galería y Claude va a leer los datos automáticamente.
       </div>
-      <input type="file" id="ticketFile" accept="image/*" capture="environment" style="display:none" onchange="handleTicketPhoto(event)">
+      <input type="file" id="ticketFile" accept="image/*" style="display:none" onchange="handleTicketPhoto(event)">
       <button class="btn-blue" onclick="document.getElementById('ticketFile').click()">📷 Sacar foto / elegir imagen</button>
       <div id="ticketPreview" style="margin-top:10px;display:none">
         <img id="ticketImg" style="width:100%;max-height:200px;object-fit:contain;background:#f0ede6;display:block">
