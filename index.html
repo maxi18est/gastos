@@ -341,13 +341,12 @@ function calcBalance(dateStr,data){
   const cfg=loadConfig();
   const idx=getDayIndex(dateStr);
   if(idx<0||idx>=cfg.days) return null;
-  // Si hay rebalance activo para este día, el límite es simplemente perDay, sin sumar nada más
-  if(data.rebalance && getDayIndex(dateStr)>=data.rebalance.fromIdx){
+  // Si hay rebalance activo, ignorar TODO (loans, surpluses) y usar perDay limpio
+  if(data.rebalance && idx>=data.rebalance.fromIdx){
     const available=data.rebalance.perDay;
     const spent=(data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
     return {available,spent,remaining:available-spent};
   }
-  // Sin rebalance: límite base + préstamos + sobrantes
   let available=cfg.daily;
   (data.loans||[]).forEach(l=>{
     if(l.repayDays?.includes(dateStr)) available-=l.amountPerDay;
@@ -393,12 +392,9 @@ function rebalance(){
   const todayIdx=getDayIndex(today);
   const futureDays=allDays.filter(d=>getDayIndex(d)>=todayIdx);
   if(!futureDays.length) return;
-  // Calcular lo gastado real en días pasados solamente
-  const pastSpent=allDays.filter(d=>getDayIndex(d)<todayIdx)
-    .reduce((s,d)=>(data.days?.[d]?.expenses||[]).reduce((ss,e)=>ss+e.amount,s),0);
-  // Lo gastado hoy también se resta
-  const todaySpent=(data.days?.[today]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
-  const totalSpent=pastSpent+todaySpent;
+  // Sumar TODOS los gastos reales (pasados + hoy), ignorar loans/surpluses
+  const totalSpent=allDays.reduce((s,d)=>
+    (data.days?.[d]?.expenses||[]).reduce((ss,e)=>ss+e.amount,s),0);
   const remaining=cfg.total-totalSpent;
   const perDay=Math.floor(remaining/futureDays.length);
   // Limpiar todo y setear límite limpio
@@ -741,8 +737,12 @@ function render(){
   else{statusEl.textContent=`te quedan $${fmt(todayRem)}`;statusEl.className="dc-status";cardEl.className="day-card";}
 
   let extHtml="";
-  (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{ extHtml+=`<div class="dc-extra minus">− $${fmt(l.amountPerDay)} cuota préstamo</div>`; });
-  (data.surpluses||[]).filter(s=>s.days?.includes(today)).forEach(s=>{ extHtml+=`<div class="dc-extra plus">+ $${fmt(s.perDay)} sobrante del ${dayLbl(s.fromDay)}</div>`; });
+  if(!data.rebalance){
+    (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{ extHtml+=`<div class="dc-extra minus">− $${fmt(l.amountPerDay)} cuota préstamo</div>`; });
+    (data.surpluses||[]).filter(s=>s.days?.includes(today)).forEach(s=>{ extHtml+=`<div class="dc-extra plus">+ $${fmt(s.perDay)} sobrante del ${dayLbl(s.fromDay)}</div>`; });
+  } else {
+    extHtml=`<div class="dc-extra plus">Límite nivelado: $${fmt(data.rebalance.perDay)}/día</div>`;
+  }
   document.getElementById("dcExtras").innerHTML=extHtml?`<div class="dc-extras">${extHtml}</div>`:"";
 
   const expenses=data.days?.[today]?.expenses||[];
