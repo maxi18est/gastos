@@ -11,11 +11,10 @@
 * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
 body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:60px; min-height:100vh; }
 .header { background:#111; color:#f5f0e8; padding:52px 20px 0; }
-.header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; }
 .lbl { font-size:11px; letter-spacing:0.15em; color:#888; text-transform:uppercase; }
-.big { font-size:28px; font-weight:bold; letter-spacing:-0.02em; }
+.big { font-size:28px; font-weight:bold; letter-spacing:-0.02em; margin-bottom:2px; }
 .big span { font-size:13px; color:#666; font-weight:normal; margin-left:6px; }
-.insight { font-size:12px; margin:6px 0 4px; min-height:18px; }
+.insight { font-size:12px; margin:4px 0; min-height:18px; }
 .insight.ok { color:#b8f060; }
 .insight.warn { color:#ffcc44; }
 .insight.bad { color:#ff6b6b; }
@@ -23,27 +22,24 @@ body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:6
 .track.dark { background:#2a2a2a; }
 .fill { height:100%; border-radius:2px; transition:width 0.5s; }
 .small { font-size:10px; color:#555; margin-bottom:12px; }
-.hdr-btns { display:flex; gap:6px; margin-top:2px; }
-.hdr-btn { background:none; border:1px solid #444; color:#aaa; font-family:inherit; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:5px 10px; cursor:pointer; }
-.hdr-btn:active { background:#333; }
-.tabs { display:flex; border-top:1px solid #222; margin-top:12px; }
+.tabs { display:flex; border-top:1px solid #222; margin-top:10px; }
 .tab { background:none; border:none; font-family:inherit; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:11px 0; color:#666; cursor:pointer; border-bottom:2px solid transparent; flex:1; text-align:center; }
 .tab.on { color:#f5f0e8; border-bottom:2px solid #f5f0e8; }
 .content { padding:16px; }
+
+/* DAY CARD */
 .day-card { background:#fff; padding:16px; margin-bottom:16px; border-left:3px solid #111; }
 .day-card.over { border-left-color:#ff6b6b; }
-.day-card.closed { border-left-color:#2a9d3f; }
 .dc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
 .dc-label { font-size:11px; color:#999; text-transform:uppercase; letter-spacing:0.08em; }
 .dc-limit { font-size:11px; color:#bbb; }
 .dc-amount { font-size:32px; font-weight:bold; letter-spacing:-0.02em; line-height:1; }
 .dc-status { font-size:13px; color:#888; margin-top:3px; }
 .dc-status.red { color:#ff6b6b; }
-.dc-status.green { color:#2a9d3f; }
 .dc-extras { margin-top:8px; padding-top:8px; border-top:1px solid #f0ede6; }
-.dc-extra { font-size:11px; margin:2px 0; }
-.dc-extra.minus { color:#cc6600; }
-.dc-extra.plus { color:#2a9d3f; }
+.dc-extra { font-size:11px; margin:2px 0; color:#cc6600; }
+
+/* QUICK ADD */
 .quick-add { background:#fff; padding:14px; margin-bottom:16px; }
 .qa-inp { background:#f5f0e8; border:none; font-family:inherit; font-size:18px; padding:10px 12px; width:100%; outline:none; -webkit-appearance:none; display:block; margin-bottom:8px; }
 .qa-inp:focus { background:#ede8df; }
@@ -51,7 +47,9 @@ body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:6
 .cat-btn { background:#f5f0e8; border:none; font-size:18px; padding:10px 0; cursor:pointer; border-radius:4px; }
 .cat-btn.sel { background:#111; }
 .qa-submit { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:13px; width:100%; cursor:pointer; }
-.exp-list-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; margin-top:4px; }
+
+/* EXPENSE LIST */
+.exp-list-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; }
 .exp-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #ede8df; }
 .exp-row:last-child { border-bottom:none; }
 .exp-left { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
@@ -62,25 +60,27 @@ body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:6
 .exp-right { display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .exp-amt { font-size:14px; font-weight:bold; }
 .del { background:none; border:none; color:#ccc; font-size:15px; cursor:pointer; padding:3px 6px; }
+
+/* EDIT MODAL */
 .edit-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; align-items:flex-end; }
 .edit-overlay.open { display:flex; }
 .edit-modal { background:#f5f0e8; padding:20px 20px 40px; width:100%; }
 .edit-title { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#999; margin-bottom:14px; }
-.surplus-box { background:#f0faf2; padding:14px; border-left:3px solid #2a9d3f; margin-top:16px; }
-.surplus-amt { font-size:22px; font-weight:bold; color:#2a9d3f; }
-.surplus-sub { font-size:12px; color:#666; margin:3px 0 10px; }
-.btn-green { background:#2a9d3f; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; }
-.btn-dark { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-top:8px; }
-.btn-outline { background:transparent; color:#111; border:1.5px solid #111; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:11px; width:100%; cursor:pointer; margin-top:8px; }
-.mover-card { background:#fff; padding:14px; margin-bottom:12px; }
+
+/* MOVER */
+.card { background:#fff; padding:14px; margin-bottom:12px; }
 .sec-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
 .inp { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
 .inp:focus { background:#ede8df; }
 select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
+.btn-dark { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-top:4px; }
+.btn-outline { background:transparent; color:#111; border:1.5px solid #111; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:11px; width:100%; cursor:pointer; margin-top:8px; }
 .preview { font-size:12px; color:#666; padding:10px; background:#f8f5ee; margin-bottom:8px; }
 .move-item { background:#fff; padding:12px; margin-bottom:8px; }
 .move-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
 .tag { display:inline-block; font-size:9px; padding:2px 5px; border:1px solid #ccc; margin:3px 3px 0 0; }
+
+/* HISTORIAL */
 .hist-day { padding:12px; margin-bottom:4px; border-left:3px solid transparent; cursor:pointer; }
 .hist-day.today { background:#fff; border-left-color:#111; }
 .hist-day.past { opacity:0.7; }
@@ -89,13 +89,14 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
 .hist-name.today { color:#111; font-weight:bold; }
 .hist-rem { font-size:13px; }
 .hist-rem.red { color:#ff6b6b; }
-.hist-rem.green { color:#2a9d3f; }
 .hist-detail { display:none; padding-top:10px; border-top:1px solid #ede8df; margin-top:8px; }
 .hist-detail.open { display:block; }
 .hist-exp { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f0e8; font-size:12px; }
 .hist-exp:last-child { border-bottom:none; }
 .badge { font-size:9px; padding:1px 5px; margin-left:4px; }
-.chart-wrap { padding:16px 0 8px; }
+
+/* CHART */
+.chart-wrap { padding:8px 0 8px; }
 .chart-bars { display:flex; align-items:flex-end; gap:3px; height:80px; }
 .chart-col { display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; cursor:pointer; }
 .chart-bar-wrap { display:flex; flex-direction:column; justify-content:flex-end; width:100%; height:70px; position:relative; }
@@ -103,15 +104,14 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
 .chart-seg { width:100%; }
 .chart-day-lbl { font-size:8px; color:#aaa; text-align:center; margin-top:2px; }
 .chart-over { position:absolute; top:-8px; left:50%; transform:translateX(-50%); font-size:8px; color:#ff6b6b; }
-.chart-legend { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:10px; }
+.chart-legend { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:8px; }
 .chart-leg-item { display:flex; align-items:center; gap:4px; font-size:10px; color:#888; }
 .chart-leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .cat-summary { background:#fff; padding:14px; margin-bottom:16px; }
 .cat-row-sum { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #f0ede6; }
 .cat-row-sum:last-child { border-bottom:none; }
-.period-summary { background:#111; color:#f5f0e8; padding:16px; margin-bottom:16px; }
-.ps-row { display:flex; justify-content:space-between; padding:5px 0; font-size:13px; border-bottom:1px solid #222; }
-.ps-row:last-child { border-bottom:none; }
+
+/* IA */
 .ia-card { background:#fff; padding:16px; margin-bottom:12px; }
 .ia-title { font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px; }
 .ia-textarea { background:#f5f0e8; border:none; font-family:'Courier New',monospace; font-size:13px; padding:12px; width:100%; outline:none; min-height:100px; resize:none; display:block; margin-bottom:8px; }
@@ -127,6 +127,8 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
 .ia-status.loading { color:#54a0ff; }
 .ia-status.error { color:#ff6b6b; }
 .btn-blue { background:#54a0ff; color:#fff; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-bottom:8px; }
+
+/* CONFIG */
 .cfg-card { background:#fff; padding:16px; margin-bottom:12px; }
 .cfg-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0ede6; }
 .cfg-row:last-child { border-bottom:none; }
@@ -134,20 +136,15 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
 .cfg-sub { font-size:10px; color:#aaa; margin-top:2px; }
 .cfg-inp { background:#f5f0e8; border:none; font-family:inherit; font-size:14px; padding:8px 10px; width:140px; outline:none; text-align:right; -webkit-appearance:none; }
 .danger-zone { background:#fff3f3; padding:14px; margin-bottom:12px; border-left:3px solid #ff6b6b; }
+.ps-row { display:flex; justify-content:space-between; padding:8px 0; font-size:13px; border-bottom:1px solid #f0ede6; }
+.ps-row:last-child { border-bottom:none; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-top">
-    <div>
-      <div class="lbl">Gastos</div>
-      <div class="big" id="totalRestantes">— <span>restantes</span></div>
-    </div>
-    <div class="hdr-btns">
-      <button class="hdr-btn" onclick="rebalance()">⇄ Nivelar</button>
-    </div>
-  </div>
+  <div class="lbl">Gastos</div>
+  <div class="big" id="totalRestantes">— <span>restantes</span></div>
   <div class="insight" id="insight"></div>
   <div class="track dark"><div class="fill" id="totalBar" style="width:0%"></div></div>
   <div class="small" id="totalSub"></div>
@@ -181,20 +178,24 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
       <button class="qa-submit" onclick="addExpense()">+ Registrar</button>
     </div>
     <div id="expenseList"></div>
-    <div id="surplusBox"></div>
   </div>
 
   <!-- MOVER -->
   <div id="tab-mover" style="display:none">
-    <div class="mover-card">
-      <div class="sec-title">Mover plata entre días</div>
-      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Si hoy te quedaste corto, tomá prestado de los próximos días.</div>
+    <div class="card">
+      <div class="sec-title">Préstamo entre días</div>
+      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Adelantá plata de días futuros. El monto se descuenta en cuotas.</div>
       <input class="inp" type="number" id="loanInput" placeholder="¿Cuánto necesitás? $" oninput="updateLoanPreview()">
       <select id="loanDays" onchange="updateLoanPreview()">
         <option value="2">Devolver en 2 días</option>
         <option value="3" selected>Devolver en 3 días</option>
         <option value="4">Devolver en 4 días</option>
         <option value="5">Devolver en 5 días</option>
+        <option value="7">Devolver en 7 días</option>
+        <option value="10">Devolver en 10 días</option>
+        <option value="15">Devolver en 15 días</option>
+        <option value="20">Devolver en 20 días</option>
+        <option value="30">Devolver en 30 días</option>
       </select>
       <div class="preview" id="loanPreview" style="display:none"></div>
       <button class="btn-dark" onclick="addLoan()">Tomar préstamo</button>
@@ -239,9 +240,9 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
   <!-- CONFIG -->
   <div id="tab-config" style="display:none">
     <div class="cfg-card">
-      <div class="sec-title">Período actual</div>
+      <div class="sec-title">Configuración del período</div>
       <div class="cfg-row">
-        <div><div class="cfg-label">Presupuesto total</div><div class="cfg-sub">Total para el período</div></div>
+        <div><div class="cfg-label">Presupuesto total</div><div class="cfg-sub">Total disponible</div></div>
         <input class="cfg-inp" type="number" id="cfgTotal" placeholder="550000">
       </div>
       <div class="cfg-row">
@@ -249,11 +250,11 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
         <input class="cfg-inp" type="number" id="cfgDaily" placeholder="37000">
       </div>
       <div class="cfg-row">
-        <div><div class="cfg-label">Fecha de inicio</div><div class="cfg-sub">Primer día del período</div></div>
+        <div><div class="cfg-label">Fecha de inicio</div><div class="cfg-sub">Primer día</div></div>
         <input class="cfg-inp" type="date" id="cfgStart">
       </div>
       <div class="cfg-row">
-        <div><div class="cfg-label">Cantidad de días</div><div class="cfg-sub">Duración del período</div></div>
+        <div><div class="cfg-label">Cantidad de días</div><div class="cfg-sub">Duración</div></div>
         <input class="cfg-inp" type="number" id="cfgDays" placeholder="15">
       </div>
       <button class="btn-dark" onclick="saveConfig()" style="margin-top:12px">Guardar configuración</button>
@@ -266,15 +267,15 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
     </div>
 
     <div class="danger-zone">
-      <div class="sec-title" style="color:#ff6b6b">Zona de peligro</div>
-      <div style="font-size:12px;color:#888;margin-bottom:12px">Borrar todos los gastos y empezar de cero. No se puede deshacer.</div>
+      <div class="sec-title" style="color:#ff6b6b;margin-bottom:8px">Zona de peligro</div>
+      <div style="font-size:12px;color:#888;margin-bottom:12px">Borra todos los gastos. No se puede deshacer.</div>
       <button class="btn-dark" style="background:#ff6b6b" onclick="resetAll()">🗑 Borrar todo y empezar de cero</button>
     </div>
   </div>
 
 </div>
 
-<!-- Edit expense modal -->
+<!-- Edit modal -->
 <div class="edit-overlay" id="editOverlay" onclick="closeEditModal(event)">
   <div class="edit-modal">
     <div class="edit-title">Editar gasto</div>
@@ -287,9 +288,7 @@ select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; p
 </div>
 
 <script>
-// ── DEFAULT CONFIG ──
-const DEFAULT_CONFIG = { total:550000, daily:37000, start:"2026-05-14", days:15 };
-
+const DEFAULT_CFG = {total:550000, daily:37000, start:"2026-05-14", days:15};
 const CATS = [
   {id:"comida",icon:"🍔",label:"Comida",color:"#ff9f43"},
   {id:"transporte",icon:"🚌",label:"Transporte",color:"#54a0ff"},
@@ -300,123 +299,90 @@ const CATS = [
   {id:"servicios",icon:"💡",label:"Servicios",color:"#48dbfb"},
   {id:"otro",icon:"📦",label:"Otro",color:"#c8d6e5"},
 ];
-
 const fmt = n => new Intl.NumberFormat("es-AR",{maximumFractionDigits:0}).format(Math.abs(n));
 const getCat = id => CATS.find(c=>c.id===id)||CATS[7];
 
-function loadConfig(){
-  try{ return {...DEFAULT_CONFIG, ...JSON.parse(localStorage.getItem("gastos_config")||"{}")}; }
-  catch{ return {...DEFAULT_CONFIG}; }
-}
-function saveConfigData(cfg){ localStorage.setItem("gastos_config", JSON.stringify(cfg)); }
-function load(){ try{return JSON.parse(localStorage.getItem("gastos_data")||"{}");}catch{return{};} }
-function save(d){ localStorage.setItem("gastos_data",JSON.stringify(d)); }
+function loadCfg(){ try{return {...DEFAULT_CFG,...JSON.parse(localStorage.getItem("gastos_cfg")||"{}")}}catch{return{...DEFAULT_CFG}} }
+function saveCfg(c){ localStorage.setItem("gastos_cfg",JSON.stringify(c)); }
+function loadData(){ try{return JSON.parse(localStorage.getItem("gastos_data")||"{}")}catch{return{}} }
+function saveData(d){ localStorage.setItem("gastos_data",JSON.stringify(d)); }
 
 function getAllDays(){
-  const cfg = loadConfig();
+  const cfg=loadCfg();
   return Array.from({length:cfg.days},(_,i)=>{
-    const d = new Date(cfg.start+"T12:00:00");
+    const d=new Date(cfg.start+"T12:00:00");
     d.setDate(d.getDate()+i);
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   });
 }
 
 function getDayIndex(s){
-  const cfg = loadConfig();
+  const cfg=loadCfg();
   return Math.round((new Date(s+"T12:00:00")-new Date(cfg.start+"T12:00:00"))/86400000);
 }
 
-const todayStr = ()=>{
+const todayStr=()=>{
   const d=new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 };
-const today = todayStr();
+const today=todayStr();
 
-const dayLbl = s=>{
+const dayLbl=s=>{
   const [y,m,d]=s.split("-").map(Number);
   return new Date(y,m-1,d).toLocaleDateString("es-AR",{weekday:"short",day:"numeric",month:"short"});
 };
 
-function calcBalance(dateStr,data){
-  const cfg=loadConfig();
+// Balance limpio: límite diario + ajustes de préstamos únicamente
+function calcBalance(dateStr, data){
+  const cfg=loadCfg();
   const idx=getDayIndex(dateStr);
   if(idx<0||idx>=cfg.days) return null;
-  // Si hay rebalance activo, ignorar TODO (loans, surpluses) y usar perDay limpio
-  if(data.rebalance && idx>=data.rebalance.fromIdx){
-    const available=data.rebalance.perDay;
-    const spent=(data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
-    return {available,spent,remaining:available-spent};
-  }
   let available=cfg.daily;
   (data.loans||[]).forEach(l=>{
     if(l.repayDays?.includes(dateStr)) available-=l.amountPerDay;
     if(l.fromDay===dateStr) available+=l.total;
   });
-  (data.surpluses||[]).forEach(s=>{
-    if(s.days?.includes(dateStr)) available+=s.perDay;
-  });
   const spent=(data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
-  return {available,spent,remaining:available-spent};
+  return {available, spent, remaining:available-spent};
 }
 
-function autoClosePastDays(data){
-  // Si hay rebalance activo, no hacer cierre automático (el límite ya está nivelado)
-  if(data.rebalance) return data;
-  const allDays=getAllDays();
-  const todayIdx=getDayIndex(today);
-  let changed=false;
-  allDays.forEach(d=>{
-    const idx=getDayIndex(d);
-    if(idx>=todayIdx) return;
-    if((data.closedDays||[]).includes(d)) return;
-    const bal=calcBalance(d,data);
-    if(!bal||bal.remaining<=0) return;
-    const fut=allDays.filter(f=>getDayIndex(f)>idx);
-    if(!fut.length) return;
-    const perDay=Math.floor(bal.remaining/fut.length);
-    if(perDay<=0) return;
-    if(!data.surpluses) data.surpluses=[];
-    data.surpluses.push({id:Date.now()+idx,fromDay:d,total:bal.remaining,perDay,days:fut});
-    if(!data.closedDays) data.closedDays=[];
-    data.closedDays.push(d);
-    changed=true;
-  });
-  if(changed) save(data);
-  return data;
+let selCat="otro";
+function buildCatRow(id, sel, fn){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.innerHTML=CATS.map(c=>`<button class="cat-btn ${sel===c.id?"sel":""}" onclick="(${fn.toString()})('${c.id}')" title="${c.label}">${c.icon}</button>`).join("");
 }
+function selectCat(id){ selCat=id; buildCatRow("catRow",selCat,selectCat); }
 
-function rebalance(){
-  const cfg=loadConfig();
-  const data=load();
-  const allDays=getAllDays();
-  const todayIdx=getDayIndex(today);
-  const futureDays=allDays.filter(d=>getDayIndex(d)>=todayIdx);
-  if(!futureDays.length) return;
-  // Sumar TODOS los gastos reales (pasados + hoy), ignorar loans/surpluses
-  const totalSpent=allDays.reduce((s,d)=>
-    (data.days?.[d]?.expenses||[]).reduce((ss,e)=>ss+e.amount,s),0);
-  const remaining=cfg.total-totalSpent;
-  const perDay=Math.floor(remaining/futureDays.length);
-  // Limpiar todo y setear límite limpio
-  data.rebalance={fromIdx:todayIdx,perDay,setAt:today};
-  data.loans=[]; data.surpluses=[]; data.closedDays=[];
-  save(data);
+function addExpense(){
+  const val=parseFloat(document.getElementById("expAmount").value);
+  if(!val||val<=0) return;
+  const desc=document.getElementById("expDesc").value.trim()||getCat(selCat).label;
+  const data=loadData();
+  if(!data.days) data.days={};
+  if(!data.days[today]) data.days[today]={expenses:[]};
+  data.days[today].expenses.push({amount:val,desc,cat:selCat,id:Date.now()});
+  saveData(data);
+  document.getElementById("expAmount").value="";
+  document.getElementById("expDesc").value="";
   render();
-  const btn=document.querySelector('.hdr-btn');
-  btn.textContent=`✓ $${fmt(perDay)}/día`;
-  setTimeout(()=>btn.textContent="⇄ Nivelar",3000);
 }
 
-// ── EDIT ──
+function removeExpense(id){
+  const data=loadData();
+  if(data.days?.[today]) data.days[today].expenses=data.days[today].expenses.filter(e=>e.id!==id);
+  saveData(data); render();
+}
+
 let editingId=null, editCat="otro";
 function openEdit(id){
-  const data=load();
+  const data=loadData();
   const exp=(data.days?.[today]?.expenses||[]).find(e=>e.id===id);
   if(!exp) return;
   editingId=id; editCat=exp.cat||"otro";
   document.getElementById("editAmount").value=exp.amount;
   document.getElementById("editDesc").value=exp.desc;
-  buildCatRow("editCatRow", editCat, c=>{ editCat=c; buildCatRow("editCatRow",editCat,arguments.callee); });
+  buildCatRow("editCatRow",editCat,c=>{ editCat=c; buildCatRow("editCatRow",editCat,arguments.callee); });
   document.getElementById("editOverlay").classList.add("open");
 }
 function closeEditModal(e){
@@ -427,45 +393,14 @@ function saveEdit(){
   const val=parseFloat(document.getElementById("editAmount").value);
   const desc=document.getElementById("editDesc").value.trim();
   if(!val||val<=0) return;
-  const data=load();
+  const data=loadData();
   if(data.days?.[today]){
     const idx=data.days[today].expenses.findIndex(e=>e.id===editingId);
-    if(idx>=0){ data.days[today].expenses[idx]={...data.days[today].expenses[idx],amount:val,desc:desc||getCat(editCat).label,cat:editCat}; }
+    if(idx>=0) data.days[today].expenses[idx]={...data.days[today].expenses[idx],amount:val,desc:desc||getCat(editCat).label,cat:editCat};
   }
-  save(data);
+  saveData(data);
   document.getElementById("editOverlay").classList.remove("open");
   render();
-}
-
-let selCat="otro";
-function buildCatRow(containerId, selected, onSelect){
-  const row=document.getElementById(containerId);
-  if(!row) return;
-  row.innerHTML=CATS.map(c=>
-    `<button class="cat-btn ${selected===c.id?"sel":""}" onclick="(${onSelect.toString()})('${c.id}')" title="${c.label}">${c.icon}</button>`
-  ).join("");
-}
-
-function selectCat(id){ selCat=id; buildCatRow("catRow",selCat,selectCat); }
-
-function addExpense(){
-  const val=parseFloat(document.getElementById("expAmount").value);
-  if(!val||val<=0) return;
-  const desc=document.getElementById("expDesc").value.trim()||getCat(selCat).label;
-  const data=load();
-  if(!data.days) data.days={};
-  if(!data.days[today]) data.days[today]={expenses:[]};
-  data.days[today].expenses.push({amount:val,desc,cat:selCat,id:Date.now()});
-  save(data);
-  document.getElementById("expAmount").value="";
-  document.getElementById("expDesc").value="";
-  render();
-}
-
-function removeExpense(id){
-  const data=load();
-  if(data.days?.[today]) data.days[today].expenses=data.days[today].expenses.filter(e=>e.id!==id);
-  save(data); render();
 }
 
 function updateLoanPreview(){
@@ -477,7 +412,7 @@ function updateLoanPreview(){
 }
 
 function addLoan(){
-  const cfg=loadConfig();
+  const cfg=loadCfg();
   const total=parseFloat(document.getElementById("loanInput").value);
   const loanDays=parseInt(document.getElementById("loanDays").value);
   if(!total||total<=0) return;
@@ -490,72 +425,52 @@ function addLoan(){
     const s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     if(getDayIndex(s)<cfg.days) repayDays.push(s);
   }
-  if(!repayDays.length) return;
+  if(!repayDays.length){ alert("No hay días suficientes en el período para devolver."); return; }
   const amountPerDay=Math.ceil(total/repayDays.length);
-  const data=load();
+  const data=loadData();
   if(!data.loans) data.loans=[];
   data.loans.push({id:Date.now(),fromDay:today,total,amountPerDay,repayDays});
-  save(data);
+  saveData(data);
   document.getElementById("loanInput").value="";
   document.getElementById("loanPreview").style.display="none";
   render();
 }
 
 function removeLoan(id){
-  const data=load();
+  const data=loadData();
   data.loans=(data.loans||[]).filter(l=>l.id!==id);
-  save(data); render();
+  saveData(data); render();
 }
 
-function closeDay(){
-  const allDays=getAllDays();
-  const data=load();
-  if((data.closedDays||[]).includes(today)) return;
-  const bal=calcBalance(today,data);
-  const rem=bal?.remaining??0;
-  if(rem<=0) return;
-  const fut=allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
-  if(!fut.length) return;
-  const perDay=Math.floor(rem/fut.length);
-  if(perDay<=0) return;
-  if(!data.surpluses) data.surpluses=[];
-  data.surpluses.push({id:Date.now(),fromDay:today,total:rem,perDay,days:fut});
-  if(!data.closedDays) data.closedDays=[];
-  data.closedDays.push(today);
-  save(data); render();
-}
-
-// ── CONFIG ──
+// CONFIG
 function saveConfig(){
   const cfg={
-    total:parseFloat(document.getElementById("cfgTotal").value)||DEFAULT_CONFIG.total,
-    daily:parseFloat(document.getElementById("cfgDaily").value)||DEFAULT_CONFIG.daily,
-    start:document.getElementById("cfgStart").value||DEFAULT_CONFIG.start,
-    days:parseInt(document.getElementById("cfgDays").value)||DEFAULT_CONFIG.days,
+    total:parseFloat(document.getElementById("cfgTotal").value)||DEFAULT_CFG.total,
+    daily:parseFloat(document.getElementById("cfgDaily").value)||DEFAULT_CFG.daily,
+    start:document.getElementById("cfgStart").value||DEFAULT_CFG.start,
+    days:parseInt(document.getElementById("cfgDays").value)||DEFAULT_CFG.days,
   };
-  saveConfigData(cfg);
+  saveCfg(cfg);
   const el=document.getElementById("cfgStatus");
   el.style.display="block";
   setTimeout(()=>el.style.display="none",2000);
   render();
 }
-
 function resetAll(){
   if(!confirm("¿Seguro? Se borran todos los gastos.")) return;
   localStorage.removeItem("gastos_data");
   render();
 }
-
 function initConfig(){
-  const cfg=loadConfig();
+  const cfg=loadCfg();
   document.getElementById("cfgTotal").value=cfg.total;
   document.getElementById("cfgDaily").value=cfg.daily;
   document.getElementById("cfgStart").value=cfg.start;
   document.getElementById("cfgDays").value=cfg.days;
 }
 
-// ── IA ──
-let iaExpenses=[], editingIAIdx=null;
+// IA
+let iaExpenses=[];
 function getKey(){ return localStorage.getItem("gastos_apikey")||""; }
 function saveKey(){
   const k=document.getElementById("iaKey").value.trim();
@@ -584,10 +499,7 @@ async function callClaude(messages){
   if(!response.ok){ const e=await response.json(); throw new Error(e.error?.message||response.status); }
   return await response.json();
 }
-const IA_PROMPT=`Analizá esta imagen/texto y extraé todos los gastos o compras. Para cada uno devolvé un JSON array con: amount (número en pesos sin puntos ni comas), desc (nombre corto del producto o comercio), cat (una de: comida, transporte, super, salud, ocio, ropa, servicios, otro).
-Devolvé SOLO el JSON array sin texto ni markdown. Ejemplo:
-[{"amount":1500,"desc":"Milanesa","cat":"comida"},{"amount":350,"desc":"Colectivo","cat":"transporte"}]`;
-
+const IA_PROMPT=`Analizá esta imagen/texto y extraé todos los gastos. Para cada uno devolvé un JSON array con: amount (número en pesos sin puntos ni comas), desc (nombre corto del comercio o producto), cat (una de: comida, transporte, super, salud, ocio, ropa, servicios, otro). Devolvé SOLO el JSON array sin texto ni markdown.`;
 function compressImage(dataUrl,maxSize,quality){
   return new Promise(resolve=>{
     const img=new Image();
@@ -602,7 +514,6 @@ function compressImage(dataUrl,maxSize,quality){
     img.src=dataUrl;
   });
 }
-
 async function handleTicketPhoto(event){
   const file=event.target.files[0];
   if(!file) return;
@@ -625,7 +536,6 @@ async function handleTicketPhoto(event){
   };
   reader.readAsDataURL(file);
 }
-
 async function processWithAIText(){
   const text=document.getElementById("iaText").value.trim();
   if(!text){ showIAStatus("Pegá texto primero","error"); return; }
@@ -637,7 +547,6 @@ async function processWithAIText(){
     parseAndShowResults(data.content[0].text);
   }catch(e){ showIAStatus(`Error: ${e.message}`,"error"); }
 }
-
 function parseAndShowResults(raw){
   let parsed;
   try{ parsed=JSON.parse(raw.trim()); }
@@ -654,13 +563,7 @@ function renderIAResult(expenses){
   let html=`<div style="font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">${expenses.length} gastos detectados — tocá para editar</div>`;
   expenses.forEach((e,i)=>{
     const cat=getCat(e.cat||"otro");
-    html+=`<div class="ia-exp-item" onclick="editIAExpense(${i})">
-      <div class="ia-exp-left">
-        <div class="ia-exp-desc">${cat.icon} ${e.desc}</div>
-        <div class="ia-exp-meta">${cat.label}</div>
-      </div>
-      <span class="ia-exp-amt">$${fmt(e.amount)}</span>
-    </div>`;
+    html+=`<div class="ia-exp-item" onclick="editIAExpense(${i})"><div class="ia-exp-left"><div class="ia-exp-desc">${cat.icon} ${e.desc}</div><div class="ia-exp-meta">${cat.label}</div></div><span class="ia-exp-amt">$${fmt(e.amount)}</span></div>`;
   });
   html+=`<button class="btn-dark" style="margin-top:8px" onclick="importIAExpenses()">↓ Importar al día de hoy</button>`;
   document.getElementById("iaResult").innerHTML=html;
@@ -676,11 +579,11 @@ function editIAExpense(i){
 }
 function importIAExpenses(){
   if(!iaExpenses.length) return;
-  const data=load();
+  const data=loadData();
   if(!data.days) data.days={};
   if(!data.days[today]) data.days[today]={expenses:[]};
   iaExpenses.forEach(e=>{ data.days[today].expenses.push({amount:e.amount,desc:e.desc,cat:e.cat||"otro",id:Date.now()+Math.random()}); });
-  save(data);
+  saveData(data);
   document.getElementById("iaText").value="";
   document.getElementById("iaResult").innerHTML="";
   document.getElementById("ticketPreview").style.display="none";
@@ -688,22 +591,16 @@ function importIAExpenses(){
   setTab("hoy"); render();
 }
 
-// ── RENDER ──
+// RENDER
 let openHistDay=null;
 function toggleHistDay(d){ openHistDay=openHistDay===d?null:d; renderHistorial(); }
 
 function render(){
-  const cfg=loadConfig();
+  const cfg=loadCfg();
   const allDays=getAllDays();
-  let data=load();
-  data=autoClosePastDays(data);
+  const data=loadData();
 
-  const bal=calcBalance(today,data);
-  const todaySpent=bal?.spent||0;
-  const todayAvail=bal?.available||cfg.daily;
-  const todayRem=bal?.remaining??cfg.daily;
-  const isDayClosed=(data.closedDays||[]).includes(today);
-
+  // Total gastado real
   const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
   const totalRem=cfg.total-totalSpent;
   const totalPct=Math.min((totalSpent/cfg.total)*100,100);
@@ -712,39 +609,44 @@ function render(){
   const tb=document.getElementById("totalBar");
   tb.style.width=totalPct+"%";
   tb.style.background=totalPct>85?"#ff6b6b":totalPct>60?"#ffcc44":"#b8f060";
-  document.getElementById("totalSub").textContent=`$${fmt(totalSpent)} de $${fmt(cfg.total)}`;
+  document.getElementById("totalSub").textContent=`$${fmt(totalSpent)} gastado de $${fmt(cfg.total)}`;
 
+  // Insight
   const todayIdx=getDayIndex(today);
   const daysLeft=cfg.days-todayIdx;
-  const projDaily=daysLeft>0?Math.floor(totalRem/daysLeft):0;
   const ins=document.getElementById("insight");
-  if(todayRem<0){ins.textContent=`Hoy te pasaste $${fmt(todayRem)} · usá Nivelar`;ins.className="insight bad";}
-  else if(projDaily>cfg.daily){ins.textContent=`Vas bien · podés gastar $${fmt(projDaily)}/día`;ins.className="insight ok";}
-  else if(projDaily<cfg.daily*0.8){ins.textContent=`Cuidado · quedan $${fmt(projDaily)}/día promedio`;ins.className="insight warn";}
-  else{ins.textContent=`$${fmt(projDaily)}/día promedio restante`;ins.className="insight ok";}
+  if(daysLeft>0){
+    const projDaily=Math.floor(totalRem/daysLeft);
+    if(projDaily<0){ins.textContent=`Te pasaste del presupuesto total`;ins.className="insight bad";}
+    else if(projDaily<cfg.daily*0.5){ins.textContent=`Quedan $${fmt(projDaily)}/día · cuidado`;ins.className="insight warn";}
+    else if(projDaily>cfg.daily){ins.textContent=`Vas bien · $${fmt(projDaily)}/día disponible`;ins.className="insight ok";}
+    else{ins.textContent=`$${fmt(projDaily)}/día disponible`;ins.className="insight ok";}
+  } else { ins.textContent=""; }
 
+  // Day card
+  const bal=calcBalance(today,data);
+  const todaySpent=bal?.spent||0;
+  const todayAvail=bal?.available||cfg.daily;
+  const todayRem=bal?.remaining??cfg.daily;
   const pct=Math.min((todaySpent/Math.max(todayAvail,1))*100,100);
-  const db=document.getElementById("dayBar");
-  db.style.width=pct+"%";
-  db.style.background=pct>90?"#ff6b6b":pct>70?"#ffcc44":"#111";
+  document.getElementById("dayBar").style.width=pct+"%";
+  document.getElementById("dayBar").style.background=pct>90?"#ff6b6b":pct>70?"#ffcc44":"#111";
   document.getElementById("dcLabel").textContent=dayLbl(today).toUpperCase();
   document.getElementById("dcLimit").textContent=`límite $${fmt(todayAvail)}`;
   document.getElementById("dcAmount").textContent=`$${fmt(todaySpent)}`;
   const statusEl=document.getElementById("dcStatus");
   const cardEl=document.getElementById("dayCard");
-  if(isDayClosed){statusEl.textContent="✓ día cerrado";statusEl.className="dc-status green";cardEl.className="day-card closed";}
-  else if(todayRem<0){statusEl.textContent=`▲ te pasaste $${fmt(todayRem)}`;statusEl.className="dc-status red";cardEl.className="day-card over";}
-  else{statusEl.textContent=`te quedan $${fmt(todayRem)}`;statusEl.className="dc-status";cardEl.className="day-card";}
+  if(todayRem<0){ statusEl.textContent=`▲ te pasaste $${fmt(todayRem)}`; statusEl.className="dc-status red"; cardEl.className="day-card over"; }
+  else{ statusEl.textContent=`te quedan $${fmt(todayRem)}`; statusEl.className="dc-status"; cardEl.className="day-card"; }
 
+  // Loan deductions today
   let extHtml="";
-  if(!data.rebalance){
-    (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{ extHtml+=`<div class="dc-extra minus">− $${fmt(l.amountPerDay)} cuota préstamo</div>`; });
-    (data.surpluses||[]).filter(s=>s.days?.includes(today)).forEach(s=>{ extHtml+=`<div class="dc-extra plus">+ $${fmt(s.perDay)} sobrante del ${dayLbl(s.fromDay)}</div>`; });
-  } else {
-    extHtml=`<div class="dc-extra plus">Límite nivelado: $${fmt(data.rebalance.perDay)}/día</div>`;
-  }
+  (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{
+    extHtml+=`<div class="dc-extra">− $${fmt(l.amountPerDay)} cuota préstamo del ${dayLbl(l.fromDay)}</div>`;
+  });
   document.getElementById("dcExtras").innerHTML=extHtml?`<div class="dc-extras">${extHtml}</div>`:"";
 
+  // Expenses
   const expenses=data.days?.[today]?.expenses||[];
   let expHtml="";
   if(expenses.length){
@@ -752,41 +654,25 @@ function render(){
     [...expenses].reverse().forEach(e=>{
       const cat=getCat(e.cat);
       expHtml+=`<div class="exp-row">
-        <div class="exp-left">
-          <span class="exp-icon">${cat.icon}</span>
-          <div class="exp-info"><div class="exp-desc">${e.desc}</div><div class="exp-cat">${cat.label}</div></div>
-        </div>
-        <div class="exp-right">
-          <span class="exp-amt">$${fmt(e.amount)}</span>
-          <button class="del" onclick="openEdit(${e.id})" style="color:#aaa;font-size:13px">✏️</button>
-          <button class="del" onclick="removeExpense(${e.id})">✕</button>
-        </div>
+        <div class="exp-left"><span class="exp-icon">${cat.icon}</span><div class="exp-info"><div class="exp-desc">${e.desc}</div><div class="exp-cat">${cat.label}</div></div></div>
+        <div class="exp-right"><span class="exp-amt">$${fmt(e.amount)}</span><button class="del" onclick="openEdit(${e.id})" style="font-size:13px">✏️</button><button class="del" onclick="removeExpense(${e.id})">✕</button></div>
       </div>`;
     });
   }
   document.getElementById("expenseList").innerHTML=expHtml;
 
-  let surpHtml="";
-  if(!isDayClosed&&todayRem>0){
-    const fut=allDays.filter(d=>getDayIndex(d)>getDayIndex(today));
-    const pp=fut.length>0?Math.floor(todayRem/fut.length):0;
-    surpHtml=`<div class="surplus-box">
-      <div class="lbl" style="color:#2a9d3f;margin-bottom:4px">Sobrante hoy</div>
-      <div class="surplus-amt">$${fmt(todayRem)}</div>
-      ${pp>0?`<div class="surplus-sub">+$${fmt(pp)}/día en los ${fut.length} días restantes</div>`:""}
-      <button class="btn-green" onclick="closeDay()">Cerrar día y distribuir</button>
-    </div>`;
-  }
-  document.getElementById("surplusBox").innerHTML=surpHtml;
-
+  // Loans
   const loans=data.loans||[];
   let loanHtml="";
   if(loans.length){
-    loanHtml=`<div class="sec-title" style="margin-top:4px">Préstamos activos</div>`;
+    loanHtml=`<div class="sec-title" style="margin-top:4px;margin-bottom:10px">Préstamos activos</div>`;
     loans.forEach(l=>{
       const paid=l.repayDays.filter(d=>getDayIndex(d)<getDayIndex(today)).length;
       const pctL=(paid/l.repayDays.length)*100;
-      const tags=l.repayDays.map(d=>{const past=getDayIndex(d)<getDayIndex(today);return`<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}</span>`;}).join("");
+      const tags=l.repayDays.map(d=>{
+        const past=getDayIndex(d)<getDayIndex(today);
+        return `<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}</span>`;
+      }).join("");
       loanHtml+=`<div class="move-item">
         <div class="move-top"><span style="font-size:13px">Del ${dayLbl(l.fromDay)}</span><button class="del" onclick="removeLoan(${l.id})">✕</button></div>
         <div style="font-size:20px;font-weight:bold">$${fmt(l.total)}</div>
@@ -804,10 +690,11 @@ function render(){
 }
 
 function renderHistorial(){
-  const cfg=loadConfig();
+  const cfg=loadCfg();
   const allDays=getAllDays();
-  const data=load();
+  const data=loadData();
 
+  // Chart
   const maxSpent=Math.max(...allDays.map(d=>(data.days?.[d]?.expenses||[]).reduce((s,e)=>s+e.amount,0)),cfg.daily);
   let chartHtml=`<div class="chart-wrap"><div class="sec-title">Gastos por día</div><div class="chart-bars">`;
   allDays.forEach(d=>{
@@ -822,7 +709,7 @@ function renderHistorial(){
     const barH=isPast&&spent>0?Math.max((spent/maxSpent)*64,4):0;
     const limitH=Math.min((avail/maxSpent)*64,64);
     let segs="";
-    if(spent>0) Object.entries(bycat).forEach(([catId,amt])=>{ const cat=getCat(catId); const segH=(amt/spent)*barH; segs+=`<div class="chart-seg" style="height:${segH}px;background:${cat.color};opacity:0.85"></div>`; });
+    if(spent>0) Object.entries(bycat).forEach(([catId,amt])=>{ const c=getCat(catId); segs+=`<div class="chart-seg" style="height:${(amt/spent)*barH}px;background:${c.color};opacity:0.85"></div>`; });
     chartHtml+=`<div class="chart-col" onclick="toggleHistDay('${d}')">
       <div class="chart-bar-wrap">
         ${isOver?`<div class="chart-over">!</div>`:""}
@@ -838,6 +725,7 @@ function renderHistorial(){
   if(usedCats.size){ chartHtml+=`<div class="chart-legend">`; usedCats.forEach(id=>{ const c=getCat(id); chartHtml+=`<div class="chart-leg-item"><div class="chart-leg-dot" style="background:${c.color}"></div>${c.label}</div>`; }); chartHtml+=`</div>`; }
   chartHtml+=`</div>`;
 
+  // Category summary
   const totByCat={};
   allDays.forEach(d=>{ (data.days?.[d]?.expenses||[]).forEach(e=>{ totByCat[e.cat]=(totByCat[e.cat]||0)+e.amount; }); });
   const grandTotal=Object.values(totByCat).reduce((s,v)=>s+v,0);
@@ -851,6 +739,7 @@ function renderHistorial(){
     summaryHtml+=`</div>`;
   }
 
+  // Day list
   let html="";
   allDays.forEach(d=>{
     const bal=calcBalance(d,data);
@@ -860,7 +749,7 @@ function renderHistorial(){
     const expenses=data.days?.[d]?.expenses||[];
     const isOpen=openHistDay===d;
     const remText=isPast&&spent===0?"—":rem<0?`−$${fmt(rem)}`:`$${fmt(rem)}`;
-    const remClass=rem<0?"red":rem>cfg.daily*1.1?"green":"";
+    const remClass=rem<0?"red":"";
     const catIcons=[...new Set(expenses.map(e=>getCat(e.cat).icon))].join(" ");
     const arrow=expenses.length?(isOpen?"▲":"▼"):"";
     let barHtml=(isToday||isPast)&&spent>0?`<div class="track" style="margin-top:6px"><div class="fill" style="width:${p}%;background:${p>90?"#ff6b6b":p>70?"#ffcc44":"#111"}"></div></div>`:"";
@@ -882,33 +771,22 @@ function renderHistorial(){
 }
 
 function renderPeriodSummary(){
-  const cfg=loadConfig();
+  const cfg=loadCfg();
   const allDays=getAllDays();
-  const data=load();
+  const data=loadData();
   const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
   const daysWithData=allDays.filter(d=>(data.days?.[d]?.expenses||[]).length>0).length;
-  const daysOver=allDays.filter(d=>{
-    const b=calcBalance(d,data);
-    return b&&b.spent>b.available&&d<=today;
-  }).length;
-  const daysOk=allDays.filter(d=>{
-    const b=calcBalance(d,data);
-    return b&&b.spent>0&&b.spent<=b.available&&d<=today;
-  }).length;
   const todayIdx=getDayIndex(today);
   const daysLeft=Math.max(cfg.days-todayIdx-1,0);
-
+  const daysOver=allDays.filter(d=>{ const b=calcBalance(d,data); return b&&b.spent>b.available&&d<=today; }).length;
+  const daysOk=allDays.filter(d=>{ const b=calcBalance(d,data); return b&&b.spent>0&&b.spent<=b.available&&d<=today; }).length;
   document.getElementById("periodSummary").innerHTML=`
-    <div class="ps-row" style="background:#111;color:#f5f0e8;padding:12px;margin-bottom:8px">
-      <span>Total gastado</span><span style="font-weight:bold">$${fmt(totalSpent)}</span>
-    </div>
-    <div style="font-size:12px;color:#888">
-      <div class="cfg-row"><span>Días con gastos</span><span>${daysWithData}</span></div>
-      <div class="cfg-row"><span>Días en verde</span><span style="color:#2a9d3f">${daysOk}</span></div>
-      <div class="cfg-row"><span>Días en rojo</span><span style="color:#ff6b6b">${daysOver}</span></div>
-      <div class="cfg-row"><span>Días restantes</span><span>${daysLeft}</span></div>
-      <div class="cfg-row"><span>Promedio diario</span><span>$${daysWithData>0?fmt(totalSpent/daysWithData):"—"}</span></div>
-    </div>`;
+    <div class="ps-row"><span>Total gastado</span><span style="font-weight:bold">$${fmt(totalSpent)}</span></div>
+    <div class="ps-row"><span>Total restante</span><span style="font-weight:bold;color:#2a9d3f">$${fmt(cfg.total-totalSpent)}</span></div>
+    <div class="ps-row"><span>Días en verde</span><span style="color:#2a9d3f">${daysOk}</span></div>
+    <div class="ps-row"><span>Días en rojo</span><span style="color:#ff6b6b">${daysOver}</span></div>
+    <div class="ps-row"><span>Días restantes</span><span>${daysLeft}</span></div>
+    <div class="ps-row"><span>Promedio diario</span><span>$${daysWithData>0?fmt(totalSpent/daysWithData):"—"}</span></div>`;
 }
 
 function setTab(t){
@@ -919,7 +797,7 @@ function setTab(t){
     el.className="tab"+(["hoy","mover","historial","ia","config"][i]===t?" on":"");
   });
   if(t==="ia") initIATab();
-  if(t==="config") initConfig();
+  if(t==="config"){ initConfig(); renderPeriodSummary(); }
 }
 
 render();
