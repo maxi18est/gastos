@@ -8,288 +8,236 @@
 <meta name="apple-mobile-web-app-title" content="Gastos">
 <title>Gastos</title>
 <style>
-* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-body { background:#f5f0e8; font-family:'Courier New',monospace; padding-bottom:60px; min-height:100vh; }
-.header { background:#111; color:#f5f0e8; padding:52px 20px 0; }
-.lbl { font-size:11px; letter-spacing:0.15em; color:#888; text-transform:uppercase; }
-.big { font-size:28px; font-weight:bold; letter-spacing:-0.02em; margin-bottom:2px; }
-.big span { font-size:13px; color:#666; font-weight:normal; margin-left:6px; }
-.insight { font-size:12px; margin:4px 0; min-height:18px; }
-.insight.ok { color:#b8f060; }
-.insight.warn { color:#ffcc44; }
-.insight.bad { color:#ff6b6b; }
-.track { background:#e0dbd0; height:4px; border-radius:2px; overflow:hidden; margin:4px 0; }
-.track.dark { background:#2a2a2a; }
-.fill { height:100%; border-radius:2px; transition:width 0.5s; }
-.small { font-size:10px; color:#555; margin-bottom:12px; }
-.tabs { display:flex; border-top:1px solid #222; margin-top:10px; }
-.tab { background:none; border:none; font-family:inherit; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:11px 0; color:#666; cursor:pointer; border-bottom:2px solid transparent; flex:1; text-align:center; }
-.tab.on { color:#f5f0e8; border-bottom:2px solid #f5f0e8; }
-.content { padding:16px; }
-
-/* DAY CARD */
-.day-card { background:#fff; padding:16px; margin-bottom:16px; border-left:3px solid #111; }
-.day-card.over { border-left-color:#ff6b6b; }
-.dc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
-.dc-label { font-size:11px; color:#999; text-transform:uppercase; letter-spacing:0.08em; }
-.dc-limit { font-size:11px; color:#bbb; }
-.dc-amount { font-size:32px; font-weight:bold; letter-spacing:-0.02em; line-height:1; }
-.dc-status { font-size:13px; color:#888; margin-top:3px; }
-.dc-status.red { color:#ff6b6b; }
-.dc-extras { margin-top:8px; padding-top:8px; border-top:1px solid #f0ede6; }
-.dc-extra { font-size:11px; margin:2px 0; color:#cc6600; }
-
-/* QUICK ADD */
-.quick-add { background:#fff; padding:14px; margin-bottom:16px; }
-.qa-inp { background:#f5f0e8; border:none; font-family:inherit; font-size:18px; padding:10px 12px; width:100%; outline:none; -webkit-appearance:none; display:block; margin-bottom:8px; }
-.qa-inp:focus { background:#ede8df; }
-.cat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:10px; }
-.cat-btn { background:#f5f0e8; border:none; font-size:18px; padding:10px 0; cursor:pointer; border-radius:4px; }
-.cat-btn.sel { background:#111; }
-.qa-submit { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:13px; width:100%; cursor:pointer; }
-
-/* EXPENSE LIST */
-.exp-list-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px; }
-.exp-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #ede8df; }
-.exp-row:last-child { border-bottom:none; }
-.exp-left { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
-.exp-icon { font-size:18px; line-height:1; }
-.exp-info { min-width:0; flex:1; }
-.exp-desc { font-size:13px; color:#111; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.exp-cat { font-size:10px; color:#aaa; margin-top:1px; }
-.exp-right { display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.exp-amt { font-size:14px; font-weight:bold; }
-.del { background:none; border:none; color:#ccc; font-size:15px; cursor:pointer; padding:3px 6px; }
-
-/* EDIT MODAL */
-.edit-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; align-items:flex-end; }
-.edit-overlay.open { display:flex; }
-.edit-modal { background:#f5f0e8; padding:20px 20px 40px; width:100%; }
-.edit-title { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#999; margin-bottom:14px; }
-
-/* MOVER */
-.card { background:#fff; padding:14px; margin-bottom:12px; }
-.sec-title { font-size:10px; color:#999; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
-.inp { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
-.inp:focus { background:#ede8df; }
-select { background:#f5f0e8; border:none; font-family:inherit; font-size:15px; padding:11px 12px; width:100%; outline:none; display:block; margin-bottom:8px; -webkit-appearance:none; }
-.btn-dark { background:#111; color:#f5f0e8; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-top:4px; }
-.btn-outline { background:transparent; color:#111; border:1.5px solid #111; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:11px; width:100%; cursor:pointer; margin-top:8px; }
-.preview { font-size:12px; color:#666; padding:10px; background:#f8f5ee; margin-bottom:8px; }
-.move-item { background:#fff; padding:12px; margin-bottom:8px; }
-.move-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; }
-.tag { display:inline-block; font-size:9px; padding:2px 5px; border:1px solid #ccc; margin:3px 3px 0 0; }
-
-/* HISTORIAL */
-.hist-day { padding:12px; margin-bottom:4px; border-left:3px solid transparent; cursor:pointer; }
-.hist-day.today { background:#fff; border-left-color:#111; }
-.hist-day.past { opacity:0.7; }
-.hist-top { display:flex; justify-content:space-between; align-items:center; }
-.hist-name { font-size:12px; color:#888; }
-.hist-name.today { color:#111; font-weight:bold; }
-.hist-rem { font-size:13px; }
-.hist-rem.red { color:#ff6b6b; }
-.hist-detail { display:none; padding-top:10px; border-top:1px solid #ede8df; margin-top:8px; }
-.hist-detail.open { display:block; }
-.hist-exp { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #f5f0e8; font-size:12px; }
-.hist-exp:last-child { border-bottom:none; }
-.badge { font-size:9px; padding:1px 5px; margin-left:4px; }
-
-/* CHART */
-.chart-wrap { padding:8px 0 8px; }
-.chart-bars { display:flex; align-items:flex-end; gap:3px; height:80px; }
-.chart-col { display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; cursor:pointer; }
-.chart-bar-wrap { display:flex; flex-direction:column; justify-content:flex-end; width:100%; height:70px; position:relative; }
-.chart-bar-stack { width:100%; border-radius:2px 2px 0 0; overflow:hidden; display:flex; flex-direction:column-reverse; }
-.chart-seg { width:100%; }
-.chart-day-lbl { font-size:8px; color:#aaa; text-align:center; margin-top:2px; }
-.chart-over { position:absolute; top:-8px; left:50%; transform:translateX(-50%); font-size:8px; color:#ff6b6b; }
-.chart-legend { display:flex; flex-wrap:wrap; gap:6px 12px; margin-top:8px; }
-.chart-leg-item { display:flex; align-items:center; gap:4px; font-size:10px; color:#888; }
-.chart-leg-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.cat-summary { background:#fff; padding:14px; margin-bottom:16px; }
-.cat-row-sum { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #f0ede6; }
-.cat-row-sum:last-child { border-bottom:none; }
-
-/* IA */
-.ia-card { background:#fff; padding:16px; margin-bottom:12px; }
-.ia-title { font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px; }
-.ia-textarea { background:#f5f0e8; border:none; font-family:'Courier New',monospace; font-size:13px; padding:12px; width:100%; outline:none; min-height:100px; resize:none; display:block; margin-bottom:8px; }
-.ia-key-row { display:flex; gap:8px; margin-bottom:8px; }
-.ia-key-inp { background:#f5f0e8; border:none; font-family:'Courier New',monospace; font-size:11px; padding:10px 12px; flex:1; outline:none; min-width:0; }
-.ia-result { margin-top:12px; }
-.ia-exp-item { display:flex; justify-content:space-between; align-items:center; padding:10px; background:#f8f5ee; margin-bottom:6px; border-left:3px solid #111; cursor:pointer; }
-.ia-exp-left { flex:1; }
-.ia-exp-desc { font-size:13px; }
-.ia-exp-meta { font-size:11px; color:#aaa; margin-top:2px; }
-.ia-exp-amt { font-size:15px; font-weight:bold; margin-left:8px; }
-.ia-status { font-size:12px; color:#888; padding:10px 0; text-align:center; }
-.ia-status.loading { color:#54a0ff; }
-.ia-status.error { color:#ff6b6b; }
-.btn-blue { background:#54a0ff; color:#fff; border:none; font-family:inherit; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; padding:12px; width:100%; cursor:pointer; margin-bottom:8px; }
-
-/* CONFIG */
-.cfg-card { background:#fff; padding:16px; margin-bottom:12px; }
-.cfg-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0ede6; }
-.cfg-row:last-child { border-bottom:none; }
-.cfg-label { font-size:13px; color:#111; }
-.cfg-sub { font-size:10px; color:#aaa; margin-top:2px; }
-.cfg-inp { background:#f5f0e8; border:none; font-family:inherit; font-size:14px; padding:8px 10px; width:140px; outline:none; text-align:right; -webkit-appearance:none; }
-.danger-zone { background:#fff3f3; padding:14px; margin-bottom:12px; border-left:3px solid #ff6b6b; }
-.ps-row { display:flex; justify-content:space-between; padding:8px 0; font-size:13px; border-bottom:1px solid #f0ede6; }
-.ps-row:last-child { border-bottom:none; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#f5f0e8;font-family:'Courier New',monospace;padding-bottom:60px;min-height:100vh}
+.hdr{background:#111;color:#f5f0e8;padding:52px 20px 0}
+.lbl{font-size:11px;letter-spacing:.15em;color:#888;text-transform:uppercase}
+.big{font-size:28px;font-weight:700;letter-spacing:-.02em}
+.big span{font-size:13px;color:#666;font-weight:400;margin-left:6px}
+.insight{font-size:12px;margin:4px 0;min-height:18px}
+.insight.ok{color:#b8f060}.insight.warn{color:#ffcc44}.insight.bad{color:#ff6b6b}
+.trk{background:#e0dbd0;height:4px;border-radius:2px;overflow:hidden;margin:4px 0}
+.trk.dk{background:#2a2a2a}
+.fill{height:100%;border-radius:2px;transition:width .5s}
+.sub{font-size:10px;color:#555;margin-bottom:12px}
+.tabs{display:flex;border-top:1px solid #222;margin-top:10px}
+.tab{background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:11px 0;color:#666;cursor:pointer;border-bottom:2px solid transparent;flex:1;text-align:center}
+.tab.on{color:#f5f0e8;border-bottom:2px solid #f5f0e8}
+.pg{padding:16px}
+.card{background:#fff;padding:16px;margin-bottom:14px}
+.card.red{border-left:3px solid #ff6b6b}
+.card.blk{border-left:3px solid #111}
+.sec{font-size:10px;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #ede8df}
+.row:last-child{border-bottom:none}
+.inp{background:#f5f0e8;border:none;font-family:inherit;font-size:15px;padding:11px 12px;width:100%;outline:none;display:block;margin-bottom:8px;-webkit-appearance:none}
+.inp:focus{background:#ede8df}
+.inp.lg{font-size:18px}
+select{background:#f5f0e8;border:none;font-family:inherit;font-size:15px;padding:11px 12px;width:100%;outline:none;display:block;margin-bottom:8px;-webkit-appearance:none}
+.btn{background:#111;color:#f5f0e8;border:none;font-family:inherit;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:12px;width:100%;cursor:pointer;margin-top:4px}
+.btn.red{background:#ff6b6b}
+.btn.out{background:transparent;color:#111;border:1.5px solid #111;margin-top:8px}
+.btn.bl{background:#54a0ff}
+.prev{font-size:12px;color:#666;padding:10px;background:#f8f5ee;margin-bottom:8px}
+.catgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.catbtn{background:#f5f0e8;border:none;font-size:18px;padding:10px 0;cursor:pointer;border-radius:4px}
+.catbtn.on{background:#111}
+.tag{display:inline-block;font-size:9px;padding:2px 5px;border:1px solid #ccc;margin:3px 3px 0 0}
+.erow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #ede8df}
+.erow:last-child{border-bottom:none}
+.el{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.ei{font-size:18px;line-height:1}
+.ed{min-width:0;flex:1}
+.edt{font-size:13px;color:#111;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ec{font-size:10px;color:#aaa;margin-top:1px}
+.er{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ea{font-size:14px;font-weight:700}
+.del{background:none;border:none;color:#ccc;font-size:15px;cursor:pointer;padding:3px 6px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end}
+.ov.open{display:flex}
+.om{background:#f5f0e8;padding:20px 20px 40px;width:100%}
+.otit{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-bottom:14px}
+.hday{padding:12px;margin-bottom:4px;border-left:3px solid transparent;cursor:pointer}
+.hday.tod{background:#fff;border-left-color:#111}
+.hday.pas{opacity:.7}
+.htop{display:flex;justify-content:space-between;align-items:center}
+.hn{font-size:12px;color:#888}
+.hn.tod{color:#111;font-weight:700}
+.hr{font-size:13px}
+.hr.red{color:#ff6b6b}
+.hdet{display:none;padding-top:10px;border-top:1px solid #ede8df;margin-top:8px}
+.hdet.open{display:block}
+.hexp{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f0e8;font-size:12px}
+.hexp:last-child{border-bottom:none}
+.badge{font-size:9px;padding:1px 5px;margin-left:4px}
+.cbars{display:flex;align-items:flex-end;gap:3px;height:80px}
+.ccol{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer}
+.cbw{display:flex;flex-direction:column;justify-content:flex-end;width:100%;height:70px;position:relative}
+.cbs{width:100%;border-radius:2px 2px 0 0;overflow:hidden;display:flex;flex-direction:column-reverse}
+.cseg{width:100%}
+.cdl{font-size:8px;color:#aaa;text-align:center;margin-top:2px}
+.cov{position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:8px;color:#ff6b6b}
+.cleg{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px}
+.cli{display:flex;align-items:center;gap:4px;font-size:10px;color:#888}
+.cld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.catsum{background:#fff;padding:14px;margin-bottom:14px}
+.csr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f0ede6}
+.csr:last-child{border-bottom:none}
+.cfrow{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0ede6}
+.cfrow:last-child{border-bottom:none}
+.cfl{font-size:13px;color:#111}
+.cfs{font-size:10px;color:#aaa;margin-top:2px}
+.cfv{font-size:14px;font-weight:700;color:#111}
+.cfinp{background:#f5f0e8;border:none;font-family:inherit;font-size:14px;padding:8px 10px;width:140px;outline:none;text-align:right;-webkit-appearance:none}
+.dz{background:#fff3f3;padding:14px;margin-bottom:12px;border-left:3px solid #ff6b6b}
+.psr{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #f0ede6}
+.psr:last-child{border-bottom:none}
+.ias{font-size:12px;color:#888;padding:8px 0;text-align:center}
+.ias.load{color:#54a0ff}.ias.err{color:#ff6b6b}
+.iitem{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#f8f5ee;margin-bottom:6px;border-left:3px solid #111;cursor:pointer}
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="hdr">
   <div class="lbl">Gastos</div>
-  <div class="big" id="totalRestantes">— <span>restantes</span></div>
-  <div class="insight" id="insight"></div>
-  <div class="track dark"><div class="fill" id="totalBar" style="width:0%"></div></div>
-  <div class="small" id="totalSub"></div>
+  <div class="big" id="hdRem">— <span>restantes</span></div>
+  <div class="insight" id="hdIns"></div>
+  <div class="trk dk"><div class="fill" id="hdBar" style="width:0%"></div></div>
+  <div class="sub" id="hdSub"></div>
   <div class="tabs">
-    <button class="tab on" onclick="setTab('hoy')">Hoy</button>
-    <button class="tab" onclick="setTab('mover')">Mover</button>
-    <button class="tab" onclick="setTab('historial')">Historial</button>
-    <button class="tab" onclick="setTab('ia')">IA</button>
-    <button class="tab" onclick="setTab('config')">Config</button>
+    <button class="tab on" onclick="go('hoy')">Hoy</button>
+    <button class="tab" onclick="go('mover')">Mover</button>
+    <button class="tab" onclick="go('hist')">Historial</button>
+    <button class="tab" onclick="go('ia')">IA</button>
+    <button class="tab" onclick="go('cfg')">Config</button>
   </div>
 </div>
 
-<div class="content">
+<div class="pg">
 
-  <!-- HOY -->
-  <div id="tab-hoy">
-    <div class="day-card" id="dayCard">
-      <div class="dc-top">
-        <span class="dc-label" id="dcLabel">Hoy</span>
-        <span class="dc-limit" id="dcLimit"></span>
-      </div>
-      <div class="track"><div class="fill" id="dayBar" style="width:0%;background:#111"></div></div>
-      <div class="dc-amount" id="dcAmount">$0</div>
-      <div class="dc-status" id="dcStatus"></div>
-      <div id="dcExtras"></div>
+<div id="pg-hoy">
+  <div class="card blk" id="dc">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.08em" id="dcLbl"></span>
+      <span style="font-size:11px;color:#bbb" id="dcLim"></span>
     </div>
-    <div class="quick-add">
-      <input class="qa-inp" type="number" id="expAmount" placeholder="$0" onkeydown="if(event.key==='Enter')document.getElementById('expDesc').focus()">
-      <input class="qa-inp" type="text" id="expDesc" placeholder="¿En qué? (opcional)" onkeydown="if(event.key==='Enter')addExpense()">
-      <div class="cat-row" id="catRow"></div>
-      <button class="qa-submit" onclick="addExpense()">+ Registrar</button>
-    </div>
-    <div id="expenseList"></div>
+    <div class="trk"><div class="fill" id="dcBar" style="width:0%;background:#111"></div></div>
+    <div style="font-size:32px;font-weight:700;letter-spacing:-.02em" id="dcAmt">$0</div>
+    <div style="font-size:13px;color:#888;margin-top:3px" id="dcSt"></div>
+    <div id="dcEx"></div>
   </div>
-
-  <!-- MOVER -->
-  <div id="tab-mover" style="display:none">
-    <div class="card">
-      <div class="sec-title">Préstamo entre días</div>
-      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Adelantá plata de días futuros. El monto se descuenta en cuotas.</div>
-      <input class="inp" type="number" id="loanInput" placeholder="¿Cuánto necesitás? $" oninput="updateLoanPreview()">
-      <select id="loanDays" onchange="updateLoanPreview()">
-        <option value="2">Devolver en 2 días</option>
-        <option value="3" selected>Devolver en 3 días</option>
-        <option value="4">Devolver en 4 días</option>
-        <option value="5">Devolver en 5 días</option>
-        <option value="7">Devolver en 7 días</option>
-        <option value="10">Devolver en 10 días</option>
-        <option value="15">Devolver en 15 días</option>
-        <option value="20">Devolver en 20 días</option>
-        <option value="30">Devolver en 30 días</option>
-      </select>
-      <div class="preview" id="loanPreview" style="display:none"></div>
-      <button class="btn-dark" onclick="addLoan()">Tomar préstamo</button>
-    </div>
-    <div id="loanList"></div>
+  <div class="card">
+    <input class="inp lg" type="number" id="eAmt" placeholder="$0" onkeydown="if(event.key==='Enter')document.getElementById('eDesc').focus()">
+    <input class="inp" type="text" id="eDesc" placeholder="¿En qué? (opcional)" onkeydown="if(event.key==='Enter')addExp()">
+    <div class="catgrid" id="catRow"></div>
+    <button class="btn" onclick="addExp()">+ Registrar</button>
   </div>
+  <div id="expList"></div>
+</div>
 
-  <!-- HISTORIAL -->
-  <div id="tab-historial" style="display:none">
-    <div id="historialList"></div>
+<div id="pg-mover" style="display:none">
+  <div class="card">
+    <div class="sec">Préstamo entre días</div>
+    <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Adelantá plata de días futuros. Se descuenta en cuotas diarias.</div>
+    <input class="inp" type="number" id="lAmt" placeholder="¿Cuánto necesitás? $" oninput="updLoan()">
+    <select id="lDays" onchange="updLoan()">
+      <option value="2">Devolver en 2 días</option>
+      <option value="3" selected>Devolver en 3 días</option>
+      <option value="4">Devolver en 4 días</option>
+      <option value="5">Devolver en 5 días</option>
+      <option value="7">Devolver en 7 días</option>
+      <option value="10">Devolver en 10 días</option>
+      <option value="15">Devolver en 15 días</option>
+      <option value="20">Devolver en 20 días</option>
+      <option value="30">Devolver en 30 días</option>
+    </select>
+    <div class="prev" id="lPrev" style="display:none"></div>
+    <button class="btn" onclick="addLoan()">Tomar préstamo</button>
   </div>
+  <div id="loanList"></div>
+</div>
 
-  <!-- IA -->
-  <div id="tab-ia" style="display:none">
-    <div class="ia-card" id="iaKeyCard">
-      <div class="ia-title">API Key</div>
-      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:10px">Se guarda en el dispositivo, no la vas a tener que volver a ingresar.</div>
-      <div class="ia-key-row">
-        <input class="ia-key-inp" type="password" id="iaKey" placeholder="sk-ant-..." autocomplete="off">
-        <button class="btn-dark" style="width:auto;padding:10px 14px;margin:0" onclick="saveKey()">Guardar</button>
-      </div>
-      <div class="ia-status" id="iaKeyStatus" style="display:none"></div>
+<div id="pg-hist" style="display:none">
+  <div id="histList"></div>
+</div>
+
+<div id="pg-ia" style="display:none">
+  <div class="card" id="iaKeyCard">
+    <div class="sec">API Key</div>
+    <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:10px">Se guarda en el dispositivo.</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <input style="background:#f5f0e8;border:none;font-family:inherit;font-size:11px;padding:10px 12px;flex:1;outline:none;min-width:0" type="password" id="iaKey" placeholder="sk-ant-..." autocomplete="off">
+      <button class="btn" style="width:auto;padding:10px 14px;margin:0" onclick="saveKey()">Guardar</button>
     </div>
-    <div class="ia-card">
-      <div class="ia-title">Foto de ticket</div>
-      <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Sacá una foto o elegí de la galería y Claude lee los datos automáticamente.</div>
-      <input type="file" id="ticketFile" accept="image/*" style="display:none" onchange="handleTicketPhoto(event)">
-      <button class="btn-blue" onclick="document.getElementById('ticketFile').click()">📷 Sacar foto / elegir imagen</button>
-      <div id="ticketPreview" style="margin-top:10px;display:none">
-        <img id="ticketImg" style="width:100%;max-height:200px;object-fit:contain;background:#f0ede6;display:block">
-      </div>
-      <div class="ia-status" id="iaStatus" style="display:none"></div>
-      <div class="ia-result" id="iaResult"></div>
-    </div>
-    <div class="ia-card">
-      <div class="ia-title">O pegá texto</div>
-      <textarea class="ia-textarea" id="iaText" placeholder="Pegá movimientos bancarios o cualquier lista de gastos..."></textarea>
-      <button class="btn-blue" onclick="processWithAIText()">✦ Analizar texto</button>
-    </div>
+    <div class="ias" id="iaKSt" style="display:none"></div>
   </div>
-
-  <!-- CONFIG -->
-  <div id="tab-config" style="display:none">
-    <div class="cfg-card">
-      <div class="sec-title">Configuración del período</div>
-      <div class="cfg-row">
-        <div><div class="cfg-label">Presupuesto total</div><div class="cfg-sub">Total disponible</div></div>
-        <input class="cfg-inp" type="number" id="cfgTotal" placeholder="550000">
-      </div>
-      <div class="cfg-row">
-        <div><div class="cfg-label">Límite diario</div><div class="cfg-sub">Máximo por día</div></div>
-        <input class="cfg-inp" type="number" id="cfgDaily" placeholder="37000">
-      </div>
-      <div class="cfg-row">
-        <div><div class="cfg-label">Fecha de inicio</div><div class="cfg-sub">Primer día</div></div>
-        <input class="cfg-inp" type="date" id="cfgStart">
-      </div>
-      <div class="cfg-row">
-        <div><div class="cfg-label">Cantidad de días</div><div class="cfg-sub">Duración</div></div>
-        <input class="cfg-inp" type="number" id="cfgDays" placeholder="15">
-      </div>
-      <button class="btn-dark" onclick="saveConfig()" style="margin-top:12px">Guardar configuración</button>
-      <div id="cfgStatus" style="font-size:12px;color:#2a9d3f;text-align:center;padding:8px;display:none">✓ Guardado</div>
-    </div>
-
-    <div class="cfg-card">
-      <div class="sec-title">Resumen del período</div>
-      <div id="periodSummary"></div>
-    </div>
-
-    <div class="danger-zone">
-      <div class="sec-title" style="color:#ff6b6b;margin-bottom:8px">Zona de peligro</div>
-      <div style="font-size:12px;color:#888;margin-bottom:12px">Borra todos los gastos. No se puede deshacer.</div>
-      <button class="btn-dark" style="background:#ff6b6b" onclick="resetAll()">🗑 Borrar todo y empezar de cero</button>
-    </div>
+  <div class="card">
+    <div class="sec">Foto de ticket</div>
+    <div style="font-size:12px;color:#888;line-height:1.6;margin-bottom:12px">Sacá foto o elegí de la galería. Claude lee los datos automáticamente.</div>
+    <input type="file" id="tickFile" accept="image/*" style="display:none" onchange="onPhoto(event)">
+    <button class="btn bl" onclick="document.getElementById('tickFile').click()">📷 Foto / Galería</button>
+    <div id="tickPrev" style="margin-top:10px;display:none"><img id="tickImg" style="width:100%;max-height:200px;object-fit:contain;background:#f0ede6;display:block"></div>
+    <div class="ias" id="iaSt" style="display:none"></div>
+    <div id="iaRes"></div>
   </div>
+  <div class="card">
+    <div class="sec">O pegá texto</div>
+    <textarea style="background:#f5f0e8;border:none;font-family:inherit;font-size:13px;padding:12px;width:100%;outline:none;min-height:100px;resize:none;display:block;margin-bottom:8px" id="iaTxt" placeholder="Pegá movimientos o lista de gastos..."></textarea>
+    <button class="btn bl" onclick="iaText()">✦ Analizar texto</button>
+  </div>
+</div>
+
+<div id="pg-cfg" style="display:none">
+  <div class="card">
+    <div class="sec">Configuración del período</div>
+    <div class="cfrow">
+      <div><div class="cfl">Presupuesto total</div><div class="cfs">Total disponible</div></div>
+      <input class="cfinp" type="number" id="cfTotal" placeholder="550000" oninput="updDaily()">
+    </div>
+    <div class="cfrow">
+      <div><div class="cfl">Fecha de inicio</div><div class="cfs">Primer día</div></div>
+      <input class="cfinp" type="date" id="cfStart">
+    </div>
+    <div class="cfrow">
+      <div><div class="cfl">Cantidad de días</div><div class="cfs">Duración</div></div>
+      <input class="cfinp" type="number" id="cfDays" placeholder="15" oninput="updDaily()">
+    </div>
+    <div class="cfrow">
+      <div><div class="cfl">Límite diario</div><div class="cfs">Calculado automáticamente</div></div>
+      <div class="cfv" id="cfDailyVal">—</div>
+    </div>
+    <button class="btn" onclick="saveCfg()" style="margin-top:12px">Guardar configuración</button>
+    <div id="cfSt" style="font-size:12px;color:#2a9d3f;text-align:center;padding:8px;display:none">✓ Guardado</div>
+  </div>
+  <div class="card">
+    <div class="sec">Resumen</div>
+    <div id="cfSum"></div>
+  </div>
+  <div class="dz">
+    <div class="sec" style="color:#ff6b6b;margin-bottom:8px">Zona de peligro</div>
+    <div style="font-size:12px;color:#888;margin-bottom:12px">Borra todos los gastos. No se puede deshacer.</div>
+    <button class="btn red" onclick="resetAll()">🗑 Borrar todo y empezar de cero</button>
+  </div>
+</div>
 
 </div>
 
 <!-- Edit modal -->
-<div class="edit-overlay" id="editOverlay" onclick="closeEditModal(event)">
-  <div class="edit-modal">
-    <div class="edit-title">Editar gasto</div>
-    <input class="inp" type="number" id="editAmount" placeholder="Monto $">
+<div class="ov" id="editOv" onclick="closeEdit(event)">
+  <div class="om">
+    <div class="otit">Editar gasto</div>
+    <input class="inp" type="number" id="editAmt" placeholder="Monto $">
     <input class="inp" type="text" id="editDesc" placeholder="Descripción">
-    <div class="cat-row" id="editCatRow"></div>
-    <button class="btn-dark" onclick="saveEdit()">Guardar cambios</button>
-    <button class="btn-outline" onclick="closeEditModal()">Cancelar</button>
+    <div class="catgrid" id="editCatRow"></div>
+    <button class="btn" onclick="saveEdit()">Guardar cambios</button>
+    <button class="btn out" onclick="closeEdit()">Cancelar</button>
   </div>
 </div>
 
 <script>
-const DEFAULT_CFG = {total:550000, daily:37000, start:"2026-05-14", days:15};
-const CATS = [
+// ── CONSTANTES ──
+const CATS=[
   {id:"comida",icon:"🍔",label:"Comida",color:"#ff9f43"},
   {id:"transporte",icon:"🚌",label:"Transporte",color:"#54a0ff"},
   {id:"super",icon:"🛒",label:"Super",color:"#5f27cd"},
@@ -299,505 +247,501 @@ const CATS = [
   {id:"servicios",icon:"💡",label:"Servicios",color:"#48dbfb"},
   {id:"otro",icon:"📦",label:"Otro",color:"#c8d6e5"},
 ];
-const fmt = n => new Intl.NumberFormat("es-AR",{maximumFractionDigits:0}).format(Math.abs(n));
-const getCat = id => CATS.find(c=>c.id===id)||CATS[7];
-
-function loadCfg(){ try{return {...DEFAULT_CFG,...JSON.parse(localStorage.getItem("gastos_cfg")||"{}")}}catch{return{...DEFAULT_CFG}} }
-function saveCfg(c){ localStorage.setItem("gastos_cfg",JSON.stringify(c)); }
-function loadData(){ try{return JSON.parse(localStorage.getItem("gastos_data")||"{}")}catch{return{}} }
-function saveData(d){ localStorage.setItem("gastos_data",JSON.stringify(d)); }
-
-function getAllDays(){
-  const cfg=loadCfg();
-  return Array.from({length:cfg.days},(_,i)=>{
-    const d=new Date(cfg.start+"T12:00:00");
-    d.setDate(d.getDate()+i);
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-  });
-}
-
-function getDayIndex(s){
-  const cfg=loadCfg();
-  return Math.round((new Date(s+"T12:00:00")-new Date(cfg.start+"T12:00:00"))/86400000);
-}
+const fmt=n=>new Intl.NumberFormat("es-AR",{maximumFractionDigits:0}).format(Math.abs(n));
+const cat=id=>CATS.find(c=>c.id===id)||CATS[7];
 
 const todayStr=()=>{
   const d=new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 };
-const today=todayStr();
+const TODAY=todayStr();
 
 const dayLbl=s=>{
   const [y,m,d]=s.split("-").map(Number);
   return new Date(y,m-1,d).toLocaleDateString("es-AR",{weekday:"short",day:"numeric",month:"short"});
 };
 
-// Balance limpio: límite diario + ajustes de préstamos únicamente
-function calcBalance(dateStr, data){
-  const cfg=loadCfg();
-  const idx=getDayIndex(dateStr);
-  if(idx<0||idx>=cfg.days) return null;
-  let available=cfg.daily;
-  (data.loans||[]).forEach(l=>{
-    if(l.repayDays?.includes(dateStr)) available-=l.amountPerDay;
-    if(l.fromDay===dateStr) available+=l.total;
+// ── CONFIG ──
+// Siempre lee campos crudos y calcula daily en el momento
+function getCfg(){
+  let raw={};
+  try{ raw=JSON.parse(localStorage.getItem("gcfg")||"{}"); }catch{}
+  const total=Number(raw.total)||550000;
+  const days=Number(raw.days)||15;
+  const start=raw.start||"2026-05-14";
+  const daily=Math.floor(total/days);
+  return {total,days,start,daily};
+}
+
+function getAllDays(){
+  const {start,days}=getCfg();
+  return Array.from({length:days},(_,i)=>{
+    const d=new Date(start+"T12:00:00");
+    d.setDate(d.getDate()+i);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   });
-  const spent=(data.days?.[dateStr]?.expenses||[]).reduce((s,e)=>s+e.amount,0);
-  return {available, spent, remaining:available-spent};
 }
 
+function dIdx(s){
+  const {start}=getCfg();
+  return Math.round((new Date(s+"T12:00:00")-new Date(start+"T12:00:00"))/86400000);
+}
+
+// ── DATA ──
+function gd(){ try{return JSON.parse(localStorage.getItem("gdat")||"{}")}catch{return{}} }
+function sd(d){ localStorage.setItem("gdat",JSON.stringify(d)); }
+
+// ── BALANCE ──
+// Límite diario = daily config + ajustes de préstamos
+function bal(dateStr){
+  const {daily,days}=getCfg();
+  const idx=dIdx(dateStr);
+  if(idx<0||idx>=days) return null;
+  const data=gd();
+  let avail=daily;
+  (data.loans||[]).forEach(l=>{
+    if(l.repayDays&&l.repayDays.includes(dateStr)) avail-=l.amountPerDay;
+    if(l.fromDay===dateStr) avail+=l.total;
+  });
+  const spent=(data.days&&data.days[dateStr]?data.days[dateStr].expenses:[]).reduce((s,e)=>s+e.amount,0);
+  return {avail,spent,rem:avail-spent};
+}
+
+// ── CATEGORÍAS ──
 let selCat="otro";
-function buildCatRow(id, sel, fn){
-  const el=document.getElementById(id);
+function buildCats(containerId,selected,onSel){
+  const el=document.getElementById(containerId);
   if(!el) return;
-  el.innerHTML=CATS.map(c=>`<button class="cat-btn ${sel===c.id?"sel":""}" onclick="(${fn.toString()})('${c.id}')" title="${c.label}">${c.icon}</button>`).join("");
+  el.innerHTML=CATS.map(c=>`<button class="catbtn ${selected===c.id?"on":""}" onclick="(${onSel.toString()})('${c.id}')" title="${c.label}">${c.icon}</button>`).join("");
 }
-function selectCat(id){ selCat=id; buildCatRow("catRow",selCat,selectCat); }
+function selC(id){ selCat=id; buildCats("catRow",selCat,selC); }
 
-function addExpense(){
-  const val=parseFloat(document.getElementById("expAmount").value);
-  if(!val||val<=0) return;
-  const desc=document.getElementById("expDesc").value.trim()||getCat(selCat).label;
-  const data=loadData();
+// ── GASTOS ──
+function addExp(){
+  const v=parseFloat(document.getElementById("eAmt").value);
+  if(!v||v<=0) return;
+  const desc=document.getElementById("eDesc").value.trim()||cat(selCat).label;
+  const data=gd();
   if(!data.days) data.days={};
-  if(!data.days[today]) data.days[today]={expenses:[]};
-  data.days[today].expenses.push({amount:val,desc,cat:selCat,id:Date.now()});
-  saveData(data);
-  document.getElementById("expAmount").value="";
-  document.getElementById("expDesc").value="";
+  if(!data.days[TODAY]) data.days[TODAY]={expenses:[]};
+  data.days[TODAY].expenses.push({amount:v,desc,cat:selCat,id:Date.now()});
+  sd(data);
+  document.getElementById("eAmt").value="";
+  document.getElementById("eDesc").value="";
   render();
 }
 
-function removeExpense(id){
-  const data=loadData();
-  if(data.days?.[today]) data.days[today].expenses=data.days[today].expenses.filter(e=>e.id!==id);
-  saveData(data); render();
+function delExp(id){
+  const data=gd();
+  if(data.days&&data.days[TODAY]) data.days[TODAY].expenses=data.days[TODAY].expenses.filter(e=>e.id!==id);
+  sd(data); render();
 }
 
-let editingId=null, editCat="otro";
+let editId=null,editCat2="otro";
 function openEdit(id){
-  const data=loadData();
-  const exp=(data.days?.[today]?.expenses||[]).find(e=>e.id===id);
+  const data=gd();
+  const exp=(data.days&&data.days[TODAY]?data.days[TODAY].expenses:[]).find(e=>e.id===id);
   if(!exp) return;
-  editingId=id; editCat=exp.cat||"otro";
-  document.getElementById("editAmount").value=exp.amount;
+  editId=id; editCat2=exp.cat||"otro";
+  document.getElementById("editAmt").value=exp.amount;
   document.getElementById("editDesc").value=exp.desc;
-  buildCatRow("editCatRow",editCat,c=>{ editCat=c; buildCatRow("editCatRow",editCat,arguments.callee); });
-  document.getElementById("editOverlay").classList.add("open");
+  buildCats("editCatRow",editCat2,c=>{ editCat2=c; buildCats("editCatRow",editCat2,arguments.callee); });
+  document.getElementById("editOv").classList.add("open");
 }
-function closeEditModal(e){
-  if(!e||e.target===document.getElementById("editOverlay"))
-    document.getElementById("editOverlay").classList.remove("open");
+function closeEdit(e){
+  if(!e||e.target===document.getElementById("editOv"))
+    document.getElementById("editOv").classList.remove("open");
 }
 function saveEdit(){
-  const val=parseFloat(document.getElementById("editAmount").value);
+  const v=parseFloat(document.getElementById("editAmt").value);
   const desc=document.getElementById("editDesc").value.trim();
-  if(!val||val<=0) return;
-  const data=loadData();
-  if(data.days?.[today]){
-    const idx=data.days[today].expenses.findIndex(e=>e.id===editingId);
-    if(idx>=0) data.days[today].expenses[idx]={...data.days[today].expenses[idx],amount:val,desc:desc||getCat(editCat).label,cat:editCat};
+  if(!v||v<=0) return;
+  const data=gd();
+  if(data.days&&data.days[TODAY]){
+    const i=data.days[TODAY].expenses.findIndex(e=>e.id===editId);
+    if(i>=0) data.days[TODAY].expenses[i]={...data.days[TODAY].expenses[i],amount:v,desc:desc||cat(editCat2).label,cat:editCat2};
   }
-  saveData(data);
-  document.getElementById("editOverlay").classList.remove("open");
+  sd(data);
+  document.getElementById("editOv").classList.remove("open");
   render();
 }
 
-function updateLoanPreview(){
-  const val=parseFloat(document.getElementById("loanInput").value);
-  const days=parseInt(document.getElementById("loanDays").value);
-  const el=document.getElementById("loanPreview");
-  if(val>0){ el.style.display="block"; el.innerHTML=`Cuota: <strong>$${fmt(Math.ceil(val/days))}</strong>/día × ${days} días`; }
+// ── PRÉSTAMOS ──
+function updLoan(){
+  const v=parseFloat(document.getElementById("lAmt").value);
+  const d=parseInt(document.getElementById("lDays").value);
+  const el=document.getElementById("lPrev");
+  if(v>0){ el.style.display="block"; el.innerHTML=`Cuota: <strong>$${fmt(Math.ceil(v/d))}</strong>/día × ${d} días`; }
   else el.style.display="none";
 }
 
 function addLoan(){
-  const cfg=loadCfg();
-  const total=parseFloat(document.getElementById("loanInput").value);
-  const loanDays=parseInt(document.getElementById("loanDays").value);
+  const {start,days}=getCfg();
+  const total=parseFloat(document.getElementById("lAmt").value);
+  const ldays=parseInt(document.getElementById("lDays").value);
   if(!total||total<=0) return;
-  const allDays=getAllDays();
-  const todayIdx=getDayIndex(today);
-  const repayDays=[];
-  for(let i=1;i<=loanDays;i++){
-    const d=new Date(cfg.start+"T12:00:00");
-    d.setDate(d.getDate()+todayIdx+i);
+  const todIdx=dIdx(TODAY);
+  const repay=[];
+  for(let i=1;i<=ldays;i++){
+    const d=new Date(start+"T12:00:00");
+    d.setDate(d.getDate()+todIdx+i);
     const s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-    if(getDayIndex(s)<cfg.days) repayDays.push(s);
+    if(dIdx(s)<days) repay.push(s);
   }
-  if(!repayDays.length){ alert("No hay días suficientes en el período para devolver."); return; }
-  const amountPerDay=Math.ceil(total/repayDays.length);
-  const data=loadData();
+  if(!repay.length){ alert("No hay días suficientes para devolver."); return; }
+  const amtPerDay=Math.ceil(total/repay.length);
+  const data=gd();
   if(!data.loans) data.loans=[];
-  data.loans.push({id:Date.now(),fromDay:today,total,amountPerDay,repayDays});
-  saveData(data);
-  document.getElementById("loanInput").value="";
-  document.getElementById("loanPreview").style.display="none";
+  data.loans.push({id:Date.now(),fromDay:TODAY,total,amountPerDay:amtPerDay,repayDays:repay});
+  sd(data);
+  document.getElementById("lAmt").value="";
+  document.getElementById("lPrev").style.display="none";
   render();
 }
 
-function removeLoan(id){
-  const data=loadData();
+function delLoan(id){
+  const data=gd();
   data.loans=(data.loans||[]).filter(l=>l.id!==id);
-  saveData(data); render();
+  sd(data); render();
 }
 
-// CONFIG
-function saveConfig(){
-  const cfg={
-    total:parseFloat(document.getElementById("cfgTotal").value)||DEFAULT_CFG.total,
-    daily:parseFloat(document.getElementById("cfgDaily").value)||DEFAULT_CFG.daily,
-    start:document.getElementById("cfgStart").value||DEFAULT_CFG.start,
-    days:parseInt(document.getElementById("cfgDays").value)||DEFAULT_CFG.days,
-  };
-  saveCfg(cfg);
-  const el=document.getElementById("cfgStatus");
+// ── CONFIG ──
+function updDaily(){
+  const t=parseFloat(document.getElementById("cfTotal")&&document.getElementById("cfTotal").value)||0;
+  const d=parseInt(document.getElementById("cfDays")&&document.getElementById("cfDays").value)||0;
+  const el=document.getElementById("cfDailyVal");
+  if(el) el.textContent=(t&&d)?`$${fmt(Math.floor(t/d))}`:"—";
+}
+
+function saveCfg(){
+  const t=parseFloat(document.getElementById("cfTotal").value);
+  const s=document.getElementById("cfStart").value;
+  const d=parseInt(document.getElementById("cfDays").value);
+  if(!t||!s||!d){ alert("Completá todos los campos."); return; }
+  localStorage.setItem("gcfg",JSON.stringify({total:t,start:s,days:d}));
+  const el=document.getElementById("cfSt");
   el.style.display="block";
   setTimeout(()=>el.style.display="none",2000);
   render();
 }
+
 function resetAll(){
   if(!confirm("¿Seguro? Se borran todos los gastos.")) return;
-  localStorage.removeItem("gastos_data");
+  localStorage.removeItem("gdat");
   render();
 }
-function initConfig(){
-  const cfg=loadCfg();
-  document.getElementById("cfgTotal").value=cfg.total;
-  document.getElementById("cfgDaily").value=cfg.daily;
-  document.getElementById("cfgStart").value=cfg.start;
-  document.getElementById("cfgDays").value=cfg.days;
+
+function initCfg(){
+  const {total,start,days,daily}=getCfg();
+  document.getElementById("cfTotal").value=total;
+  document.getElementById("cfStart").value=start;
+  document.getElementById("cfDays").value=days;
+  document.getElementById("cfDailyVal").textContent=`$${fmt(daily)}`;
 }
 
-// IA
-let iaExpenses=[];
-function getKey(){ return localStorage.getItem("gastos_apikey")||""; }
+function renderCfgSum(){
+  const {total,daily,days}=getCfg();
+  const allDays=getAllDays();
+  const data=gd();
+  const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+(d.expenses||[]).reduce((ss,e)=>ss+e.amount,0),0);
+  const todIdx=dIdx(TODAY);
+  const dLeft=Math.max(days-todIdx-1,0);
+  const dOver=allDays.filter(d=>{ const b=bal(d); return b&&b.spent>b.avail&&d<=TODAY; }).length;
+  const dOk=allDays.filter(d=>{ const b=bal(d); return b&&b.spent>0&&b.spent<=b.avail&&d<=TODAY; }).length;
+  const dWith=allDays.filter(d=>data.days&&data.days[d]&&(data.days[d].expenses||[]).length>0).length;
+  document.getElementById("cfSum").innerHTML=`
+    <div class="psr"><span>Total gastado</span><span style="font-weight:700">$${fmt(totalSpent)}</span></div>
+    <div class="psr"><span>Total restante</span><span style="font-weight:700;color:#2a9d3f">$${fmt(total-totalSpent)}</span></div>
+    <div class="psr"><span>Límite diario</span><span>$${fmt(daily)}</span></div>
+    <div class="psr"><span>Días en verde</span><span style="color:#2a9d3f">${dOk}</span></div>
+    <div class="psr"><span>Días en rojo</span><span style="color:#ff6b6b">${dOver}</span></div>
+    <div class="psr"><span>Días restantes</span><span>${dLeft}</span></div>
+    <div class="psr"><span>Promedio diario</span><span>$${dWith>0?fmt(totalSpent/dWith):"—"}</span></div>`;
+}
+
+// ── IA ──
+let iaExps=[];
+function getKey(){ return localStorage.getItem("gapikey")||""; }
 function saveKey(){
   const k=document.getElementById("iaKey").value.trim();
-  if(!k||!k.startsWith("sk-ant")){ showKeyStatus("Key inválida","error"); return; }
-  localStorage.setItem("gastos_apikey",k);
-  showKeyStatus("✓ Key guardada","");
+  if(!k||!k.startsWith("sk-ant")){ showKSt("Key inválida","err"); return; }
+  localStorage.setItem("gapikey",k);
+  showKSt("✓ Guardada","");
   document.getElementById("iaKeyCard").style.borderLeft="3px solid #2a9d3f";
-  setTimeout(()=>document.getElementById("iaKeyStatus").style.display="none",2000);
+  setTimeout(()=>document.getElementById("iaKSt").style.display="none",2000);
 }
-function showKeyStatus(msg,type){
-  const el=document.getElementById("iaKeyStatus");
-  el.style.display="block"; el.textContent=msg; el.className="ia-status "+type;
-}
-function initIATab(){
+function showKSt(m,t){ const e=document.getElementById("iaKSt"); e.style.display="block"; e.textContent=m; e.className="ias "+t; }
+function showIASt(m,t){ const e=document.getElementById("iaSt"); if(!m){e.style.display="none";return;} e.style.display="block"; e.textContent=m; e.className="ias "+t; }
+function initIA(){
   const k=getKey();
   if(k){ document.getElementById("iaKey").value=k; document.getElementById("iaKeyCard").style.borderLeft="3px solid #2a9d3f"; }
 }
+
 async function callClaude(messages){
   const key=getKey();
-  if(!key){ showIAStatus("Guardá tu API key primero","error"); return null; }
-  const response=await fetch("https://api.anthropic.com/v1/messages",{
+  if(!key){ showIASt("Guardá tu API key primero","err"); return null; }
+  const r=await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
     headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
     body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1024,messages})
   });
-  if(!response.ok){ const e=await response.json(); throw new Error(e.error?.message||response.status); }
-  return await response.json();
+  if(!r.ok){ const e=await r.json(); throw new Error(e.error?.message||r.status); }
+  return await r.json();
 }
-const IA_PROMPT=`Analizá esta imagen/texto y extraé todos los gastos. Para cada uno devolvé un JSON array con: amount (número en pesos sin puntos ni comas), desc (nombre corto del comercio o producto), cat (una de: comida, transporte, super, salud, ocio, ropa, servicios, otro). Devolvé SOLO el JSON array sin texto ni markdown.`;
-function compressImage(dataUrl,maxSize,quality){
-  return new Promise(resolve=>{
+
+const IAPROMPT=`Analizá y extraé todos los gastos. Devolvé SOLO un JSON array con: amount (número en pesos, sin puntos ni comas), desc (nombre corto), cat (comida/transporte/super/salud/ocio/ropa/servicios/otro). Sin texto ni markdown.`;
+
+function compress(dataUrl,maxPx,q){
+  return new Promise(res=>{
     const img=new Image();
     img.onload=()=>{
-      const canvas=document.createElement("canvas");
       let w=img.width,h=img.height;
-      if(w>maxSize||h>maxSize){ if(w>h){h=Math.round(h*maxSize/w);w=maxSize;}else{w=Math.round(w*maxSize/h);h=maxSize;} }
-      canvas.width=w; canvas.height=h;
-      canvas.getContext("2d").drawImage(img,0,0,w,h);
-      resolve(canvas.toDataURL("image/jpeg",quality));
+      if(w>maxPx||h>maxPx){ if(w>h){h=Math.round(h*maxPx/w);w=maxPx;}else{w=Math.round(w*maxPx/h);h=maxPx;} }
+      const c=document.createElement("canvas"); c.width=w; c.height=h;
+      c.getContext("2d").drawImage(img,0,0,w,h);
+      res(c.toDataURL("image/jpeg",q));
     };
     img.src=dataUrl;
   });
 }
-async function handleTicketPhoto(event){
-  const file=event.target.files[0];
-  if(!file) return;
+
+async function onPhoto(ev){
+  const file=ev.target.files[0]; if(!file) return;
   const reader=new FileReader();
-  reader.onload=async(e)=>{
-    document.getElementById("ticketPreview").style.display="block";
-    document.getElementById("ticketImg").src=e.target.result;
-    const compressed=await compressImage(e.target.result,1200,0.75);
-    const base64=compressed.split(",")[1];
-    showIAStatus("Leyendo ticket...","loading");
-    document.getElementById("iaResult").innerHTML=""; iaExpenses=[];
+  reader.onload=async e=>{
+    document.getElementById("tickPrev").style.display="block";
+    document.getElementById("tickImg").src=e.target.result;
+    const comp=await compress(e.target.result,1200,.75);
+    showIASt("Leyendo ticket...","load");
+    document.getElementById("iaRes").innerHTML=""; iaExps=[];
     try{
-      const data=await callClaude([{role:"user",content:[
-        {type:"image",source:{type:"base64",media_type:"image/jpeg",data:base64}},
-        {type:"text",text:IA_PROMPT}
+      const d=await callClaude([{role:"user",content:[
+        {type:"image",source:{type:"base64",media_type:"image/jpeg",data:comp.split(",")[1]}},
+        {type:"text",text:IAPROMPT}
       ]}]);
-      if(!data) return;
-      parseAndShowResults(data.content[0].text);
-    }catch(e){ showIAStatus(`Error: ${e.message}`,"error"); }
+      if(!d) return;
+      parseIA(d.content[0].text);
+    }catch(e){ showIASt(`Error: ${e.message}`,"err"); }
   };
   reader.readAsDataURL(file);
 }
-async function processWithAIText(){
-  const text=document.getElementById("iaText").value.trim();
-  if(!text){ showIAStatus("Pegá texto primero","error"); return; }
-  showIAStatus("Analizando...","loading");
-  document.getElementById("iaResult").innerHTML=""; iaExpenses=[];
+
+async function iaText(){
+  const txt=document.getElementById("iaTxt").value.trim();
+  if(!txt){ showIASt("Pegá texto primero","err"); return; }
+  showIASt("Analizando...","load");
+  document.getElementById("iaRes").innerHTML=""; iaExps=[];
   try{
-    const data=await callClaude([{role:"user",content:IA_PROMPT+"\n\n"+text}]);
-    if(!data) return;
-    parseAndShowResults(data.content[0].text);
-  }catch(e){ showIAStatus(`Error: ${e.message}`,"error"); }
-}
-function parseAndShowResults(raw){
-  let parsed;
-  try{ parsed=JSON.parse(raw.trim()); }
-  catch{ const m=raw.match(/\[.*?\]/s); if(m) parsed=JSON.parse(m[0]); else{ showIAStatus("No se pudieron leer los datos","error"); return; } }
-  iaExpenses=parsed; showIAStatus("",""); renderIAResult(parsed);
-}
-function showIAStatus(msg,type){
-  const el=document.getElementById("iaStatus");
-  if(!msg){el.style.display="none";return;}
-  el.style.display="block"; el.textContent=msg; el.className="ia-status "+type;
-}
-function renderIAResult(expenses){
-  if(!expenses.length){ showIAStatus("No se encontraron gastos","error"); return; }
-  let html=`<div style="font-size:10px;color:#999;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">${expenses.length} gastos detectados — tocá para editar</div>`;
-  expenses.forEach((e,i)=>{
-    const cat=getCat(e.cat||"otro");
-    html+=`<div class="ia-exp-item" onclick="editIAExpense(${i})"><div class="ia-exp-left"><div class="ia-exp-desc">${cat.icon} ${e.desc}</div><div class="ia-exp-meta">${cat.label}</div></div><span class="ia-exp-amt">$${fmt(e.amount)}</span></div>`;
-  });
-  html+=`<button class="btn-dark" style="margin-top:8px" onclick="importIAExpenses()">↓ Importar al día de hoy</button>`;
-  document.getElementById("iaResult").innerHTML=html;
-}
-function editIAExpense(i){
-  const e=iaExpenses[i];
-  const newAmt=prompt("Monto:",e.amount);
-  if(newAmt===null) return;
-  const newDesc=prompt("Descripción:",e.desc);
-  if(newDesc===null) return;
-  iaExpenses[i]={...e,amount:parseFloat(newAmt)||e.amount,desc:newDesc||e.desc};
-  renderIAResult(iaExpenses);
-}
-function importIAExpenses(){
-  if(!iaExpenses.length) return;
-  const data=loadData();
-  if(!data.days) data.days={};
-  if(!data.days[today]) data.days[today]={expenses:[]};
-  iaExpenses.forEach(e=>{ data.days[today].expenses.push({amount:e.amount,desc:e.desc,cat:e.cat||"otro",id:Date.now()+Math.random()}); });
-  saveData(data);
-  document.getElementById("iaText").value="";
-  document.getElementById("iaResult").innerHTML="";
-  document.getElementById("ticketPreview").style.display="none";
-  iaExpenses=[]; showIAStatus("","");
-  setTab("hoy"); render();
+    const d=await callClaude([{role:"user",content:IAPROMPT+"\n\n"+txt}]);
+    if(!d) return;
+    parseIA(d.content[0].text);
+  }catch(e){ showIASt(`Error: ${e.message}`,"err"); }
 }
 
-// RENDER
-let openHistDay=null;
-function toggleHistDay(d){ openHistDay=openHistDay===d?null:d; renderHistorial(); }
+function parseIA(raw){
+  let p;
+  try{ p=JSON.parse(raw.trim()); }
+  catch{ const m=raw.match(/\[.*?\]/s); if(m) p=JSON.parse(m[0]); else{ showIASt("No se pudieron leer los datos","err"); return; } }
+  iaExps=p; showIASt("",""); renderIA(p);
+}
+
+function renderIA(exps){
+  if(!exps.length){ showIASt("No se encontraron gastos","err"); return; }
+  let h=`<div style="font-size:10px;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">${exps.length} gastos — tocá para editar</div>`;
+  exps.forEach((e,i)=>{
+    const c=cat(e.cat||"otro");
+    h+=`<div class="iitem" onclick="editIA(${i})"><div><div style="font-size:13px">${c.icon} ${e.desc}</div><div style="font-size:11px;color:#aaa">${c.label}</div></div><span style="font-size:15px;font-weight:700;margin-left:8px">$${fmt(e.amount)}</span></div>`;
+  });
+  h+=`<button class="btn" style="margin-top:8px" onclick="importIA()">↓ Importar al día de hoy</button>`;
+  document.getElementById("iaRes").innerHTML=h;
+}
+
+function editIA(i){
+  const e=iaExps[i];
+  const a=prompt("Monto:",e.amount); if(a===null) return;
+  const d=prompt("Descripción:",e.desc); if(d===null) return;
+  iaExps[i]={...e,amount:parseFloat(a)||e.amount,desc:d||e.desc};
+  renderIA(iaExps);
+}
+
+function importIA(){
+  if(!iaExps.length) return;
+  const data=gd();
+  if(!data.days) data.days={};
+  if(!data.days[TODAY]) data.days[TODAY]={expenses:[]};
+  iaExps.forEach(e=>data.days[TODAY].expenses.push({amount:e.amount,desc:e.desc,cat:e.cat||"otro",id:Date.now()+Math.random()}));
+  sd(data);
+  document.getElementById("iaTxt").value="";
+  document.getElementById("iaRes").innerHTML="";
+  document.getElementById("tickPrev").style.display="none";
+  iaExps=[]; showIASt("","");
+  go("hoy"); render();
+}
+
+// ── RENDER ──
+let openHist=null;
+function togHist(d){ openHist=openHist===d?null:d; renderHist(); }
 
 function render(){
-  const cfg=loadCfg();
+  const {total,daily,days}=getCfg();
   const allDays=getAllDays();
-  const data=loadData();
+  const data=gd();
 
-  // Total gastado real
-  const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
-  const totalRem=cfg.total-totalSpent;
-  const totalPct=Math.min((totalSpent/cfg.total)*100,100);
-
-  document.getElementById("totalRestantes").innerHTML=`$${fmt(totalRem)} <span>restantes</span>`;
-  const tb=document.getElementById("totalBar");
-  tb.style.width=totalPct+"%";
-  tb.style.background=totalPct>85?"#ff6b6b":totalPct>60?"#ffcc44":"#b8f060";
-  document.getElementById("totalSub").textContent=`$${fmt(totalSpent)} gastado de $${fmt(cfg.total)}`;
+  // Header
+  const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+(d.expenses||[]).reduce((ss,e)=>ss+e.amount,0),0);
+  const totalRem=total-totalSpent;
+  const pct=Math.min((totalSpent/total)*100,100);
+  document.getElementById("hdRem").innerHTML=`$${fmt(totalRem)} <span>restantes</span>`;
+  const hb=document.getElementById("hdBar");
+  hb.style.width=pct+"%";
+  hb.style.background=pct>85?"#ff6b6b":pct>60?"#ffcc44":"#b8f060";
+  document.getElementById("hdSub").textContent=`$${fmt(totalSpent)} gastado de $${fmt(total)}`;
 
   // Insight
-  const todayIdx=getDayIndex(today);
-  const daysLeft=cfg.days-todayIdx;
-  const ins=document.getElementById("insight");
-  if(daysLeft>0){
-    const projDaily=Math.floor(totalRem/daysLeft);
-    if(projDaily<0){ins.textContent=`Te pasaste del presupuesto total`;ins.className="insight bad";}
-    else if(projDaily<cfg.daily*0.5){ins.textContent=`Quedan $${fmt(projDaily)}/día · cuidado`;ins.className="insight warn";}
-    else if(projDaily>cfg.daily){ins.textContent=`Vas bien · $${fmt(projDaily)}/día disponible`;ins.className="insight ok";}
-    else{ins.textContent=`$${fmt(projDaily)}/día disponible`;ins.className="insight ok";}
-  } else { ins.textContent=""; }
+  const todIdx=dIdx(TODAY);
+  const dLeft=days-todIdx;
+  const ins=document.getElementById("hdIns");
+  if(dLeft>0){
+    const proj=Math.floor(totalRem/dLeft);
+    if(proj<0){ins.textContent="Te pasaste del presupuesto total";ins.className="insight bad";}
+    else if(proj<daily*0.5){ins.textContent=`Quedan $${fmt(proj)}/día · cuidado`;ins.className="insight warn";}
+    else{ins.textContent=`$${fmt(proj)}/día disponible`;ins.className="insight ok";}
+  } else ins.textContent="";
 
   // Day card
-  const bal=calcBalance(today,data);
-  const todaySpent=bal?.spent||0;
-  const todayAvail=bal?.available||cfg.daily;
-  const todayRem=bal?.remaining??cfg.daily;
-  const pct=Math.min((todaySpent/Math.max(todayAvail,1))*100,100);
-  document.getElementById("dayBar").style.width=pct+"%";
-  document.getElementById("dayBar").style.background=pct>90?"#ff6b6b":pct>70?"#ffcc44":"#111";
-  document.getElementById("dcLabel").textContent=dayLbl(today).toUpperCase();
-  document.getElementById("dcLimit").textContent=`límite $${fmt(todayAvail)}`;
-  document.getElementById("dcAmount").textContent=`$${fmt(todaySpent)}`;
-  const statusEl=document.getElementById("dcStatus");
-  const cardEl=document.getElementById("dayCard");
-  if(todayRem<0){ statusEl.textContent=`▲ te pasaste $${fmt(todayRem)}`; statusEl.className="dc-status red"; cardEl.className="day-card over"; }
-  else{ statusEl.textContent=`te quedan $${fmt(todayRem)}`; statusEl.className="dc-status"; cardEl.className="day-card"; }
+  const b=bal(TODAY);
+  const tSpent=b?b.spent:0;
+  const tAvail=b?b.avail:daily;
+  const tRem=b?b.rem:daily;
+  const dp=Math.min((tSpent/Math.max(tAvail,1))*100,100);
+  document.getElementById("dcBar").style.width=dp+"%";
+  document.getElementById("dcBar").style.background=dp>90?"#ff6b6b":dp>70?"#ffcc44":"#111";
+  document.getElementById("dcLbl").textContent=dayLbl(TODAY).toUpperCase();
+  document.getElementById("dcLim").textContent=`límite $${fmt(tAvail)}`;
+  document.getElementById("dcAmt").textContent=`$${fmt(tSpent)}`;
+  const dcSt=document.getElementById("dcSt");
+  const dcEl=document.getElementById("dc");
+  if(tRem<0){ dcSt.textContent=`▲ te pasaste $${fmt(tRem)}`; dcSt.style.color="#ff6b6b"; dcEl.className="card red"; }
+  else{ dcSt.textContent=`te quedan $${fmt(tRem)}`; dcSt.style.color="#888"; dcEl.className="card blk"; }
 
-  // Loan deductions today
-  let extHtml="";
-  (data.loans||[]).filter(l=>l.repayDays?.includes(today)).forEach(l=>{
-    extHtml+=`<div class="dc-extra">− $${fmt(l.amountPerDay)} cuota préstamo del ${dayLbl(l.fromDay)}</div>`;
+  // Loan deductions
+  let exHtml="";
+  (data.loans||[]).filter(l=>l.repayDays&&l.repayDays.includes(TODAY)).forEach(l=>{
+    exHtml+=`<div style="font-size:11px;color:#cc6600;margin:2px 0">− $${fmt(l.amountPerDay)} cuota préstamo del ${dayLbl(l.fromDay)}</div>`;
   });
-  document.getElementById("dcExtras").innerHTML=extHtml?`<div class="dc-extras">${extHtml}</div>`:"";
+  document.getElementById("dcEx").innerHTML=exHtml?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #f0ede6">${exHtml}</div>`:"";
 
   // Expenses
-  const expenses=data.days?.[today]?.expenses||[];
-  let expHtml="";
-  if(expenses.length){
-    expHtml=`<div class="exp-list-title">Gastos de hoy</div>`;
-    [...expenses].reverse().forEach(e=>{
-      const cat=getCat(e.cat);
-      expHtml+=`<div class="exp-row">
-        <div class="exp-left"><span class="exp-icon">${cat.icon}</span><div class="exp-info"><div class="exp-desc">${e.desc}</div><div class="exp-cat">${cat.label}</div></div></div>
-        <div class="exp-right"><span class="exp-amt">$${fmt(e.amount)}</span><button class="del" onclick="openEdit(${e.id})" style="font-size:13px">✏️</button><button class="del" onclick="removeExpense(${e.id})">✕</button></div>
-      </div>`;
+  const exps=(data.days&&data.days[TODAY]?data.days[TODAY].expenses:[]);
+  let eHtml="";
+  if(exps.length){
+    eHtml=`<div style="font-size:10px;color:#999;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Gastos de hoy</div>`;
+    [...exps].reverse().forEach(e=>{
+      const c=cat(e.cat);
+      eHtml+=`<div class="erow"><div class="el"><span class="ei">${c.icon}</span><div class="ed"><div class="edt">${e.desc}</div><div class="ec">${c.label}</div></div></div><div class="er"><span class="ea">$${fmt(e.amount)}</span><button class="del" onclick="openEdit(${e.id})" style="font-size:13px">✏️</button><button class="del" onclick="delExp(${e.id})">✕</button></div></div>`;
     });
   }
-  document.getElementById("expenseList").innerHTML=expHtml;
+  document.getElementById("expList").innerHTML=eHtml;
 
-  // Loans
+  // Loans list
   const loans=data.loans||[];
-  let loanHtml="";
+  let lHtml="";
   if(loans.length){
-    loanHtml=`<div class="sec-title" style="margin-top:4px;margin-bottom:10px">Préstamos activos</div>`;
+    lHtml=`<div class="sec" style="margin-bottom:10px">Préstamos activos</div>`;
     loans.forEach(l=>{
-      const paid=l.repayDays.filter(d=>getDayIndex(d)<getDayIndex(today)).length;
-      const pctL=(paid/l.repayDays.length)*100;
+      const paid=l.repayDays.filter(d=>dIdx(d)<dIdx(TODAY)).length;
+      const lp=(paid/l.repayDays.length)*100;
       const tags=l.repayDays.map(d=>{
-        const past=getDayIndex(d)<getDayIndex(today);
+        const past=dIdx(d)<dIdx(TODAY);
         return `<span class="tag" style="color:${past?"#aaa":"#111"};border-color:${past?"#ddd":"#111"}">${new Date(d+"T12:00:00").getDate()}</span>`;
       }).join("");
-      loanHtml+=`<div class="move-item">
-        <div class="move-top"><span style="font-size:13px">Del ${dayLbl(l.fromDay)}</span><button class="del" onclick="removeLoan(${l.id})">✕</button></div>
-        <div style="font-size:20px;font-weight:bold">$${fmt(l.total)}</div>
-        <div style="font-size:11px;color:#888">$${fmt(l.amountPerDay)}/día · ${paid}/${l.repayDays.length} cuotas</div>
-        <div class="track" style="margin-top:6px"><div class="fill" style="width:${pctL}%;background:#111"></div></div>
-        <div>${tags}</div>
-      </div>`;
+      lHtml+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:13px">Del ${dayLbl(l.fromDay)}</span><button class="del" onclick="delLoan(${l.id})">✕</button></div><div style="font-size:20px;font-weight:700">$${fmt(l.total)}</div><div style="font-size:11px;color:#888">$${fmt(l.amountPerDay)}/día · ${paid}/${l.repayDays.length} cuotas</div><div class="trk" style="margin-top:6px"><div class="fill" style="width:${lp}%;background:#111"></div></div><div>${tags}</div></div>`;
     });
   }
-  document.getElementById("loanList").innerHTML=loanHtml;
+  document.getElementById("loanList").innerHTML=lHtml;
 
-  renderHistorial();
-  buildCatRow("catRow",selCat,selectCat);
-  renderPeriodSummary();
+  renderHist();
+  buildCats("catRow",selCat,selC);
 }
 
-function renderHistorial(){
-  const cfg=loadCfg();
+function renderHist(){
+  const {daily,days}=getCfg();
   const allDays=getAllDays();
-  const data=loadData();
+  const data=gd();
+  const maxSpent=Math.max(...allDays.map(d=>(data.days&&data.days[d]?data.days[d].expenses:[]).reduce((s,e)=>s+e.amount,0)),daily);
 
   // Chart
-  const maxSpent=Math.max(...allDays.map(d=>(data.days?.[d]?.expenses||[]).reduce((s,e)=>s+e.amount,0)),cfg.daily);
-  let chartHtml=`<div class="chart-wrap"><div class="sec-title">Gastos por día</div><div class="chart-bars">`;
+  let ch=`<div style="padding:8px 0"><div class="sec">Gastos por día</div><div class="cbars">`;
   allDays.forEach(d=>{
-    const expenses=data.days?.[d]?.expenses||[];
-    const spent=expenses.reduce((s,e)=>s+e.amount,0);
-    const bal=calcBalance(d,data);
-    const avail=bal?.available||cfg.daily;
-    const isOver=spent>avail; const isPast=d<=today;
+    const exps=data.days&&data.days[d]?data.days[d].expenses:[];
+    const spent=exps.reduce((s,e)=>s+e.amount,0);
+    const b=bal(d); const avail=b?b.avail:daily;
+    const isOver=spent>avail; const isPast=d<=TODAY;
     const dNum=new Date(d+"T12:00:00").getDate();
     const bycat={};
-    expenses.forEach(e=>{ bycat[e.cat]=(bycat[e.cat]||0)+e.amount; });
-    const barH=isPast&&spent>0?Math.max((spent/maxSpent)*64,4):0;
-    const limitH=Math.min((avail/maxSpent)*64,64);
+    exps.forEach(e=>{ bycat[e.cat]=(bycat[e.cat]||0)+e.amount; });
+    const bH=isPast&&spent>0?Math.max((spent/maxSpent)*64,4):0;
+    const lH=Math.min((avail/maxSpent)*64,64);
     let segs="";
-    if(spent>0) Object.entries(bycat).forEach(([catId,amt])=>{ const c=getCat(catId); segs+=`<div class="chart-seg" style="height:${(amt/spent)*barH}px;background:${c.color};opacity:0.85"></div>`; });
-    chartHtml+=`<div class="chart-col" onclick="toggleHistDay('${d}')">
-      <div class="chart-bar-wrap">
-        ${isOver?`<div class="chart-over">!</div>`:""}
-        <div style="position:absolute;bottom:0;left:0;right:0;height:${limitH}px;border-top:1.5px dashed ${d===today?"#111":"#ccc"};pointer-events:none"></div>
-        <div class="chart-bar-stack" style="height:${barH}px">${segs}</div>
-      </div>
-      <div class="chart-day-lbl" style="color:${d===today?"#111":"#aaa"};font-weight:${d===today?"bold":"normal"}">${dNum}</div>
-    </div>`;
+    if(spent>0) Object.entries(bycat).forEach(([cid,amt])=>{ const c=cat(cid); segs+=`<div class="cseg" style="height:${(amt/spent)*bH}px;background:${c.color};opacity:.85"></div>`; });
+    ch+=`<div class="ccol" onclick="togHist('${d}')"><div class="cbw">${isOver?`<div class="cov">!</div>`:""}<div style="position:absolute;bottom:0;left:0;right:0;height:${lH}px;border-top:1.5px dashed ${d===TODAY?"#111":"#ccc"};pointer-events:none"></div><div class="cbs" style="height:${bH}px">${segs}</div></div><div class="cdl" style="color:${d===TODAY?"#111":"#aaa"};font-weight:${d===TODAY?"700":"400"}">${dNum}</div></div>`;
   });
-  chartHtml+=`</div>`;
-  const usedCats=new Set();
-  allDays.forEach(d=>{ (data.days?.[d]?.expenses||[]).forEach(e=>usedCats.add(e.cat)); });
-  if(usedCats.size){ chartHtml+=`<div class="chart-legend">`; usedCats.forEach(id=>{ const c=getCat(id); chartHtml+=`<div class="chart-leg-item"><div class="chart-leg-dot" style="background:${c.color}"></div>${c.label}</div>`; }); chartHtml+=`</div>`; }
-  chartHtml+=`</div>`;
+  ch+=`</div>`;
+  const usedC=new Set();
+  allDays.forEach(d=>{ (data.days&&data.days[d]?data.days[d].expenses:[]).forEach(e=>usedC.add(e.cat)); });
+  if(usedC.size){ ch+=`<div class="cleg">`; usedC.forEach(id=>{ const c=cat(id); ch+=`<div class="cli"><div class="cld" style="background:${c.color}"></div>${c.label}</div>`; }); ch+=`</div>`; }
+  ch+=`</div>`;
 
-  // Category summary
+  // Cat summary
   const totByCat={};
-  allDays.forEach(d=>{ (data.days?.[d]?.expenses||[]).forEach(e=>{ totByCat[e.cat]=(totByCat[e.cat]||0)+e.amount; }); });
-  const grandTotal=Object.values(totByCat).reduce((s,v)=>s+v,0);
-  let summaryHtml="";
-  if(grandTotal>0){
-    summaryHtml=`<div class="cat-summary"><div class="sec-title" style="margin-bottom:10px">Por categoría</div>`;
+  allDays.forEach(d=>{ (data.days&&data.days[d]?data.days[d].expenses:[]).forEach(e=>{ totByCat[e.cat]=(totByCat[e.cat]||0)+e.amount; }); });
+  const grand=Object.values(totByCat).reduce((s,v)=>s+v,0);
+  let cs="";
+  if(grand>0){
+    cs=`<div class="catsum"><div class="sec" style="margin-bottom:10px">Por categoría</div>`;
     Object.entries(totByCat).sort((a,b)=>b[1]-a[1]).forEach(([id,amt])=>{
-      const cat=getCat(id); const pct=Math.round((amt/grandTotal)*100);
-      summaryHtml+=`<div class="cat-row-sum"><div style="display:flex;align-items:center;gap:8px"><span>${cat.icon}</span><span style="font-size:13px">${cat.label}</span></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#aaa">${pct}%</span><span style="font-size:14px;font-weight:bold">$${fmt(amt)}</span></div></div>`;
+      const c=cat(id); const p=Math.round((amt/grand)*100);
+      cs+=`<div class="csr"><div style="display:flex;align-items:center;gap:8px"><span>${c.icon}</span><span style="font-size:13px">${c.label}</span></div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:#aaa">${p}%</span><span style="font-size:14px;font-weight:700">$${fmt(amt)}</span></div></div>`;
     });
-    summaryHtml+=`</div>`;
+    cs+=`</div>`;
   }
 
   // Day list
-  let html="";
+  let dl="";
   allDays.forEach(d=>{
-    const bal=calcBalance(d,data);
-    const isPast=d<today; const isToday=d===today;
-    const spent=bal?.spent||0; const avail=bal?.available||cfg.daily; const rem=bal?.remaining??cfg.daily;
+    const b=bal(d);
+    const isPast=d<TODAY; const isTod=d===TODAY;
+    const spent=b?b.spent:0; const avail=b?b.avail:daily; const rem=b?b.rem:daily;
     const p=Math.min((spent/Math.max(avail,1))*100,100);
-    const expenses=data.days?.[d]?.expenses||[];
-    const isOpen=openHistDay===d;
-    const remText=isPast&&spent===0?"—":rem<0?`−$${fmt(rem)}`:`$${fmt(rem)}`;
-    const remClass=rem<0?"red":"";
-    const catIcons=[...new Set(expenses.map(e=>getCat(e.cat).icon))].join(" ");
-    const arrow=expenses.length?(isOpen?"▲":"▼"):"";
-    let barHtml=(isToday||isPast)&&spent>0?`<div class="track" style="margin-top:6px"><div class="fill" style="width:${p}%;background:${p>90?"#ff6b6b":p>70?"#ffcc44":"#111"}"></div></div>`:"";
-    let limitHtml=avail!==cfg.daily?`<div style="font-size:10px;color:#aaa;margin-top:3px">límite: $${fmt(avail)}</div>`:"";
-    let detailHtml="";
-    if(expenses.length){
-      detailHtml=`<div class="hist-detail ${isOpen?"open":""}">`;
-      [...expenses].reverse().forEach(e=>{ const cat=getCat(e.cat); detailHtml+=`<div class="hist-exp"><div style="display:flex;align-items:center;gap:6px"><span>${cat.icon}</span><span>${e.desc}</span></div><span style="font-weight:bold">$${fmt(e.amount)}</span></div>`; });
-      detailHtml+=`<div style="font-size:11px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #f0ede6">Total: <strong>$${fmt(spent)}</strong></div></div>`;
+    const exps=data.days&&data.days[d]?data.days[d].expenses:[];
+    const isOpen=openHist===d;
+    const remTxt=isPast&&spent===0?"—":rem<0?`−$${fmt(rem)}`:`$${fmt(rem)}`;
+    const remCls=rem<0?"red":"";
+    const icons=[...new Set(exps.map(e=>cat(e.cat).icon))].join(" ");
+    const arr=exps.length?(isOpen?"▲":"▼"):"";
+    let bar=(isTod||isPast)&&spent>0?`<div class="trk" style="margin-top:6px"><div class="fill" style="width:${p}%;background:${p>90?"#ff6b6b":p>70?"#ffcc44":"#111"}"></div></div>`:"";
+    let limTxt=avail!==daily?`<div style="font-size:10px;color:#aaa;margin-top:3px">límite: $${fmt(avail)}</div>`:"";
+    let det="";
+    if(exps.length){
+      det=`<div class="hdet ${isOpen?"open":""}">`;
+      [...exps].reverse().forEach(e=>{ const c=cat(e.cat); det+=`<div class="hexp"><div style="display:flex;align-items:center;gap:6px"><span>${c.icon}</span><span>${e.desc}</span></div><span style="font-weight:700">$${fmt(e.amount)}</span></div>`; });
+      det+=`<div style="font-size:11px;color:#888;margin-top:6px;padding-top:6px;border-top:1px solid #f0ede6">Total: <strong>$${fmt(spent)}</strong></div></div>`;
     }
-    html+=`<div class="hist-day ${isToday?"today":""} ${isPast&&!isToday?"past":""}" onclick="toggleHistDay('${d}')">
-      <div class="hist-top">
-        <div><span class="hist-name ${isToday?"today":""}">${dayLbl(d)}</span>${isToday?`<span class="badge" style="background:#111;color:#f5f0e8">HOY</span>`:""}${expenses.length?`<span style="font-size:11px;color:#bbb;margin-left:6px">${catIcons} ${arrow}</span>`:""}</div>
-        <span class="hist-rem ${remClass}">${remText}</span>
-      </div>${barHtml}${limitHtml}${detailHtml}
-    </div>`;
+    dl+=`<div class="hday ${isTod?"tod":""} ${isPast&&!isTod?"pas":""}" onclick="togHist('${d}')"><div class="htop"><div><span class="hn ${isTod?"tod":""}">${dayLbl(d)}</span>${isTod?`<span class="badge" style="background:#111;color:#f5f0e8">HOY</span>`:""}${exps.length?`<span style="font-size:11px;color:#bbb;margin-left:6px">${icons} ${arr}</span>`:""}</div><span class="hr ${remCls}">${remTxt}</span></div>${bar}${limTxt}${det}</div>`;
   });
-  document.getElementById("historialList").innerHTML=chartHtml+summaryHtml+html;
+
+  document.getElementById("histList").innerHTML=ch+cs+dl;
 }
 
-function renderPeriodSummary(){
-  const cfg=loadCfg();
-  const allDays=getAllDays();
-  const data=loadData();
-  const totalSpent=Object.values(data.days||{}).reduce((s,d)=>s+d.expenses.reduce((ss,e)=>ss+e.amount,0),0);
-  const daysWithData=allDays.filter(d=>(data.days?.[d]?.expenses||[]).length>0).length;
-  const todayIdx=getDayIndex(today);
-  const daysLeft=Math.max(cfg.days-todayIdx-1,0);
-  const daysOver=allDays.filter(d=>{ const b=calcBalance(d,data); return b&&b.spent>b.available&&d<=today; }).length;
-  const daysOk=allDays.filter(d=>{ const b=calcBalance(d,data); return b&&b.spent>0&&b.spent<=b.available&&d<=today; }).length;
-  document.getElementById("periodSummary").innerHTML=`
-    <div class="ps-row"><span>Total gastado</span><span style="font-weight:bold">$${fmt(totalSpent)}</span></div>
-    <div class="ps-row"><span>Total restante</span><span style="font-weight:bold;color:#2a9d3f">$${fmt(cfg.total-totalSpent)}</span></div>
-    <div class="ps-row"><span>Días en verde</span><span style="color:#2a9d3f">${daysOk}</span></div>
-    <div class="ps-row"><span>Días en rojo</span><span style="color:#ff6b6b">${daysOver}</span></div>
-    <div class="ps-row"><span>Días restantes</span><span>${daysLeft}</span></div>
-    <div class="ps-row"><span>Promedio diario</span><span>$${daysWithData>0?fmt(totalSpent/daysWithData):"—"}</span></div>`;
-}
-
-function setTab(t){
-  ["hoy","mover","historial","ia","config"].forEach(id=>{
-    document.getElementById("tab-"+id).style.display=id===t?"block":"none";
+function go(t){
+  ["hoy","mover","hist","ia","cfg"].forEach(id=>{
+    document.getElementById("pg-"+id).style.display=id===t?"block":"none";
   });
   document.querySelectorAll(".tab").forEach((el,i)=>{
-    el.className="tab"+(["hoy","mover","historial","ia","config"][i]===t?" on":"");
+    el.className="tab"+(["hoy","mover","hist","ia","cfg"][i]===t?" on":"");
   });
-  if(t==="ia") initIATab();
-  if(t==="config"){ initConfig(); renderPeriodSummary(); }
+  if(t==="ia") initIA();
+  if(t==="cfg"){ initCfg(); renderCfgSum(); }
 }
 
 render();
